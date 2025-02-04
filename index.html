@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="el">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Adventure Bucket List 🌈</title>
+  <title>Η Λίστα των Ονείρων Μας 🌈</title>
   <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
@@ -195,6 +195,23 @@
       margin-right: 5px;
     }
 
+    /* Add checkmark indicator */
+    .destination-card::after {
+      content: "✓";
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: #4CAF50;
+      font-size: 1.5em;
+      text-shadow: 0 0 3px rgba(0,0,0,0.2);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .destination-card input[type="checkbox"]:checked ~ .card-inner ~ ::after {
+      opacity: 1;
+    }
+
     /* Special Japan Card Styles */
     .destination-card.japan {
       background: linear-gradient(45deg, #ff99cc, #ff6666);
@@ -209,8 +226,8 @@
       background: linear-gradient(45deg, #fff, #ffe6e6);
     }
 
-    .destination-card.japan::after {
-      content: "✨ Dream Destination ✨";
+    .destination-card.japan::before {
+      content: "✨ Προορισμός των Ονείρων ✨";
       position: absolute;
       top: -10px;
       left: 50%;
@@ -241,7 +258,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>🌴 Our Travel Bucket List 🎒</h1>
+    <h1>🌴 Η Λίστα των Ονείρων Μας 🎒</h1>
 
     <ul class="destination-grid">
       <!-- List items will be populated by JavaScript -->
@@ -253,30 +270,30 @@
     <div class="progress-bar">
       <div class="progress-fill"></div>
     </div>
-    <p class="progress-text">0% Complete</p>
+    <p class="progress-text">0% Ολοκληρώθηκε</p>
   </div>
 
   <script>
     // All destinations with emojis and descriptions
     const destinations = [
-      { name: "🇪🇸 Barcelona", image: "barcelona.jpg", description: "Marvel at Sagrada Familia 🏰, eat tapas 🍤, and dance to flamenco!" },
-      { name: "🇫🇷 Paris", image: "paris.jpg", description: "Kiss under Eiffel Tower 💋, visit Louvre 🖼️, and eat croissants 🥐" },
-      { name: "🇳🇱 Amsterdam", image: "amsterdam.jpg", description: "Cycle by canals 🚲, see tulip fields 🌷, and visit Anne Frank House" },
-      { name: "🇮🇹 Milan", image: "milan.jpg", description: "Fashion shopping 👗, see The Last Supper 🎨, and climb Duomo di Milano ⛪" },
-      { name: "🇮🇹 Venice", image: "venice.jpg", description: "Ride gondolas 🛶, get lost in alleys 🏘️, and try Venetian masks 🎭" },
-      { name: "🇦🇹 Vienna", image: "vienna.jpg", description: "Visit Schönbrunn Palace 🏰, eat Sachertorte 🍰, and waltz! 💃" },
-      { name: "🇭🇺 Budapest", image: "budapest.jpg", description: "Relax in thermal baths 🛀, cruise Danube River 🌉, and see Parliament" },
-      { name: "🇸🇪 Sweden", image: "sweden.jpg", description: "See Northern Lights 🌌, explore Stockholm archipelago 🏝️, and fika ☕" },
-      { name: "🇨🇭 Switzerland", image: "switzerland.jpg", description: "Ride Glacier Express 🚂, eat chocolate 🍫, and hike Alps ⛰️" },
-      { name: "🇫🇮 Finland", image: "finland.jpg", description: "Stay in glass igloos ❄️, meet Santa 🎅, and sauna experience ♨️" },
-      { name: "🇳🇴 Norway", image: "norway.jpg", description: "Cruise fjords ⛴️, see Trolltunga 👹, and chase waterfalls 🌊" },
-      { name: "🇮🇸 Iceland", image: "iceland.jpg", description: "Blue Lagoon soak 🧖, see Golden Circle 🌋, and hunt Northern Lights ✨" },
-      { name: "🇵🇹 Portugal", image: "portugal.jpg", description: "Surf in Nazaré 🏄, eat pastéis de nata 🥧, and explore Porto 🏰" },
-      { name: "🇦🇪 Dubai", image: "dubai.jpg", description: "Burj Khalifa views 🏙️, desert safari 🐫, and shop in souks 🛍️" },
-      { name: "🇲🇻 Maldives", image: "maldives.jpg", description: "Stay in overwater villa 🏝️, snorkel with fish 🐠, and sunset cruises 🌅" },
-      { name: "🇧🇷 Brazil", image: "brazil.jpg", description: "Christ the Redeemer 🙏, Carnival 🎉, and Amazon rainforest 🌳" },
-      { name: "🇪🇬 Egypt", image: "egypt.jpg", description: "Pyramids of Giza 🐪, Nile cruise ⛵, and explore Luxor temples 🏛️" },
-      { name: "🇯🇵 Japan", image: "japan.jpg", description: "Cherry blossom viewing 🌸, explore Tokyo 🏙️, visit Kyoto temples 🏯, and eat authentic sushi 🍣" }
+      { name: "🇪🇸 Βαρκελώνη", image: "barcelona.jpg", description: "Εντυπωσιαστείτε με την Σαγράδα Φαμίλια 🏰, φάτε ταπάς 🍤, και χορέψτε φλαμένκο!" },
+      { name: "🇫🇷 Παρίσι", image: "paris.jpg", description: "Φιλιά κάτω από τον Πύργο του Άιφελ 💋, επισκεφθείτε το Λούβρο 🖼️, και φάτε κρουασάν 🥐" },
+      { name: "🇳🇱 Άμστερνταμ", image: "amsterdam.jpg", description: "Περιηγηθείτε με ποδήλατο στα κανάλια 🚲, δείτε τα χωράφια τουλίπες 🌷, και επισκεφθείτε το Σπίτι της Άννα Φρανκ" },
+      { name: "🇮🇹 Μιλάνο", image: "milan.jpg", description: "Ψώνια μόδας 👗, δείτε το Τελευταίο Δείπνο 🎨, και ανεβείτε στον Ντουόμο του Μιλάνου ⛪" },
+      { name: "🇮🇹 Βενετία", image: "venice.jpg", description: "Κάντε βόλτα με γόνδολα 🛶, χαθείτε στα σοκάκια 🏘️, και δοκιμάστε βενετσιάνικες μάσκες 🎭" },
+      { name: "🇦🇹 Βιέννη", image: "vienna.jpg", description: "Επισκεφθείτε το Ανάκτορο Σένμπρουμ 🏰, φάτε Ζάχερτορτε 🍰, και χορέψτε βαλς! 💃" },
+      { name: "🇭🇺 Βουδαπέστη", image: "budapest.jpg", description: "Χαλαρώστε στα θερμά λουτρά 🛀, κάντε κρουαζιέρα στον Δούναβη 🌉, και δείτε το Κοινοβούλιο" },
+      { name: "🇸🇪 Στοκχόλμη", image: "sweden.jpg", description: "Δείτε τα Βόρεια Σέλα 🌌, εξερευνήστε το αρχιπέλαγος της Στοκχόλμης 🏝️, και πιείτε καφέ ☕" },
+      { name: "🇨🇭 Ελβετία", image: "switzerland.jpg", description: "Κάντε βόλτα με το Glacier Express 🚂, φάτε σοκολάτα 🍫, και πεζοπορήστε στις Άλπεις ⛰️" },
+      { name: "🇫🇮 Φινλανδία", image: "finland.jpg", description: "Μείνετε σε γυάλινα ιγκλού ❄️, γνωρίστε τον Άγιο Βασίλη 🎅, και δοκιμάστε τη σάουνα ♨️" },
+      { name: "🇳🇴 Νορβηγία", image: "norway.jpg", description: "Κάντε κρουαζιέρα στα φιόρδ ⛴️, δείτε το Trolltunga 👹, και δείτε καταρράκτες 🌊" },
+      { name: "🇮🇸 Ισλανδία", image: "iceland.jpg", description: "Χαλαρώστε στη Γαλάζια Λίμνη 🧖, δείτε τον Χρυσό Κύκλο 🌋, και κυνηγήστε τα Βόρεια Σέλα ✨" },
+      { name: "🇵🇹 Πορτογαλία", image: "portugal.jpg", description: "Κάντε σέρφινγκ στη Ναζαρέ 🏄, φάτε παστέις ντε νάτα 🥧, και εξερευνήστε το Πόρτο 🏰" },
+      { name: "🇦🇪 Ντουμπάι", image: "dubai.jpg", description: "Απολαύστε θέα από το Μπουρτζ Χαλίφα 🏙️, κάντε σαφάρι στην έρημο 🐫, και ψωνίστε στα σουκ 🛍️" },
+      { name: "🇲🇻 Μαλδίβες", image: "maldives.jpg", description: "Μείνετε σε βίλα πάνω από το νερό 🏝️, κάντε σνορκέλ με ψάρια 🐠, και απολαύστε ηλιοβασιλέματα 🌅" },
+      { name: "🇧🇷 Βραζιλία", image: "brazil.jpg", description: "Δείτε το Άγαλμα του Χριστού 🙏, γιορτάστε το Καρναβάλι 🎉, και εξερευνήστε την Αμαζόνιο 🌳" },
+      { name: "🇪🇬 Αίγυπτος", image: "egypt.jpg", description: "Δείτε τις Πυραμίδες της Γκίζα 🐪, κάντε κρουαζιέρα στον Νείλο ⛵, και εξερευνήστε τους ναούς της Λούξορ 🏛️" },
+      { name: "🇯🇵 Ιαπωνία", image: "japan.jpg", description: "Απολαύστε την άνθιση των κερασιών 🌸, εξερευνήστε το Τόκιο 🏙️, επισκεφθείτε τους ναούς του Κιότο 🏯, και φάτε αυθεντικό σούσι 🍣" }
     ];
 
     // DOM Elements
@@ -292,31 +309,39 @@
       destinationGrid.innerHTML = '';
       destinations.forEach((dest, index) => {
         const li = document.createElement('li');
-        li.className = `destination-card ${dest.name.includes('Japan') ? 'japan' : ''}`; // Add special class for Japan
+        li.className = `destination-card ${dest.name.includes('Ιαπωνία') ? 'japan' : ''}`; // Add special class for Japan
         
         li.innerHTML = `
           <div class="card-inner">
             <div class="card-front">
               <span class="emoji">${dest.name.split(' ')[0]}</span>
               <h3>${dest.name.split(' ').slice(1).join(' ')}</h3>
-              ${dest.name.includes('Japan') ? '<i class="fas fa-heart" style="color: #ff3366; font-size: 1.5em; margin-top: 10px;"></i>' : ''}
+              ${dest.name.includes('Ιαπωνία') ? '<i class="fas fa-heart" style="color: #ff3366; font-size: 1.5em; margin-top: 10px;"></i>' : ''}
             </div>
             <div class="card-back">
               <img src="${dest.image}" alt="${dest.name}">
               <p>${dest.description}</p>
               <input type="checkbox" id="dest-${index}" ${checkedItems.includes(index) ? 'checked' : ''}>
-              <label for="dest-${index}">Mark as Visited</label>
+              <label for="dest-${index}">Σημείωσε ως Επισκεπτόμενο</label>
             </div>
           </div>
         `;
 
         const checkbox = li.querySelector('input');
-        li.addEventListener('click', () => {
-          if (checkbox.checked) return; // Prevent flip if checked
-          li.classList.toggle('flipped');
+        
+        // Handle card flipping
+        li.addEventListener('click', (e) => {
+          // Only flip if clicking outside the checkbox
+          if (!e.target.matches('input[type="checkbox"]')) {
+            li.classList.toggle('flipped');
+          }
         });
 
-        checkbox.addEventListener('change', () => updateProgress(index, checkbox.checked));
+        // Handle checkbox changes
+        checkbox.addEventListener('change', (e) => {
+          e.stopPropagation(); // Prevent event bubbling
+          updateProgress(index, checkbox.checked);
+        });
         
         destinationGrid.appendChild(li);
       });
@@ -337,7 +362,7 @@
     function updateProgressBar() {
       const progress = (checkedItems.length / destinations.length) * 100;
       progressFill.style.width = `${progress}%`;
-      progressText.textContent = `${Math.round(progress)}% Complete 🎉`;
+      progressText.textContent = `${Math.round(progress)}% Ολοκληρώθηκε 🎉`;
     }
 
     // Initial render
