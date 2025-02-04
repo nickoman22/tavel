@@ -1,57 +1,62 @@
-// Data for destinations
+// Destinations in Greek
 const destinations = [
-  { name: "Barcelona", image: "barcelona.jpg", description: "Explore Gaudí's architecture, relax on Barceloneta Beach, and enjoy tapas." },
-  { name: "Paris", image: "paris.jpg", description: "Visit the Eiffel Tower, Louvre Museum, and enjoy a Seine River cruise." },
-  { name: "Amsterdam", image: "amsterdam.jpg", description: "Cycle along canals, visit the Van Gogh Museum, and explore Anne Frank House." },
-  // Add more destinations here...
+  { name: "🇪🇸 Βαρκελώνη", image: "barcelona.jpg", description: "Βαρκελώνη, Ισπανία" },
+  { name: "🇫🇷 Παρίσι", image: "paris.jpg", description: "Παρίσι, Γαλλία" },
+  { name: "🇳🇱 Άμστερνταμ", image: "amsterdam.jpg", description: "Άμστερνταμ, Ολλανδία" },
+  { name: "🇮🇹 Μιλάνο", image: "milan.jpg", description: "Μιλάνο, Ιταλία" },
+  { name: "🇮🇹 Βενετία", image: "venice.jpg", description: "Βενετία, Ιταλία" },
+  { name: "🇦🇹 Βιέννη", image: "vienna.jpg", description: "Βιέννη, Αυστρία" },
+  { name: "🇭🇺 Βουδαπέστη", image: "budapest.jpg", description: "Βουδαπέστη, Ουγγαρία" },
+  { name: "🇸🇪 Σουηδία", image: "sweden.jpg", description: "Σουηδία" },
+  { name: "🇨🇭 Ελβετία", image: "switzerland.jpg", description: "Ελβετία" },
+  { name: "🇫🇮 Φινλανδία", image: "finland.jpg", description: "Φινλανδία" },
+  { name: "🇳🇴 Νορβηγία", image: "norway.jpg", description: "Νορβηγία" },
+  { name: "🇮🇸 Ισλανδία", image: "iceland.jpg", description: "Ισλανδία" },
+  { name: "🇵🇹 Πορτογαλία", image: "portugal.jpg", description: "Πορτογαλία" },
+  { name: "🇦🇪 Ντουμπάι", image: "dubai.jpg", description: "Ντουμπάι, ΗΑΕ" },
+  { name: "🇲🇻 Μαλδίβες", image: "maldives.jpg", description: "Μαλδίβες" },
+  { name: "🇧🇷 Βραζιλία", image: "brazil.jpg", description: "Βραζιλία" },
+  { name: "🇪🇬 Αίγυπτος", image: "egypt.jpg", description: "Αίγυπτος" },
+  { name: "🇯🇵 Ιαπωνία", image: "japan.jpg", description: "Ιαπωνία - Ο Προορισμός των Ονείρων Μας ✨" }
 ];
 
-// DOM Elements
-const destinationList = document.querySelector('.destination-list');
-const modal = document.getElementById('modal');
-const modalImage = document.getElementById('modal-image');
-const modalTitle = document.getElementById('modal-title');
-const modalDescription = document.getElementById('modal-description');
-const closeModal = document.querySelector('.close');
-const progressBar = document.querySelector('.progress');
+const destinationGrid = document.querySelector('.destination-grid');
+const progressFill = document.querySelector('.progress-fill');
 const progressText = document.querySelector('.progress-text');
-
-// Load saved progress from local storage
 let checkedItems = JSON.parse(localStorage.getItem('checkedItems')) || [];
 
-// Render destinations
 function renderDestinations() {
-  destinationList.innerHTML = '';
+  destinationGrid.innerHTML = '';
   destinations.forEach((dest, index) => {
     const li = document.createElement('li');
+    li.className = `destination-card ${dest.name.includes('Ιαπωνία') ? 'japan' : ''}`;
+    
     li.innerHTML = `
-      <input type="checkbox" id="dest-${index}" ${checkedItems.includes(index) ? 'checked' : ''}>
-      <label for="dest-${index}">${dest.name}</label>
+      <div class="card-inner">
+        <div class="card-front">
+          <span class="emoji">${dest.name.split(' ')[0]}</span>
+          <h3>${dest.name.split(' ').slice(1).join(' ')}</h3>
+          ${dest.name.includes('Ιαπωνία') ? '<i class="fas fa-heart"></i>' : ''}
+        </div>
+        <div class="card-back">
+          <img src="${dest.image}" alt="${dest.description}">
+          <p>${dest.description}</p>
+          <input type="checkbox" id="dest-${index}" ${checkedItems.includes(index) ? 'checked' : ''}>
+          <label for="dest-${index}">Επισκέφτηκα</label>
+        </div>
+      </div>
     `;
-    li.addEventListener('click', () => openModal(dest));
-    destinationList.appendChild(li);
 
-    // Update checkbox state
     const checkbox = li.querySelector('input');
+    li.addEventListener('click', (e) => {
+      if (!e.target.matches('input')) li.classList.toggle('flipped');
+    });
     checkbox.addEventListener('change', () => updateProgress(index, checkbox.checked));
+    destinationGrid.appendChild(li);
   });
   updateProgressBar();
 }
 
-// Open modal with destination details
-function openModal(dest) {
-  modalImage.src = dest.image;
-  modalTitle.textContent = dest.name;
-  modalDescription.textContent = dest.description;
-  modal.style.display = 'flex';
-}
-
-// Close modal
-closeModal.addEventListener('click', () => {
-  modal.style.display = 'none';
-});
-
-// Update progress bar and save to local storage
 function updateProgress(index, isChecked) {
   if (isChecked && !checkedItems.includes(index)) {
     checkedItems.push(index);
@@ -62,12 +67,10 @@ function updateProgress(index, isChecked) {
   updateProgressBar();
 }
 
-// Update progress bar
 function updateProgressBar() {
   const progress = (checkedItems.length / destinations.length) * 100;
-  progressBar.style.width = `${progress}%`;
-  progressText.textContent = `${Math.round(progress)}% Complete`;
+  progressFill.style.width = `${progress}%`;
+  progressText.textContent = `${Math.round(progress)}% Ολοκληρώθηκε 🎉`;
 }
 
-// Initial render
 renderDestinations();
