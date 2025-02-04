@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Adventure Bucket List 🌈</title>
+  <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Fun CSS Styles */
+    :root {
+      --pink: #FF9EB5;
+      --mint: #A2F2D5;
+      --yellow: #FFF6A4;
+      --blue: #8AD2FF;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(45deg, var(--pink), var(--mint));
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      animation: gradientBG 15s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-family: 'Chewy', cursive;
+      text-align: center;
+      color: #fff;
+      text-shadow: 2px 2px 0 var(--pink);
+      font-size: 2.5em;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .progress-container {
+      background: rgba(255,255,255,0.9);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      margin: 20px 0;
+    }
+
+    .progress-bar {
+      height: 25px;
+      background: #fff;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--mint));
+      width: 0%;
+      transition: width 0.5s ease;
+      border-radius: 15px;
+    }
+
+    .progress-text {
+      text-align: center;
+      font-weight: bold;
+      color: #666;
+      margin: 10px 0;
+    }
+
+    .destination-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 0;
+    }
+
+    @media (max-width: 600px) {
+      .destination-grid {
+        grid-template-columns: 1fr; /* Single column for mobile */
+      }
+    }
+
+    .destination-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      padding: 20px;
+      list-style: none;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      perspective: 1000px;
+      height: 200px; /* Fixed height for consistency */
+    }
+
+    .destination-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .destination-card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card-front {
+      background: linear-gradient(135deg, var(--blue), var(--mint));
+      color: white;
+    }
+
+    .card-front h3 {
+      font-size: 1.5em;
+      margin: 10px 0;
+    }
+
+    .card-front .emoji {
+      font-size: 2.5em;
+    }
+
+    .card-back {
+      background: white;
+      color: #333;
+      transform: rotateY(180deg);
+    }
+
+    .card-back img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .card-back p {
+      font-size: 0.9em;
+      margin: 10px 0;
+    }
+
+    .card-back input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--pink);
+    }
+
+    .emoji {
+      font-size: 24px;
+      margin-right: 5px;
+    }
+
+    /* Special Japan Card Styles */
+    .destination-card.japan {
+      background: linear-gradient(45deg, #ff99cc, #ff6666);
+      border: 2px solid #fff;
+    }
+
+    .destination-card.japan .card-front {
+      background: linear-gradient(135deg, #ff6666, #ff99cc);
+    }
+
+    .destination-card.japan .card-back {
+      background: linear-gradient(45deg, #fff, #ffe6e6);
+    }
+
+    .destination-card.japan::after {
+      content: "✨ Dream Destination ✨";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.8em;
+      font-weight: bold;
+      color: #ff6666;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    @keyframes gentlePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .destination-card.japan {
+      animation: gentlePulse 3s ease-in-out infinite;
+    }
+
+    .destination-card.japan .card-front h3 {
+      font-family: 'Chewy', cursive;
+      text-shadow: 1px 1px 0 white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌴 Our Travel Bucket List 🎒</h1>
+    
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+      <p class="progress-text">0% Complete</p>
+    </div>
+
+    <ul class="destination-grid">
+      <!-- List items will be populated by JavaScript -->
+    </ul>
+  </div>
+
+  <script>
+    // All destinations with emojis and descriptions
+    const destinations = [
+      { name: "🇪🇸 Barcelona", image: "barcelona.jpg", description: "Marvel at Sagrada Familia 🏰, eat tapas 🍤, and dance to flamenco!" },
+      { name: "🇫🇷 Paris", image: "paris.jpg", description: "Kiss under Eiffel Tower 💋, visit Louvre 🖼️, and eat croissants 🥐" },
+      { name: "🇳🇱 Amsterdam", image: "amsterdam.jpg", description: "Cycle by canals 🚲, see tulip fields 🌷, and visit Anne Frank House" },
+      { name: "🇮🇹 Milan", image: "milan.jpg", description: "Fashion shopping 👗, see The Last Supper 🎨, and climb Duomo di Milano ⛪" },
+      { name: "🇮🇹 Venice", image: "venice.jpg", description: "Ride gondolas 🛶, get lost in alleys 🏘️, and try Venetian masks 🎭" },
+      { name: "🇦🇹 Vienna", image: "vienna.jpg", description: "Visit Schönbrunn Palace 🏰, eat Sachertorte 🍰, and waltz! 💃" },
+      { name: "🇭🇺 Budapest", image: "budapest.jpg", description: "Relax in thermal baths 🛀, cruise Danube River 🌉, and see Parliament" },
+      { name: "🇸🇪 Sweden", image: "sweden.jpg", description: "See Northern Lights 🌌, explore Stockholm archipelago 🏝️, and fika ☕" },
+      { name: "🇨🇭 Switzerland", image: "switzerland.jpg", description: "Ride Glacier Express 🚂, eat chocolate 🍫, and hike Alps ⛰️" },
+      { name: "🇫🇮 Finland", image: "finland.jpg", description: "Stay in glass igloos ❄️, meet Santa 🎅, and sauna experience ♨️" },
+      { name: "🇳🇴 Norway", image: "norway.jpg", description: "Cruise fjords ⛴️, see Trolltunga 👹, and chase waterfalls 🌊" },
+      { name: "🇮🇸 Iceland", image: "iceland.jpg", description: "Blue Lagoon soak 🧖, see Golden Circle 🌋, and hunt Northern Lights ✨" },
+      { name: "🇵🇹 Portugal", image: "portugal.jpg", description: "Surf in Nazaré 🏄, eat pastéis de nata 🥧, and explore Porto 🏰" },
+      { name: "🇦🇪 Dubai", image: "dubai.jpg", description: "Burj Khalifa views 🏙️, desert safari 🐫, and shop in souks 🛍️" },
+      { name: "🇲🇻 Maldives", image: "maldives.jpg", description: "Stay in overwater villa 🏝️, snorkel with fish 🐠, and sunset cruises 🌅" },
+      { name: "🇧🇷 Brazil", image: "brazil.jpg", description: "Christ the Redeemer 🙏, Carnival 🎉, and Amazon rainforest 🌳" },
+      { name: "🇪🇬 Egypt", image: "egypt.jpg", description: "Pyramids of Giza 🐪, Nile cruise ⛵, and explore Luxor temples 🏛️" },
+      { name: "🇯🇵 Japan", image: "japan.jpg", description: "Cherry blossom viewing 🌸, explore Tokyo 🏙️, visit Kyoto temples 🏯, and eat authentic sushi 🍣" }
+    ];
+
+    // DOM Elements
+    const destinationGrid = document.querySelector('.destination-grid');
+    const progressFill = document.querySelector('.progress-fill');
+    const progressText = document.querySelector('.progress-text');
+
+    // Load saved progress
+    let checkedItems = JSON.parse(localStorage.getItem('checkedItems')) || [];
+
+    // Create destination cards
+    function renderDestinations() {
+      destinationGrid.innerHTML = '';
+      destinations.forEach((dest, index) => {
+        const li = document.createElement('li');
+        li.className = `destination-card ${dest.name.includes('Japan') ? 'japan' : ''}`; // Add special class for Japan
+        
+        li.innerHTML = `
+          <div class="card-inner">
+            <div class="card-front">
+              <span class="emoji">${dest.name.split(' ')[0]}</span>
+              <h3>${dest.name.split(' ').slice(1).join(' ')}</h3>
+              ${dest.name.includes('Japan') ? '<i class="fas fa-heart" style="color: #ff3366; font-size: 1.5em; margin-top: 10px;"></i>' : ''}
+            </div>
+            <div class="card-back">
+              <img src="${dest.image}" alt="${dest.name}">
+              <p>${dest.description}</p>
+              <input type="checkbox" id="dest-${index}" ${checkedItems.includes(index) ? 'checked' : ''}>
+            </div>
+          </div>
+        `;
+
+        li.addEventListener('click', () => {
+          li.classList.toggle('flipped');
+        });
+
+        const checkbox = li.querySelector('input');
+        checkbox.addEventListener('change', () => updateProgress(index, checkbox.checked));
+        
+        destinationGrid.appendChild(li);
+      });
+      updateProgressBar();
+    }
+
+    // Progress functions
+    function updateProgress(index, isChecked) {
+      if (isChecked && !checkedItems.includes(index)) {
+        checkedItems.push(index);
+      } else if (!isChecked && checkedItems.includes(index)) {
+        checkedItems = checkedItems.filter(item => item !== index);
+      }
+      localStorage.setItem('checkedItems', JSON.stringify(checkedItems));
+      updateProgressBar();
+    }
+
+    function updateProgressBar() {
+      const progress = (checkedItems.length / destinations.length) * 100;
+      progressFill.style.width = `${progress}%`;
+      progressText.textContent = `${Math.round(progress)}% Complete 🎉`;
+    }
+
+    // Initial render
+    renderDestinations();
+  </script>
+</body>
+</html>
