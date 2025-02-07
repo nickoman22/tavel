@@ -123,6 +123,28 @@
       padding: 0;
     }
 
+    @media (max-width: 600px) {
+      .destination-grid {
+        grid-template-columns: 1fr; /* Single column for mobile */
+      }
+
+      .destination-card {
+        height: 250px; /* Slightly smaller cards for mobile */
+      }
+
+      .card-front h3 {
+        font-size: 1.2em; /* Smaller font for mobile */
+      }
+
+      .card-back p {
+        font-size: 0.8em; /* Smaller font for mobile */
+      }
+
+      .secret-message {
+        font-size: 1.5em; /* Smaller font for mobile */
+      }
+    }
+
     .destination-card {
       background: rgba(255,255,255,0.95);
       border-radius: 20px;
