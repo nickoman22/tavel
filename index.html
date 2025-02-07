@@ -219,8 +219,6 @@
     }
 
     /* Checkmark Styles */
-      <style>
-    /* Updated checkmark styles */
     .card-front .checkmark {
       position: absolute;
       top: 15px;
@@ -232,7 +230,7 @@
       z-index: 2;
     }
 
-    /* Hide checkmark in back side (redundant but safe) */
+    /* Hide checkmark on the back of the card */
     .card-back .checkmark {
       display: none !important;
     }
@@ -240,32 +238,7 @@
     /* Show checkmark only when visited class is applied */
     .destination-card.visited .card-front .checkmark {
       opacity: 1;
-    ]
-
-  <script>
-    // Modified card template to ensure checkmark stays in front
-    function renderDestinations() {
-      destinationGrid.innerHTML = '';
-      destinations.forEach((dest, index) => {
-        const li = document.createElement('li');
-        li.className = `destination-card ${dest.name.includes('Ιαπωνία') ? 'japan' : ''} ${checkedItems.includes(index) ? 'visited' : ''}`;
-        
-        li.innerHTML = `
-          <div class="card-inner">
-            <div class="card-front">
-              <span class="checkmark">✅</span>
-              <span class="emoji">${dest.name.split(' ')[0]}</span>
-              <h3>${dest.name.split(' ').slice(1).join(' ')}</h3>
-              ${dest.name.includes('Ιαπωνία') ? '<i class="fas fa-heart"></i>' : ''}
-            </div>
-            <div class="card-back">
-              <img src="${dest.image}" alt="${dest.description}">
-              <p>${dest.description}</p>
-              <input type="checkbox" id="dest-${index}" ${checkedItems.includes(index) ? 'checked' : ''}>
-              <label for="dest-${index}">Επισκέφτηκα</label>
-            </div>
-          </div>
-        `;
+    }
 
     /* Special Japan Card Styles */
     .destination-card.japan {
@@ -310,7 +283,9 @@
       font-family: 'Chewy', cursive;
       text-shadow: 1px 1px 0 white;
     }
-                                                          
+  </style>
+</head>
+<body>
   <div class="container">
     <h1>🌍 Η Λίστα των Ταξιδιών Μας 🧳</h1>
 
