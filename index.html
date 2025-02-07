@@ -49,6 +49,14 @@
       50% { transform: translateY(-10px); }
     }
 
+    .secret-gift-message {
+      text-align: center;
+      font-size: 1.2em;
+      color: #fff;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
     .progress-container {
       position: fixed;
       bottom: 0;
@@ -203,6 +211,11 @@
       opacity: 1;
     }
 
+    /* Hide checkmark on the back of the card */
+    .card-back .checkmark {
+      display: none;
+    }
+
     /* Special Japan Card Styles */
     .destination-card.japan {
       background: linear-gradient(45deg, #ff99cc, #ff6666);
@@ -255,6 +268,11 @@
     <ul class="destination-grid">
       <!-- List items will be populated by JavaScript -->
     </ul>
+  </div>
+
+  <!-- Secret gift message -->
+  <div class="secret-gift-message">
+    Όταν ολοκληρώσετε αυτή τη λίστα, σας περιμένει ένα μυστικό δώρο 🎁
   </div>
 
   <!-- Sticky progress bar -->
