@@ -188,19 +188,18 @@
     }
 
     /* Checkmark Styles */
-    .destination-card::after {
-      content: "✓";
+    .checkmark {
       position: absolute;
       top: 15px;
       right: 15px;
       color: #4CAF50;
-      font-size: 2em;
+      font-size: 1.5em;
       opacity: 0;
       transition: opacity 0.3s ease;
       z-index: 2;
     }
 
-    .destination-card input:checked ~ .card-inner ~ ::after {
+    .destination-card.visited .checkmark {
       opacity: 1;
     }
 
@@ -231,6 +230,7 @@
       font-weight: bold;
       color: #ff6666;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 3;
     }
 
     @keyframes gentlePulse {
@@ -297,11 +297,12 @@
       destinationGrid.innerHTML = '';
       destinations.forEach((dest, index) => {
         const li = document.createElement('li');
-        li.className = `destination-card ${dest.name.includes('Ιαπωνία') ? 'japan' : ''}`;
+        li.className = `destination-card ${dest.name.includes('Ιαπωνία') ? 'japan' : ''} ${checkedItems.includes(index) ? 'visited' : ''}`;
         
         li.innerHTML = `
           <div class="card-inner">
             <div class="card-front">
+              <span class="checkmark">✅</span>
               <span class="emoji">${dest.name.split(' ')[0]}</span>
               <h3>${dest.name.split(' ').slice(1).join(' ')}</h3>
               ${dest.name.includes('Ιαπωνία') ? '<i class="fas fa-heart"></i>' : ''}
@@ -316,10 +317,17 @@
         `;
 
         const checkbox = li.querySelector('input');
+        
+        // Update visited class on checkbox change
+        checkbox.addEventListener('change', () => {
+          li.classList.toggle('visited', checkbox.checked);
+          updateProgress(index, checkbox.checked);
+        });
+
         li.addEventListener('click', (e) => {
           if (!e.target.matches('input')) li.classList.toggle('flipped');
         });
-        checkbox.addEventListener('change', () => updateProgress(index, checkbox.checked));
+        
         destinationGrid.appendChild(li);
       });
       updateProgressBar();
