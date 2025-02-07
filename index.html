@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Η Λίστα των Ταξιδιών Μας 🌈</title>
   <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
     :root {
@@ -49,12 +50,34 @@
       50% { transform: translateY(-10px); }
     }
 
-    .secret-gift-message {
+    /* Secret message styles */
+    .secret-message-container {
       text-align: center;
-      font-size: 1.2em;
+      margin: 20px 0 40px;
+    }
+
+    .secret-message {
+      display: inline-block;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.8em;
       color: #fff;
-      margin-bottom: 20px;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      padding: 15px 30px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 30px;
+      backdrop-filter: blur(5px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .secret-message span {
+      display: inline-block;
+      margin-left: 10px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
 
     .progress-container {
@@ -265,14 +288,19 @@
   <div class="container">
     <h1>🌍 Η Λίστα των Ταξιδιών Μας 🧳</h1>
 
+    <!-- Secret message -->
+    <div class="secret-message-container">
+      <div class="secret-message">
+        Με την ολοκλήρωση της λίστας 🎀
+        <br>
+        σας περιμένει μια μαγική έκπληξη! ✨
+        <span>🎁</span>
+      </div>
+    </div>
+
     <ul class="destination-grid">
       <!-- List items will be populated by JavaScript -->
     </ul>
-  </div>
-
-  <!-- Secret gift message -->
-  <div class="secret-gift-message">
-    Όταν ολοκληρώσετε αυτή τη λίστα, σας περιμένει ένα μυστικό δώρο 🎁
   </div>
 
   <!-- Sticky progress bar -->
