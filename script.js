@@ -29,11 +29,12 @@ function renderDestinations() {
   destinationGrid.innerHTML = '';
   destinations.forEach((dest, index) => {
     const li = document.createElement('li');
-    li.className = `destination-card ${dest.name.includes('Ιαπωνία') ? 'japan' : ''}`;
+    li.className = `destination-card ${dest.name.includes('Ιαπωνία') ? 'japan' : ''} ${checkedItems.includes(index) ? 'visited' : ''}`;
     
     li.innerHTML = `
       <div class="card-inner">
         <div class="card-front">
+          <span class="checkmark">✅</span>
           <span class="emoji">${dest.name.split(' ')[0]}</span>
           <h3>${dest.name.split(' ').slice(1).join(' ')}</h3>
           ${dest.name.includes('Ιαπωνία') ? '<i class="fas fa-heart"></i>' : ''}
@@ -48,10 +49,17 @@ function renderDestinations() {
     `;
 
     const checkbox = li.querySelector('input');
+    
+    // Update visited class on checkbox change
+    checkbox.addEventListener('change', () => {
+      li.classList.toggle('visited', checkbox.checked);
+      updateProgress(index, checkbox.checked);
+    });
+
     li.addEventListener('click', (e) => {
       if (!e.target.matches('input')) li.classList.toggle('flipped');
     });
-    checkbox.addEventListener('change', () => updateProgress(index, checkbox.checked));
+    
     destinationGrid.appendChild(li);
   });
   updateProgressBar();
