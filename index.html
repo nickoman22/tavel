@@ -8,7 +8,303 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
-    /* Full CSS will be provided below */
+    :root {
+      --pink: #FF9EB5;
+      --mint: #A2F2D5;
+      --yellow: #FFF6A4;
+      --blue: #8AD2FF;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(45deg, var(--pink), var(--mint));
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      animation: gradientBG 15s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-bottom: 120px;
+    }
+
+    h1 {
+      font-family: 'Chewy', cursive;
+      text-align: center;
+      color: #fff;
+      text-shadow: 2px 2px 0 var(--pink);
+      font-size: 2.5em;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Secret message styles */
+    .secret-message-container {
+      text-align: center;
+      margin: 20px 0 40px;
+    }
+
+    .secret-message {
+      display: inline-block;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.8em;
+      color: #fff;
+      padding: 15px 30px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 30px;
+      backdrop-filter: blur(5px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .secret-message span {
+      display: inline-block;
+      margin-left: 10px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .progress-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px 20px 0 0;
+      padding: 20px;
+      box-shadow: 0 -8px 20px rgba(0,0,0,0.1);
+      margin: 0;
+      z-index: 1000;
+    }
+
+    .progress-bar {
+      height: 25px;
+      background: #fff;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--mint));
+      width: 0%;
+      transition: width 0.5s ease;
+      border-radius: 15px;
+    }
+
+    .progress-text {
+      text-align: center;
+      font-weight: bold;
+      color: #666;
+      margin: 10px 0;
+    }
+
+    .destination-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      padding: 0;
+    }
+
+    @media (max-width: 600px) {
+      .destination-grid {
+        grid-template-columns: 1fr; /* Single column for mobile */
+      }
+
+      .destination-card {
+        height: 250px; /* Slightly smaller cards for mobile */
+      }
+
+      .card-front h3 {
+        font-size: 1.2em; /* Smaller font for mobile */
+      }
+
+      .card-back p {
+        font-size: 0.8em; /* Smaller font for mobile */
+      }
+
+      .secret-message {
+        font-size: 1.5em; /* Smaller font for mobile */
+      }
+    }
+
+    .destination-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      padding: 20px;
+      list-style: none;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      perspective: 1000px;
+      height: 280px;
+    }
+
+    .destination-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .destination-card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card-front {
+      background: linear-gradient(135deg, var(--blue), var(--mint));
+      color: white;
+    }
+
+    .card-front h3 {
+      font-size: 1.5em;
+      margin: 10px 0;
+    }
+
+    .card-front .emoji {
+      font-size: 2.5em;
+    }
+
+    .card-back {
+      background: white;
+      color: #333;
+      transform: rotateY(180deg);
+    }
+
+    .card-back img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .card-back p {
+      font-size: 0.9em;
+      margin: 10px 0;
+    }
+
+    .card-back input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--pink);
+      margin-bottom: 10px;
+    }
+
+    .card-back label {
+      font-size: 0.9em;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .emoji {
+      font-size: 24px;
+      margin-right: 5px;
+    }
+
+    /* Checkmark Styles */
+    .card-front .checkmark {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      color: #4CAF50;
+      font-size: 1.5em;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+    }
+
+    /* Hide checkmark on the back of the card */
+    .card-back .checkmark {
+      display: none !important;
+    }
+
+    /* Show checkmark only when visited class is applied */
+    .destination-card.visited .card-front .checkmark {
+      opacity: 1;
+    }
+
+    /* Special Japan Card Styles */
+    .destination-card.japan {
+      background: linear-gradient(45deg, #ff99cc, #ff6666);
+      border: 2px solid #fff;
+    }
+
+    .destination-card.japan .card-front {
+      background: linear-gradient(135deg, #ff6666, #ff99cc);
+    }
+
+    .destination-card.japan .card-back {
+      background: linear-gradient(45deg, #fff, #ffe6e6);
+    }
+
+    .destination-card.japan::before {
+      content: "✨ Προορισμός των Ονείρων ✨";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.8em;
+      font-weight: bold;
+      color: #ff6666;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 3;
+    }
+
+    @keyframes gentlePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .destination-card.japan {
+      animation: gentlePulse 3s ease-in-out infinite;
+    }
+
+    .destination-card.japan .card-front h3 {
+      font-family: 'Chewy', cursive;
+      text-shadow: 1px 1px 0 white;
+    }
   </style>
 </head>
 <body>
@@ -39,7 +335,90 @@
   </div>
 
   <script>
-    // Full JavaScript will be provided below
+    // Destinations in Greek
+    const destinations = [
+      { name: "🇪🇸 Βαρκελώνη", image: "barcelona.jpg", description: "Βαρκελώνη, Ισπανία" },
+      { name: "🇫🇷 Παρίσι", image: "paris.jpg", description: "Παρίσι, Γαλλία" },
+      { name: "🇳🇱 Άμστερνταμ", image: "amsterdam.jpg", description: "Άμστερνταμ, Ολλανδία" },
+      { name: "🇮🇹 Μιλάνο", image: "milan.jpg", description: "Μιλάνο, Ιταλία" },
+      { name: "🇮🇹 Βενετία", image: "venice.jpg", description: "Βενετία, Ιταλία" },
+      { name: "🇦🇹 Βιέννη", image: "vienna.jpg", description: "Βιέννη, Αυστρία" },
+      { name: "🇭🇺 Βουδαπέστη", image: "budapest.jpg", description: "Βουδαπέστη, Ουγγαρία" },
+      { name: "🇸🇪 Σουηδία", image: "sweden.jpg", description: "Σουηδία" },
+      { name: "🇨🇭 Ελβετία", image: "switzerland.jpg", description: "Ελβετία" },
+      { name: "🇫🇮 Φινλανδία", image: "finland.jpg", description: "Φινλανδία" },
+      { name: "🇳🇴 Νορβηγία", image: "norway.jpg", description: "Νορβηγία" },
+      { name: "🇮🇸 Ισλανδία", image: "iceland.jpg", description: "Ισλανδία" },
+      { name: "🇵🇹 Πορτογαλία", image: "portugal.jpg", description: "Πορτογαλία" },
+      { name: "🇦🇪 Ντουμπάι", image: "dubai.jpg", description: "Ντουμπάι, ΗΑΕ" },
+      { name: "🇲🇻 Μαλδίβες", image: "maldives.jpg", description: "Μαλδίβες" },
+      { name: "🇧🇷 Βραζιλία", image: "brazil.jpg", description: "Βραζιλία" },
+      { name: "🇪🇬 Αίγυπτος", image: "egypt.jpg", description: "Αίγυπτος" },
+      { name: "🇯🇵 Ιαπωνία", image: "japan.jpg", description: "Ιαπωνία - Ο Προορισμός των Ονείρων Μας ✨" }
+    ];
+
+    const destinationGrid = document.querySelector('.destination-grid');
+    const progressFill = document.querySelector('.progress-fill');
+    const progressText = document.querySelector('.progress-text');
+    let checkedItems = JSON.parse(localStorage.getItem('checkedItems')) || [];
+
+    function renderDestinations() {
+      destinationGrid.innerHTML = '';
+      destinations.forEach((dest, index) => {
+        const li = document.createElement('li');
+        li.className = `destination-card ${dest.name.includes('Ιαπωνία') ? 'japan' : ''} ${checkedItems.includes(index) ? 'visited' : ''}`;
+        
+        li.innerHTML = `
+          <div class="card-inner">
+            <div class="card-front">
+              <span class="checkmark">✅</span>
+              <span class="emoji">${dest.name.split(' ')[0]}</span>
+              <h3>${dest.name.split(' ').slice(1).join(' ')}</h3>
+              ${dest.name.includes('Ιαπωνία') ? '<i class="fas fa-heart"></i>' : ''}
+            </div>
+            <div class="card-back">
+              <img src="${dest.image}" alt="${dest.description}">
+              <p>${dest.description}</p>
+              <input type="checkbox" id="dest-${index}" ${checkedItems.includes(index) ? 'checked' : ''}>
+              <label for="dest-${index}">Επισκέφτηκα</label>
+            </div>
+          </div>
+        `;
+
+        const checkbox = li.querySelector('input');
+        
+        // Update visited class on checkbox change
+        checkbox.addEventListener('change', () => {
+          li.classList.toggle('visited', checkbox.checked);
+          updateProgress(index, checkbox.checked);
+        });
+
+        li.addEventListener('click', (e) => {
+          if (!e.target.matches('input')) li.classList.toggle('flipped');
+        });
+        
+        destinationGrid.appendChild(li);
+      });
+      updateProgressBar();
+    }
+
+    function updateProgress(index, isChecked) {
+      if (isChecked && !checkedItems.includes(index)) {
+        checkedItems.push(index);
+      } else if (!isChecked && checkedItems.includes(index)) {
+        checkedItems = checkedItems.filter(item => item !== index);
+      }
+      localStorage.setItem('checkedItems', JSON.stringify(checkedItems));
+      updateProgressBar();
+    }
+
+    function updateProgressBar() {
+      const progress = (checkedItems.length / destinations.length) * 100;
+      progressFill.style.width = `${progress}%`;
+      progressText.textContent = `${Math.round(progress)}% Ολοκληρώθηκε 🎉`;
+    }
+
+    renderDestinations();
   </script>
 </body>
 </html>
