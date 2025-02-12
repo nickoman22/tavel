@@ -37,17 +37,17 @@
     }
 
     h1 {
-      font-family: 'Chewy', cursive;
+      font-family: 'Dancing Script', cursive;
       text-align: center;
       color: #fff;
-      text-shadow: 2px 2px 0 var(--pink);
-      font-size: 2.5em;
-      animation: bounce 2s infinite;
+      font-size: 3.5em;
+      margin: 20px 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+    h1 span {
+      display: inline-block;
+      margin: 0 10px;
     }
 
     /* Secret message styles */
@@ -129,15 +129,11 @@
       }
 
       .destination-card {
-        height: 250px; /* Slightly smaller cards for mobile */
+        height: 200px; /* Smaller cards for mobile */
       }
 
       .card-front h3 {
-        font-size: 1.2em; /* Smaller font for mobile */
-      }
-
-      .card-back p {
-        font-size: 0.8em; /* Smaller font for mobile */
+        font-size: 1.5em; /* Larger font for mobile readability */
       }
 
       .secret-message {
@@ -154,7 +150,7 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       position: relative;
       perspective: 1000px;
-      height: 280px;
+      height: 250px;
     }
 
     .destination-card:hover {
@@ -195,12 +191,10 @@
     }
 
     .card-front h3 {
-      font-size: 1.5em;
-      margin: 10px 0;
-    }
-
-    .card-front .emoji {
-      font-size: 2.5em;
+      font-size: 2em;
+      margin: 0;
+      font-family: 'Chewy', cursive;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     .card-back {
@@ -211,7 +205,7 @@
 
     .card-back img {
       width: 100%;
-      height: 150px;
+      height: 120px;
       object-fit: cover;
       border-radius: 10px;
       margin-bottom: 10px;
@@ -233,11 +227,6 @@
       font-size: 0.9em;
       color: #666;
       cursor: pointer;
-    }
-
-    .emoji {
-      font-size: 24px;
-      margin-right: 5px;
     }
 
     /* Checkmark Styles */
@@ -309,7 +298,11 @@
 </head>
 <body>
   <div class="container">
-    <h1>🌍 Η Λίστα των Ταξιδιών Μας 🧳</h1>
+    <h1>
+      <span>🌍</span>
+      Η Λίστα των Ταξιδιών Μας
+      <span>🧳</span>
+    </h1>
 
     <!-- Secret message -->
     <div class="secret-message-container">
@@ -372,9 +365,7 @@
           <div class="card-inner">
             <div class="card-front">
               <span class="checkmark">✅</span>
-              <span class="emoji">${dest.name.split(' ')[0]}</span>
               <h3>${dest.name.split(' ').slice(1).join(' ')}</h3>
-              ${dest.name.includes('Ιαπωνία') ? '<i class="fas fa-heart"></i>' : ''}
             </div>
             <div class="card-back">
               <img src="${dest.image}" alt="${dest.description}">
