@@ -39,15 +39,18 @@
     h1 {
       font-family: 'Dancing Script', cursive;
       text-align: center;
-      color: #fff;
-      font-size: 3.5em;
-      margin: 20px 0;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      font-size: 4em;
+      margin: 30px 0;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+      background: linear-gradient(45deg, var(--pink), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: titleGlow 2s ease-in-out infinite alternate;
     }
 
-    h1 span {
-      display: inline-block;
-      margin: 0 10px;
+    @keyframes titleGlow {
+      0% { text-shadow: 0 0 10px rgba(255,255,255,0.4); }
+      100% { text-shadow: 0 0 20px rgba(255,255,255,0.8), 3px 3px 6px rgba(0, 0, 0, 0.4); }
     }
 
     .secret-message-container {
@@ -67,11 +70,6 @@
       border: 2px solid rgba(255, 255, 255, 0.3);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       animation: float 3s ease-in-out infinite;
-    }
-
-    .secret-message span {
-      display: inline-block;
-      margin-left: 10px;
     }
 
     @keyframes float {
@@ -102,10 +100,11 @@
 
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--blue), var(--mint));
+      background: linear-gradient(90deg, var(--pink), var(--blue));
       width: 0%;
       transition: width 0.5s ease;
       border-radius: 15px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
     }
 
     .progress-text {
@@ -120,24 +119,6 @@
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 25px;
       padding: 0;
-    }
-
-    @media (max-width: 600px) {
-      .destination-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .destination-card {
-        height: 200px;
-      }
-
-      .card-front h3 {
-        font-size: 1.5em;
-      }
-
-      .secret-message {
-        font-size: 1.5em;
-      }
     }
 
     .destination-card {
@@ -162,7 +143,7 @@
       width: 100%;
       height: 100%;
       text-align: center;
-      transition: transform 0.6s;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
       transform-style: preserve-3d;
     }
 
@@ -190,10 +171,10 @@
     }
 
     .card-front h3 {
-      font-size: 2em;
+      font-size: 4em;
       margin: 0;
-      font-family: 'Chewy', cursive;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      line-height: 1;
     }
 
     .card-back {
@@ -239,10 +220,6 @@
       z-index: 2;
     }
 
-    .card-back .checkmark {
-      display: none !important;
-    }
-
     .destination-card.visited .card-front .checkmark {
       opacity: 1;
     }
@@ -250,14 +227,12 @@
     .destination-card.japan {
       background: linear-gradient(45deg, #ff99cc, #ff6666);
       border: 2px solid #fff;
+      animation: gentlePulse 3s ease-in-out infinite;
     }
 
-    .destination-card.japan .card-front {
-      background: linear-gradient(135deg, #ff6666, #ff99cc);
-    }
-
-    .destination-card.japan .card-back {
-      background: linear-gradient(45deg, #fff, #ffe6e6);
+    @keyframes gentlePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
     }
 
     .destination-card.japan::before {
@@ -276,18 +251,29 @@
       z-index: 3;
     }
 
-    @keyframes gentlePulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.02); }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.8em;
+        margin: 20px 0;
+      }
+      
+      .destination-card {
+        height: 180px;
+      }
+      
+      .card-front h3 {
+        font-size: 3em;
+      }
+      
+      .secret-message {
+        font-size: 1.5em;
+      }
     }
 
-    .destination-card.japan {
-      animation: gentlePulse 3s ease-in-out infinite;
-    }
-
-    .destination-card.japan .card-front h3 {
-      font-family: 'Chewy', cursive;
-      text-shadow: 1px 1px 0 white;
+    .image-error {
+      color: var(--pink);
+      font-weight: bold;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -308,9 +294,7 @@
       </div>
     </div>
 
-    <ul class="destination-grid">
-      <!-- List items will be populated by JavaScript -->
-    </ul>
+    <ul class="destination-grid"></ul>
   </div>
 
   <div class="progress-container">
@@ -347,6 +331,14 @@
     const progressText = document.querySelector('.progress-text');
     let checkedItems = JSON.parse(localStorage.getItem('checkedItems')) || [];
 
+    function handleImageError(img) {
+      img.style.display = 'none';
+      const errorMsg = document.createElement('p');
+      errorMsg.className = 'image-error';
+      errorMsg.textContent = '🚨 Η εικόνα δεν φορτώθηκε!';
+      img.parentNode.insertBefore(errorMsg, img.nextSibling);
+    }
+
     function renderDestinations() {
       destinationGrid.innerHTML = '';
       destinations.forEach((dest, index) => {
@@ -368,17 +360,8 @@
           </div>
         `;
 
-        const checkbox = li.querySelector('input');
-        
-        checkbox.addEventListener('change', () => {
-          li.classList.toggle('visited', checkbox.checked);
-          updateProgress(index, checkbox.checked);
-        });
-
-        li.addEventListener('click', (e) => {
-          if (!e.target.matches('input')) li.classList.toggle('flipped');
-        });
-        
+        const img = li.querySelector('img');
+        img.onerror = () => handleImageError(img);
         destinationGrid.appendChild(li);
       });
       updateProgressBar();
@@ -397,9 +380,34 @@
     function updateProgressBar() {
       const progress = (checkedItems.length / destinations.length) * 100;
       progressFill.style.width = `${progress}%`;
-      progressText.textContent = `${Math.round(progress)}% Ολοκληρώθηκε 🎉`;
+      progressText.textContent = `${Math.round(progress)}% Ολοκληρώθηκε ${progress === 100 ? '🎉🎊' : '🎉'}`;
     }
 
+    // Event Delegation
+    document.addEventListener('change', (e) => {
+      if (e.target.matches('input[type="checkbox"]')) {
+        const card = e.target.closest('.destination-card');
+        const index = Array.from(destinationGrid.children).indexOf(card);
+        card.classList.toggle('visited', e.target.checked);
+        updateProgress(index, e.target.checked);
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      const card = e.target.closest('.destination-card');
+      if (card && !e.target.matches('input')) {
+        card.classList.toggle('flipped');
+      }
+    });
+
+    // Cleanup localStorage
+    window.addEventListener('beforeunload', () => {
+      if (checkedItems.length === 0) {
+        localStorage.removeItem('checkedItems');
+      }
+    });
+
+    // Initial render
     renderDestinations();
   </script>
 </body>
