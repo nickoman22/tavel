@@ -17,7 +17,7 @@ const destinations = [
       { name: "🇲🇻 Μαλδίβες", image: "maldives.jpg", description: "Μαλδίβες" },
       { name: "🇧🇷 Βραζιλία", image: "brazil.jpg", description: "Βραζιλία" },
       { name: "🇪🇬 Αίγυπτος", image: "egypt.jpg", description: "Αίγυπτος" },
-      { name: "🇯🇵 Ιαπωνία", image: "japan.jpg", description: "Ιαπωνία - 💕💕💕💕" }
+      { name: "🇯🇵 Ιαπωνία", image: "japan.jpg", description: "Ιαπωνία" }
     ];
 
 const destinationGrid = document.querySelector('.destination-grid');
