@@ -1,9 +1,24 @@
 <script>
 const destinations = [
-  { name: "🇪🇸 Βαρκελώνη", image: "barcelona.jpg", description: "Βαρκελώνη, Ισπανία" },
-  // ... (keep all destination objects) ...
-  { name: "🇯🇵 Ιαπωνία", image: "japan.jpg", description: "Ιαπωνία - Ο Προορισμός των Ονείρων Μας ✨" }
-];
+      { name: "🇪🇸 Βαρκελώνη", image: "barcelona.jpg", description: "Βαρκελώνη, Ισπανία" },
+      { name: "🇫🇷 Παρίσι", image: "paris.jpg", description: "Παρίσι, Γαλλία" },
+      { name: "🇳🇱 Άμστερνταμ", image: "amsterdam.jpg", description: "Άμστερνταμ, Ολλανδία" },
+      { name: "🇮🇹 Μιλάνο", image: "milan.jpg", description: "Μιλάνο, Ιταλία" },
+      { name: "🇮🇹 Βενετία", image: "venice.jpg", description: "Βενετία, Ιταλία" },
+      { name: "🇦🇹 Βιέννη", image: "vienna.jpg", description: "Βιέννη, Αυστρία" },
+      { name: "🇭🇺 Βουδαπέστη", image: "budapest.jpg", description: "Βουδαπέστη, Ουγγαρία" },
+      { name: "🇸🇪 Σουηδία", image: "sweden.jpg", description: "Σουηδία" },
+      { name: "🇨🇭 Ελβετία", image: "switzerland.jpg", description: "Ελβετία" },
+      { name: "🇫🇮 Φινλανδία", image: "finland.jpg", description: "Φινλανδία" },
+      { name: "🇳🇴 Νορβηγία", image: "norway.jpg", description: "Νορβηγία" },
+      { name: "🇮🇸 Ισλανδία", image: "iceland.jpg", description: "Ισλανδία" },
+      { name: "🇵🇹 Πορτογαλία", image: "portugal.jpg", description: "Πορτογαλία" },
+      { name: "🇦🇪 Ντουμπάι", image: "dubai.jpg", description: "Ντουμπάι, ΗΑΕ" },
+      { name: "🇲🇻 Μαλδίβες", image: "maldives.jpg", description: "Μαλδίβες" },
+      { name: "🇧🇷 Βραζιλία", image: "brazil.jpg", description: "Βραζιλία" },
+      { name: "🇪🇬 Αίγυπτος", image: "egypt.jpg", description: "Αίγυπτος" },
+      { name: "🇯🇵 Ιαπωνία", image: "japan.jpg", description: "Ιαπωνία - 💕💕💕💕" }
+    ];
 
 const destinationGrid = document.querySelector('.destination-grid');
 const progressFill = document.querySelector('.progress-fill');
