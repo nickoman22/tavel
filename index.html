@@ -170,11 +170,13 @@
       color: white;
     }
 
+    /* Updated: Ensure emojis are visible and large */
     .card-front h3 {
       font-size: 4em;
       margin: 0;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
       line-height: 1;
+      font-family: 'Segoe UI Emoji', 'Apple Color Emoji', sans-serif;
     }
 
     .card-back {
@@ -224,10 +226,19 @@
       opacity: 1;
     }
 
+    /* Updated: Fix Japan card colors */
     .destination-card.japan {
       background: linear-gradient(45deg, #ff99cc, #ff6666);
       border: 2px solid #fff;
       animation: gentlePulse 3s ease-in-out infinite;
+    }
+
+    .destination-card.japan .card-front {
+      background: linear-gradient(135deg, #ff6666, #ff99cc) !important;
+    }
+
+    .destination-card.japan .card-back {
+      background: linear-gradient(45deg, #fff, #ffe6e6) !important;
     }
 
     @keyframes gentlePulse {
@@ -345,11 +356,14 @@
         const li = document.createElement('li');
         li.className = `destination-card ${dest.name.includes('Ιαπωνία') ? 'japan' : ''} ${checkedItems.includes(index) ? 'visited' : ''}`;
         
+        // Extract flag emoji correctly
+        const flagEmoji = dest.name.split(' ')[0];
+        
         li.innerHTML = `
           <div class="card-inner">
             <div class="card-front">
               <span class="checkmark">✅</span>
-              <h3>${dest.name.split(' ')[0]}</h3>
+              <h3>${flagEmoji}</h3>
             </div>
             <div class="card-back">
               <img src="${dest.image}" alt="${dest.description}">
