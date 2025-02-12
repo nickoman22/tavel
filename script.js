@@ -1,3 +1,4 @@
+<script>
 const destinations = [
   { name: "🇪🇸 Βαρκελώνη", image: "barcelona.jpg", description: "Βαρκελώνη, Ισπανία" },
   { name: "🇫🇷 Παρίσι", image: "paris.jpg", description: "Παρίσι, Γαλλία" },
@@ -24,6 +25,14 @@ const progressFill = document.querySelector('.progress-fill');
 const progressText = document.querySelector('.progress-text');
 let checkedItems = JSON.parse(localStorage.getItem('checkedItems')) || [];
 
+function handleImageError(img) {
+  img.style.display = 'none';
+  const errorMsg = document.createElement('p');
+  errorMsg.className = 'image-error';
+  errorMsg.textContent = '🚨 Η εικόνα δεν φορτώθηκε!';
+  img.parentNode.insertBefore(errorMsg, img.nextSibling);
+}
+
 function renderDestinations() {
   destinationGrid.innerHTML = '';
   destinations.forEach((dest, index) => {
@@ -45,17 +54,8 @@ function renderDestinations() {
       </div>
     `;
 
-    const checkbox = li.querySelector('input');
-    
-    checkbox.addEventListener('change', () => {
-      li.classList.toggle('visited', checkbox.checked);
-      updateProgress(index, checkbox.checked);
-    });
-
-    li.addEventListener('click', (e) => {
-      if (!e.target.matches('input')) li.classList.toggle('flipped');
-    });
-    
+    const img = li.querySelector('img');
+    img.onerror = () => handleImageError(img);
     destinationGrid.appendChild(li);
   });
   updateProgressBar();
@@ -74,8 +74,33 @@ function updateProgress(index, isChecked) {
 function updateProgressBar() {
   const progress = (checkedItems.length / destinations.length) * 100;
   progressFill.style.width = `${progress}%`;
-  progressText.textContent = `${Math.round(progress)}% Ολοκληρώθηκε 🎉`;
+  progressText.textContent = `${Math.round(progress)}% Ολοκληρώθηκε ${progress === 100 ? '🎉🎊' : '🎉'}`;
 }
+
+// Event Delegation
+document.addEventListener('change', (e) => {
+  if (e.target.matches('input[type="checkbox"]')) {
+    const card = e.target.closest('.destination-card');
+    const index = Array.from(destinationGrid.children).indexOf(card);
+    card.classList.toggle('visited', e.target.checked);
+    updateProgress(index, e.target.checked);
+  }
+});
+
+document.addEventListener('click', (e) => {
+  const card = e.target.closest('.destination-card');
+  if (card && !e.target.matches('input')) {
+    card.classList.toggle('flipped');
+  }
+});
+
+// Cleanup localStorage
+window.addEventListener('beforeunload', () => {
+  if (checkedItems.length === 0) {
+    localStorage.removeItem('checkedItems');
+  }
+});
 
 // Initial render
 renderDestinations();
+</script>
