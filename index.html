@@ -271,7 +271,7 @@
     }
 
     .destination-card.japan::before {
-      content: "✨ Προορισμός των Ονείρων ✨";
+      content: "💖💖💖💖";
       position: absolute;
       top: -15px;
       left: 50%;
@@ -323,16 +323,14 @@
 <body>
   <div class="container">
     <h1>
-      <span>🌍</span>
       Η Λίστα των Ταξιδιών Μας
-      <span>🧳</span>
     </h1>
 
     <div class="secret-message-container">
       <div class="secret-message">
-        Με την ολοκλήρωση της λίστας 🎀
+        Με την ολοκλήρωση της λίστας 
         <br>
-        σας περιμένει μια μαγική έκπληξη! ✨
+        σας περιμένει μια μαγική έκπληξη! 
         <span>🎁</span>
       </div>
     </div>
@@ -366,7 +364,7 @@
       { name: "🇲🇻 Μαλδίβες", image: "maldives.jpg", description: "Μαλδίβες" },
       { name: "🇧🇷 Βραζιλία", image: "brazil.jpg", description: "Βραζιλία" },
       { name: "🇪🇬 Αίγυπτος", image: "egypt.jpg", description: "Αίγυπτος" },
-      { name: "🇯🇵 Ιαπωνία", image: "japan.jpg", description: "Ιαπωνία - Ο Προορισμός των Ονείρων Μας ✨" }
+      { name: "🇯🇵 Ιαπωνία", image: "japan.jpg", description: "💖💖  Ιαπωνία  💖💖" }
     ];
 
     const destinationGrid = document.querySelector('.destination-grid');
@@ -423,7 +421,7 @@
     function updateProgressBar() {
       const progress = (checkedItems.length / destinations.length) * 100;
       progressFill.style.width = `${progress}%`;
-      progressText.textContent = `${Math.round(progress)}% Ολοκληρώθηκε ${progress === 100 ? '🎉🎊' : '🎉'}`;
+      progressText.textContent = `${Math.round(progress)}% Ολοκληρώθηκε ${progress === 100 ? 'παραλίγο ρε' : '🎉'}`;
     }
 
     document.addEventListener('change', (e) => {
