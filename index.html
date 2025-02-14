@@ -63,18 +63,43 @@
       font-family: 'Dancing Script', cursive;
       font-size: 1.8em;
       color: #fff;
-      padding: 15px 30px;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 30px;
-      backdrop-filter: blur(5px);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      animation: float 3s ease-in-out infinite;
+      padding: 20px 40px;
+      background: linear-gradient(145deg, rgba(255, 158, 181, 0.9), rgba(138, 210, 255, 0.9));
+      border-radius: 40px;
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      animation: float 3s ease-in-out infinite, glow 2s ease-in-out infinite alternate;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .secret-message::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      right: -50%;
+      bottom: -50%;
+      background: linear-gradient(transparent, rgba(255,255,255,0.2), transparent);
+      transform: rotate(45deg);
+      animation: sparkle 4s infinite;
+    }
+
+    @keyframes sparkle {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) rotate(45deg); }
     }
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-5px); }
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 8px 32px rgba(255, 158, 181, 0.4); }
+      100% { box-shadow: 0 8px 32px rgba(138, 210, 255, 0.6); }
     }
 
     .progress-container {
@@ -91,7 +116,7 @@
     }
 
     .progress-bar {
-      height: 30px; /* Increased height */
+      height: 30px;
       background: #fff;
       border-radius: 15px;
       overflow: hidden;
@@ -112,27 +137,26 @@
       font-weight: bold;
       color: #666;
       margin: 10px 0;
-      font-size: 1.1em; /* Larger text */
+      font-size: 1.1em;
     }
 
-    /* Modified Card Sizes */
     .destination-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Wider cards */
-      gap: 30px; /* More spacing */
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
       padding: 0;
     }
 
     .destination-card {
       background: rgba(255,255,255,0.95);
       border-radius: 20px;
-      padding: 25px; /* More padding */
+      padding: 25px;
       list-style: none;
       cursor: pointer;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       position: relative;
       perspective: 1000px;
-      height: 320px; /* Taller cards */
+      height: 320px;
     }
 
     .destination-card:hover {
@@ -188,15 +212,15 @@
 
     .card-back img {
       width: 100%;
-      height: 160px; /* Larger images */
+      height: 160px;
       object-fit: cover;
       border-radius: 10px;
-      margin-bottom: 15px; /* More spacing */
+      margin-bottom: 15px;
     }
 
     .card-back p {
-      font-size: 1em; /* Larger text */
-      margin: 15px 0; /* More spacing */
+      font-size: 1em;
+      margin: 15px 0;
     }
 
     .card-back input[type="checkbox"] {
@@ -207,7 +231,7 @@
     }
 
     .card-back label {
-      font-size: 1em; /* Larger label */
+      font-size: 1em;
       color: #666;
       cursor: pointer;
     }
@@ -247,15 +271,15 @@
     }
 
     .destination-card.japan::before {
-      content: "💕💕💕💕";
+      content: "✨ Προορισμός των Ονείρων ✨";
       position: absolute;
-      top: -15px; /* Better positioning */
+      top: -15px;
       left: 50%;
       transform: translateX(-50%);
       background: white;
       padding: 5px 15px;
       border-radius: 20px;
-      font-size: 1em; /* Larger text */
+      font-size: 1em;
       font-weight: bold;
       color: #ff6666;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -273,15 +297,15 @@
       }
 
       .destination-card {
-        height: 250px; /* Taller mobile cards */
+        height: 250px;
       }
       
       .card-front h3 {
-        font-size: 3.5em; /* Larger flags */
+        font-size: 3.5em;
       }
 
       .card-back img {
-        height: 120px; /* Adjusted image height */
+        height: 120px;
       }
       
       .secret-message {
@@ -297,19 +321,18 @@
   </style>
 </head>
 <body>
-  <!-- HTML Structure Remains Unchanged -->
   <div class="container">
     <h1>
-      <span></span>
+      <span>🌍</span>
       Η Λίστα των Ταξιδιών Μας
-      <span></span>
+      <span>🧳</span>
     </h1>
 
     <div class="secret-message-container">
       <div class="secret-message">
-        Με την ολοκλήρωση της λίστας
+        Με την ολοκλήρωση της λίστας 🎀
         <br>
-        σε περιμένει μια μαγική έκπληξη!
+        σας περιμένει μια μαγική έκπληξη! ✨
         <span>🎁</span>
       </div>
     </div>
@@ -324,7 +347,6 @@
     <p class="progress-text">0% Ολοκληρώθηκε</p>
   </div>
 
-  <!-- JavaScript Remains Unchanged -->
   <script>
     const destinations = [
       { name: "🇪🇸 Βαρκελώνη", image: "barcelona.jpg", description: "Βαρκελώνη, Ισπανία" },
@@ -344,7 +366,7 @@
       { name: "🇲🇻 Μαλδίβες", image: "maldives.jpg", description: "Μαλδίβες" },
       { name: "🇧🇷 Βραζιλία", image: "brazil.jpg", description: "Βραζιλία" },
       { name: "🇪🇬 Αίγυπτος", image: "egypt.jpg", description: "Αίγυπτος" },
-      { name: "🇯🇵 Ιαπωνία", image: "japan.jpg", description: "💕💕 Ιαπωνία 💕💕 " }
+      { name: "🇯🇵 Ιαπωνία", image: "japan.jpg", description: "Ιαπωνία - Ο Προορισμός των Ονείρων Μας ✨" }
     ];
 
     const destinationGrid = document.querySelector('.destination-grid');
