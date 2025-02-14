@@ -78,7 +78,7 @@ function updateProgress(index, isChecked) {
 function updateProgressBar() {
   const progress = (checkedItems.length / destinations.length) * 100;
   progressFill.style.width = `${progress}%`;
-  progressText.textContent = `${Math.round(progress)}% Δεν εχει έκπληξη αν δεν το κάνουμε όντως ${progress === 100 ? '💖💖' : '🎉'}`;
+  progressText.textContent = `${Math.round(progress)}% Loading... ${progress === 100 ? 'άστα αυτά άμα δεν το κάνουμε όντως δεν έχει έκπληξη' : '🎉'}`;
 }
 
 // Event listeners
