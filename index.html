@@ -4,19 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Η Λίστα των Ταξιδιών Μας 🌈</title>
-  
-  <!-- ========== CSS START ========== -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* Color Variables */
     :root {
       --pink: #FFB3C6;
       --mint: #B5EAD7;
       --blue: #89CFF0;
       --lavender: #C3B1E1;
-      --white: #fff;
     }
 
-    /* Base Styles */
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(45deg, var(--pink), var(--lavender));
@@ -26,40 +22,23 @@
       animation: gradientBG 20s ease infinite;
     }
 
-    /* Container */
     .container {
       max-width: 1400px;
       margin: 0 auto;
       padding: 40px 20px 160px;
     }
 
-    /* Header */
     h1 {
       font-family: 'Dancing Script', cursive;
       text-align: center;
-      font-size: 4.5rem;
+      font-size: 4rem;
       margin: 40px 0;
       background: linear-gradient(45deg, #FF6B6B, #FF8E53);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
-      position: relative;
-      padding-bottom: 20px;
     }
 
-    h1::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 4px;
-      background: linear-gradient(90deg, var(--pink), var(--blue));
-      border-radius: 2px;
-    }
-
-    /* Secret Message */
     .secret-message-container {
       text-align: center;
       margin: 40px 0;
@@ -69,35 +48,78 @@
       display: inline-block;
       font-family: 'Dancing Script', cursive;
       font-size: 2rem;
-      color: var(--white);
-      padding: 25px 50px;
+      color: white;
+      padding: 20px 40px;
       background: rgba(255, 255, 255, 0.15);
       border-radius: 50px;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(10px);
       border: 2px solid rgba(255, 255, 255, 0.3);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      animation: float 4s ease-in-out infinite;
+      animation: float 3s ease-in-out infinite;
     }
 
-    /* Destination Cards */
     .destination-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 40px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
       padding: 20px;
+      list-style: none;
     }
 
     .destination-card {
       background: rgba(255,255,255,0.95);
       border-radius: 25px;
-      padding: 30px;
+      padding: 25px;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      height: 380px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      height: 350px;
+      perspective: 1000px;
+      position: relative;
     }
 
-    /* Progress Bar */
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .destination-card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-front {
+      background: linear-gradient(135deg, var(--blue), var(--mint));
+      color: white;
+    }
+
+    .card-back {
+      background: white;
+      transform: rotateY(180deg);
+    }
+
+    .card-back img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 15px;
+      margin-bottom: 15px;
+    }
+
     .progress-container {
       position: fixed;
       bottom: 0;
@@ -105,13 +127,26 @@
       transform: translateX(-50%);
       width: 90%;
       max-width: 600px;
-      background: rgba(255,255,255,0.98);
-      border-radius: 30px 30px 0 0;
-      padding: 25px 40px;
-      box-shadow: 0 -15px 40px rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px 20px 0 0;
+      padding: 20px;
+      box-shadow: 0 -8px 20px rgba(0,0,0,0.1);
     }
 
-    /* Animations */
+    .progress-bar {
+      height: 25px;
+      background: #eee;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--pink), var(--blue));
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
     @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -119,25 +154,22 @@
     }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(-1deg); }
-      50% { transform: translateY(-8px) rotate(1deg); }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
 
-    /* Mobile Styles */
     @media (max-width: 768px) {
-      h1 { font-size: 3rem; }
+      h1 { font-size: 2.5rem; }
       .secret-message { font-size: 1.5rem; }
-      .destination-card { height: 320px; }
+      .destination-card { height: 280px; }
+      .card-back img { height: 120px; }
     }
   </style>
-  <!-- ========== CSS END ========== -->
 </head>
-
 <body>
-  <!-- ========== HTML START ========== -->
   <div class="container">
     <h1>Η Λίστα των Ταξιδιών Μας</h1>
-
+    
     <div class="secret-message-container">
       <div class="secret-message">
         Με την ολοκλήρωση της λίστας 
@@ -156,29 +188,40 @@
     </div>
     <p class="progress-text">0% Ολοκληρώθηκε</p>
   </div>
-  <!-- ========== HTML END ========== -->
 
-  <!-- ========== JAVASCRIPT START ========== -->
   <script>
-    // Destination Data
     const destinations = [
       { name: "🇪🇸 Βαρκελώνη", image: "barcelona.jpg", description: "Βαρκελώνη, Ισπανία" },
-      // ... keep all your existing destinations array ...
+      { name: "🇫🇷 Παρίσι", image: "paris.jpg", description: "Παρίσι, Γαλλία" },
+      { name: "🇳🇱 Άμστερνταμ", image: "amsterdam.jpg", description: "Άμστερνταμ, Ολλανδία" },
+      { name: "🇮🇹 Μιλάνο", image: "milan.jpg", description: "Μιλάνο, Ιταλία" },
+      { name: "🇮🇹 Βενετία", image: "venice.jpg", description: "Βενετία, Ιταλία" },
+      { name: "🇦🇹 Βιέννη", image: "vienna.jpg", description: "Βιέννη, Αυστρία" },
+      { name: "🇭🇺 Βουδαπέστη", image: "budapest.jpg", description: "Βουδαπέστη, Ουγγαρία" },
+      { name: "🇸🇪 Σουηδία", image: "sweden.jpg", description: "Σουηδία" },
+      { name: "🇨🇭 Ελβετία", image: "switzerland.jpg", description: "Ελβετία" },
+      { name: "🇫🇮 Φινλανδία", image: "finland.jpg", description: "Φινλανδία" },
+      { name: "🇳🇴 Νορβηγία", image: "norway.jpg", description: "Νορβηγία" },
+      { name: "🇮🇸 Ισλανδία", image: "iceland.jpg", description: "Ισλανδία" },
+      { name: "🇵🇹 Πορτογαλία", image: "portugal.jpg", description: "Πορτογαλία" },
+      { name: "🇦🇪 Ντουμπάι", image: "dubai.jpg", description: "Ντουμπάι, ΗΑΕ" },
+      { name: "🇲🇻 Μαλδίβες", image: "maldives.jpg", description: "Μαλδίβες" },
+      { name: "🇧🇷 Βραζιλία", image: "brazil.jpg", description: "Βραζιλία" },
+      { name: "🇪🇬 Αίγυπτος", image: "egypt.jpg", description: "Αίγυπτος" },
       { name: "🇯🇵 Ιαπωνία", image: "japan.jpg", description: "Ιαπωνία" }
     ];
 
-    // DOM Elements
     const destinationGrid = document.querySelector('.destination-grid');
     const progressFill = document.querySelector('.progress-fill');
     const progressText = document.querySelector('.progress-text');
     let checkedItems = JSON.parse(localStorage.getItem('checkedItems')) || [];
 
-    // Render Destinations
     function renderDestinations() {
       destinationGrid.innerHTML = '';
       destinations.forEach((dest, index) => {
         const card = document.createElement('li');
-        card.className = `destination-card ${checkedItems.includes(index) ? 'visited' : ''}`;
+        card.className = `destination-card ${dest.name.includes('Ιαπωνία') ? 'japan' : ''} ${checkedItems.includes(index) ? 'visited' : ''}`;
+        
         card.innerHTML = `
           <div class="card-inner">
             <div class="card-front">
@@ -193,24 +236,29 @@
             </div>
           </div>
         `;
+        
         destinationGrid.appendChild(card);
       });
       updateProgressBar();
     }
 
-    // Progress Updates
     function updateProgressBar() {
       const progress = (checkedItems.length / destinations.length) * 100;
       progressFill.style.width = `${progress}%`;
       progressText.textContent = `${Math.round(progress)}% Ολοκληρώθηκε ${progress === 100 ? '🎉' : ''}`;
     }
 
-    // Event Listeners
     document.addEventListener('change', (e) => {
       if (e.target.matches('input[type="checkbox"]')) {
         const card = e.target.closest('.destination-card');
         const index = Array.from(destinationGrid.children).indexOf(card);
-        checkedItems = e.target.checked ? [...checkedItems, index] : checkedItems.filter(i => i !== index);
+        
+        if (e.target.checked) {
+          checkedItems.push(index);
+        } else {
+          checkedItems = checkedItems.filter(item => item !== index);
+        }
+        
         localStorage.setItem('checkedItems', JSON.stringify(checkedItems));
         card.classList.toggle('visited', e.target.checked);
         updateProgressBar();
@@ -224,9 +272,7 @@
       }
     });
 
-    // Initial Render
     renderDestinations();
   </script>
-  <!-- ========== JAVASCRIPT END ========== -->
 </body>
 </html>
