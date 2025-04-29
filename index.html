@@ -1,35 +1,287 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Η Λίστα των Ταξιδιών Μας 🌈</title>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magical Travel List ✈️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink: #ff9eb5;
+            --mint: #a2f2d5;
+            --sky: #8ad2ff;
+            --gold: #fff6a4;
+            --cherry: #ff6b6b;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--pink), var(--sky));
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            animation: gradientFlow 20s ease infinite;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 120px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.5rem;
+            color: transparent;
+            background: linear-gradient(45deg, var(--cherry), var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: titleFloat 3s ease-in-out infinite;
+        }
+
+        .magic-message {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 30px 0;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        .destination-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .travel-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            min-height: 350px;
+            perspective: 1000px;
+        }
+
+        .travel-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: rotate(45deg);
+            animation: sparkle 6s linear infinite;
+        }
+
+        .travel-card.japan {
+            background: linear-gradient(135deg, #ff6b6b, #ff99cc);
+            border: 2px solid rgba(255,255,255,0.5);
+            animation: sakuraFall 8s linear infinite;
+        }
+
+        .travel-card.japan::after {
+            content: '🌸';
+            position: absolute;
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .card-content {
+            position: relative;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .travel-card.flipped .card-content {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, var(--sky), var(--mint));
+            color: white;
+        }
+
+        .card-back {
+            background: white;
+            transform: rotateY(180deg);
+        }
+
+        .card-back img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border: 2px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -8px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Animations */
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes sakuraFall {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100vh; }
+        }
+
+        @keyframes sparkle {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+            50% { transform: scale(1.02); box-shadow: 0 0 20px rgba(255,255,255,0.5); }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .travel-card { min-height: 300px; }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Η Λίστα των Ταξιδιών Μας</h1>
-    
-    <div class="secret-message-container">
-      <div class="secret-message">
-        Με την ολοκλήρωση της λίστας 
-        <br>
-        σε περιμένει μια μαγική έκπληξη! 
-        <span>🎁</span>
-      </div>
+    <div class="container">
+        <div class="header">
+            <h1>Οι Μαγικές Πρόοδοι Μας</h1>
+            <div class="magic-message">
+                Με την ολοκλήρωση της λίστας<br>
+                σε περιμένει μια εκπληκτική έκπληξη! ✨
+            </div>
+        </div>
+
+        <div class="destination-grid">
+            <!-- Cards will be inserted here by JavaScript -->
+        </div>
     </div>
 
-    <ul class="destination-grid"></ul>
-  </div>
-
-  <div class="progress-container">
     <div class="progress-bar">
-      <div class="progress-fill"></div>
+        <div class="progress-track">
+            <div class="progress-fill"></div>
+        </div>
+        <div class="progress-text">0% Ολοκληρώθηκε</div>
     </div>
-    <p class="progress-text">0% Ολοκληρώθηκε</p>
-  </div>
 
-  <script src="script.js"></script>
+    <script>
+        const destinations = [
+            { name: "🇪🇸 Βαρκελώνη", image: "barcelona.jpg", description: "Ισπανία" },
+            { name: "🇫🇷 Παρίσι", image: "paris.jpg", description: "Γαλλία" },
+            { name: "🇮🇹 Ρώμη", image: "rome.jpg", description: "Ιταλία" },
+            { name: "🇯🇵 Ιαπωνία", image: "japan.jpg", description: "Χώρα της Ανατολής 🌸", special: true },
+            // Add all other destinations
+        ];
+
+        const grid = document.querySelector('.destination-grid');
+        const progressFill = document.querySelector('.progress-fill');
+        const progressText = document.querySelector('.progress-text');
+        let checkedItems = JSON.parse(localStorage.getItem('checkedItems')) || [];
+
+        function createCard(destination, index) {
+            const card = document.createElement('div');
+            card.className = `travel-card ${destination.special ? 'japan' : ''} ${checkedItems.includes(index) ? 'checked' : ''}`;
+            
+            card.innerHTML = `
+                <div class="card-content">
+                    <div class="card-front">
+                        <h3>${destination.name}</h3>
+                        <div class="emoji">${destination.name.split(' ')[0]}</div>
+                    </div>
+                    <div class="card-back">
+                        ${destination.image ? `<img src="${destination.image}" alt="${destination.description}">` : ''}
+                        <p>${destination.description}</p>
+                        <label class="checkbox">
+                            <input type="checkbox" ${checkedItems.includes(index) ? 'checked' : ''}>
+                            <span>Επισκέφτηκα!</span>
+                        </label>
+                    </div>
+                </div>
+            `;
+
+            card.querySelector('input').addEventListener('change', () => {
+                const index = destinations.indexOf(destination);
+                if (event.target.checked) {
+                    checkedItems.push(index);
+                } else {
+                    checkedItems = checkedItems.filter(i => i !== index);
+                }
+                localStorage.setItem('checkedItems', JSON.stringify(checkedItems));
+                updateProgress();
+            });
+
+            card.addEventListener('click', (e) => {
+                if (!e.target.matches('input')) {
+                    card.classList.toggle('flipped');
+                }
+            });
+
+            return card;
+        }
+
+        function updateProgress() {
+            const progress = (checkedItems.length / destinations.length) * 100;
+            progressFill.style.width = `${progress}%`;
+            progressText.textContent = `${Math.round(progress)}% Ολοκληρώθηκε ${progress === 100 ? '🎉' : ''}`;
+            
+            if (progress === 100) {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        // Initialize
+        destinations.forEach((dest, index) => {
+            grid.appendChild(createCard(dest, index));
+        });
+        updateProgress();
+    </script>
 </body>
 </html>
