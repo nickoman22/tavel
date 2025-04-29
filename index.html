@@ -3,49 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌍 Οι Ταξιδιωτικοί Μας Στόχοι ✈️</title>
+    <title>🌏 Οι Ταξιδιωτικοί Στόχοι Μας ✈️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* ====== MODERN COLOR SCHEME ====== */
         :root {
-            --primary: #FF7BA9;
-            --secondary: #8AC4FF;
-            --accent: #FFB344;
-            --background: linear-gradient(135deg, #FFB3D9 0%, #A2E3FF 100%);
+            --primary: #FF6B6B;
+            --secondary: #6BA8FF;
+            --accent: #FFD166;
             --text: #2D3047;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: var(--background);
+            background: linear-gradient(135deg, #FFB3D9 0%, #A2E3FF 100%);
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             color: var(--text);
-            animation: gradientFlow 20s ease infinite;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 30px 15px 100px;
-        }
-
-        /* ====== ENHANCED TITLE ====== */
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
+            padding: 20px 10px 90px;
         }
 
         h1 {
             font-family: 'Dancing Script', cursive;
-            font-size: 2.8rem;
+            font-size: 2.5rem;
+            text-align: center;
+            margin: 0 0 25px 0;
             color: var(--text);
-            margin: 0 0 15px 0;
-            line-height: 1.2;
             position: relative;
-            display: inline-block;
         }
 
         h1::after {
@@ -54,34 +43,26 @@
             bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 60%;
+            width: 80px;
             height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 2px;
+            background: var(--primary);
         }
 
-        .title-emoji {
-            font-size: 1.5em;
-            vertical-align: middle;
-            margin: 0 10px;
-        }
-
-        /* ====== MOBILE-FRIENDLY GRID ====== */
         .destination-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 20px;
-            padding: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            padding: 10px;
         }
 
         .travel-card {
-            background: rgba(255,255,255,0.97);
-            border-radius: 20px;
-            height: 320px;
+            background: rgba(255,255,255,0.98);
+            border-radius: 15px;
+            height: 280px;
             cursor: pointer;
             perspective: 1000px;
             position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
         }
 
@@ -89,50 +70,39 @@
             transform: translateY(-3px);
         }
 
-        /* ====== SUPER SPECIAL JAPAN CARD ====== */
+        /* Ultra Special Japan Card */
         .travel-card.japan {
             background: linear-gradient(135deg, #FF6B6B 0%, #FF99CC 100%);
-            animation: japanGlow 2s ease infinite;
+            animation: japanPulse 1.5s ease infinite;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+
+        .travel-card.japan .card-front {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF99CC 100%);
+        }
+
+        .travel-card.japan .card-front h3 {
+            font-size: 2.8rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             position: relative;
-            overflow: hidden;
         }
 
-        .travel-card.japan::before {
-            content: "🌸🌸🌸";
+        .travel-card.japan .card-front h3::after {
+            content: '⛩️';
             position: absolute;
-            top: -20px;
-            left: -20px;
-            right: -20px;
-            bottom: -20px;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent 0px,
-                transparent 10px,
-                rgba(255,255,255,0.3) 10px,
-                rgba(255,255,255,0.3) 20px
-            );
-            animation: sakuraFlow 20s linear infinite;
-            z-index: 1;
+            right: -15px;
+            top: -10px;
+            font-size: 1.5em;
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2));
         }
 
-        .travel-card.japan .card-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .japan-badge {
+        .travel-card.japan .card-front::before {
+            content: '🌸';
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            color: #FF6B6B;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            font-size: 1.8rem;
+            animation: sakuraFloat 3s ease-in-out infinite;
         }
 
-        /* ====== CARD CONTENT ====== */
         .card-content {
             width: 100%;
             height: 100%;
@@ -153,7 +123,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-radius: 20px;
+            border-radius: 15px;
             padding: 20px;
             box-sizing: border-box;
         }
@@ -164,17 +134,16 @@
         }
 
         .card-front h3 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin: 0;
             text-align: center;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
         .checkmark {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.8rem;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
             color: #4CAF50;
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -192,87 +161,70 @@
 
         .card-back img {
             width: 100%;
-            height: 150px;
+            height: 140px;
             object-fit: cover;
-            border-radius: 15px;
-            margin-bottom: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
             border: 2px solid white;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
         }
 
-        /* ====== PROGRESS BAR ====== */
         .progress-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             background: rgba(255,255,255,0.97);
-            padding: 15px 20px;
-            border-radius: 20px 20px 0 0;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+            padding: 12px 15px;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
         }
 
-        /* ====== ANIMATIONS ====== */
-        @keyframes gradientFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* Animations */
+        @keyframes japanPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
         }
 
-        @keyframes japanGlow {
-            0%, 100% { box-shadow: 0 0 15px rgba(255,107,107,0.4); }
-            50% { box-shadow: 0 0 25px rgba(255,107,107,0.7); }
+        @keyframes sakuraFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(10deg); }
         }
 
-        @keyframes sakuraFlow {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
-        }
-
-        /* ====== MOBILE OPTIMIZATIONS ====== */
         @media (max-width: 480px) {
             .container {
-                padding: 20px 10px 80px;
+                padding: 15px 5px 70px;
             }
 
             h1 {
-                font-size: 2.2rem;
+                font-size: 2rem;
             }
 
             .destination-grid {
                 grid-template-columns: 1fr;
-                gap: 15px;
-                padding: 10px;
+                gap: 12px;
             }
 
             .travel-card {
-                height: 280px;
+                height: 250px;
             }
 
             .card-front h3 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+            }
+
+            .travel-card.japan .card-front h3 {
+                font-size: 2.2rem;
             }
 
             .card-back img {
                 height: 120px;
-            }
-
-            .progress-bar {
-                padding: 12px 15px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>
-                <span class="title-emoji">🌏</span>
-                Οι Ταξιδιωτικοί Στόχοι Μας
-                <span class="title-emoji">✈️</span>
-            </h1>
-        </div>
-
+        <h1>Οι Ταξιδιωτικοί Μας Στόχοι</h1>
+        
         <div class="destination-grid" id="grid"></div>
     </div>
 
@@ -286,8 +238,23 @@
     <script>
         const destinations = [
             { name: "🇪🇸 Βαρκελώνη", image: "barcelona.jpg", description: "Βαρκελώνη, Ισπανία" },
-            // ... (keep your original destinations array)
-            { name: "🇯🇵 Ιαπωνία", image: "japan.jpg", description: "💖💖  Ιαπωνία  💖💖", special: true }
+            { name: "🇫🇷 Παρίσι", image: "paris.jpg", description: "Παρίσι, Γαλλία" },
+            { name: "🇳🇱 Άμστερνταμ", image: "amsterdam.jpg", description: "Άμστερνταμ, Ολλανδία" },
+            { name: "🇮🇹 Μιλάνο", image: "milan.jpg", description: "Μιλάνο, Ιταλία" },
+            { name: "🇮🇹 Βενετία", image: "venice.jpg", description: "Βενετία, Ιταλία" },
+            { name: "🇦🇹 Βιέννη", image: "vienna.jpg", description: "Βιέννη, Αυστρία" },
+            { name: "🇭🇺 Βουδαπέστη", image: "budapest.jpg", description: "Βουδαπέστη, Ουγγαρία" },
+            { name: "🇸🇪 Σουηδία", image: "sweden.jpg", description: "Σουηδία" },
+            { name: "🇨🇭 Ελβετία", image: "switzerland.jpg", description: "Ελβετία" },
+            { name: "🇫🇮 Φινλανδία", image: "finland.jpg", description: "Φινλανδία" },
+            { name: "🇳🇴 Νορβηγία", image: "norway.jpg", description: "Νορβηγία" },
+            { name: "🇮🇸 Ισλανδία", image: "iceland.jpg", description: "Ισλανδία" },
+            { name: "🇵🇹 Πορτογαλία", image: "portugal.jpg", description: "Πορτογαλία" },
+            { name: "🇦🇪 Ντουμπάι", image: "dubai.jpg", description: "Ντουμπάι, ΗΑΕ" },
+            { name: "🇲🇻 Μαλδίβες", image: "maldives.jpg", description: "Μαλδίβες" },
+            { name: "🇧🇷 Βραζιλία", image: "brazil.jpg", description: "Βραζιλία" },
+            { name: "🇪🇬 Αίγυπτος", image: "egypt.jpg", description: "Αίγυπτος" },
+            { name: "🇯🇵 Ιαπωνία", image: "japan.jpg", description: "🌸 Ιαπωνική Μαγεία 🌸", special: true }
         ];
 
         const grid = document.getElementById('grid');
@@ -300,16 +267,17 @@
             card.innerHTML = `
                 <div class="card-content">
                     <div class="card-front">
-                        ${destination.special ? '<div class="japan-badge">Αγαπημένο!</div>' : ''}
                         <div class="checkmark">✅</div>
                         <h3>${destination.name}</h3>
+                        ${destination.special ? '<div class="sakura-overlay"></div>' : ''}
                     </div>
                     <div class="card-back">
-                        <img src="${destination.image}" alt="${destination.description}" onerror="this.style.display='none'">
+                        <img src="${destination.image}" alt="${destination.description}" 
+                             onerror="this.style.display='none'; this.nextElementSibling.textContent='🚨 Δεν βρέθηκε εικόνα'">
                         <p>${destination.description}</p>
-                        <label class="checkbox">
+                        <label>
                             <input type="checkbox" ${checkedItems.includes(index) ? 'checked' : ''}>
-                            <span>Επισκέφτηκα!</span>
+                            Επισκέφτηκα
                         </label>
                     </div>
                 </div>
@@ -318,7 +286,7 @@
             const checkbox = card.querySelector('input');
             checkbox.addEventListener('change', () => {
                 checkedItems = checkbox.checked 
-                    ? [...checkedItems, index] 
+                    ? [...new Set([...checkedItems, index])]
                     : checkedItems.filter(i => i !== index);
                 localStorage.setItem('checkedItems', JSON.stringify(checkedItems));
                 card.classList.toggle('checked', checkbox.checked);
@@ -341,7 +309,7 @@
                 `${Math.round(progress)}% Ολοκληρώθηκε ${progress === 100 ? '🎉' : ''}`;
         }
 
-        // Initialize
+        // Initialize all cards
         destinations.forEach((dest, index) => {
             grid.appendChild(createCard(dest, index));
         });
