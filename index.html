@@ -1,379 +1,353 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>🌍 Οι Ταξιδιωτικοί Μας Στόχοι</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg-light: linear-gradient(135deg, #e3f2fd 0%, #fce4ec 100%);
-      --bg-dark: linear-gradient(135deg, #2b2d42 0%, #1a1b25 100%);
-      --text-light: #222;
-      --text-dark: #f1f1f1;
+      /* Base (overridden by themes) */
+      --bg1: #e3f2fd;
+      --bg2: #fce4ec;
+      --text: #222;
       --accent: #6c63ff;
-      --success: #4caf50;
-      --border-radius: 18px;
-      --transition: 0.35s ease;
+
+      /* Card gradient (front side) */
+      --card1: #8ec5fc;
+      --card2: #e0c3fc;
+
+      /* Variant gradients to avoid monotony */
+      --v1a:#8ec5fc; --v1b:#e0c3fc;
+      --v2a:#f6d365; --v2b:#fda085;
+      --v3a:#a1c4fd; --v3b:#c2e9fb;
+      --v4a:#f093fb; --v4b:#f5576c;
+      --v5a:#84fab0; --v5b:#8fd3f4;
+
+      --success:#4caf50;
+      --surface: rgba(255,255,255,0.85);
+      --card-surface: #fff;
+
+      --radius: 18px;
+      --t: .35s ease;
     }
 
+    /* Themes */
+    [data-theme="candy"] {
+      --bg1:#e3f2fd; --bg2:#fce4ec; --accent:#6c63ff; --text:#222;
+      --card1:#8ec5fc; --card2:#e0c3fc;
+    }
+    [data-theme="ocean"] {
+      --bg1:#e0f7fa; --bg2:#e3f2fd; --accent:#0277bd; --text:#0f1b2d;
+      --card1:#89f7fe; --card2:#66a6ff;
+    }
+    [data-theme="sunset"] {
+      --bg1:#fff1eb; --bg2:#ace0f9; --accent:#ff6f61; --text:#2b1d1d;
+      --card1:#f6d365; --card2:#fda085;
+    }
+    [data-theme="forest"] {
+      --bg1:#e8f5e9; --bg2:#e3f2fd; --accent:#2e7d32; --text:#102114;
+      --card1:#84fab0; --card2:#8fd3f4;
+    }
+    [data-theme="mono"] {
+      --bg1:#f3f4f6; --bg2:#e5e7eb; --accent:#111827; --text:#111827;
+      --card1:#d1d5db; --card2:#9ca3af;
+      --surface: rgba(255,255,255,0.7);
+      --card-surface:#f9fafb;
+    }
+
+    /* Background animation so it’s not boring */
     body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-light);
-      color: var(--text-light);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 40px 15px 90px;
-      transition: background 0.5s ease, color 0.5s ease;
-      overflow-x: hidden;
+      margin:0; min-height:100vh;
+      font-family:'Inter',sans-serif;
+      color:var(--text);
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      background-size: 200% 200%;
+      animation: bgshift 18s ease-in-out infinite;
+      display:flex; flex-direction:column; align-items:center;
+      padding:40px 15px 96px;
+      transition: color .4s ease, background .6s ease;
+      overflow-x:hidden;
+    }
+    @keyframes bgshift {
+      0%,100%{ background-position: 0% 0%; }
+      50%{ background-position: 100% 100%; }
     }
 
     body.dark {
-      background: var(--bg-dark);
-      color: var(--text-dark);
+      filter: saturate(0.95);
     }
 
     h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.4rem;
-      text-align: center;
-      margin-bottom: 25px;
-      color: var(--accent);
+      font-family:'Playfair Display',serif;
+      font-size:2.4rem; margin:0 0 20px; color:var(--accent);
+      text-align:center;
     }
 
-    .controls {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 25px;
-      flex-wrap: wrap;
+    .toolbar {
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-bottom:22px; justify-content:center;
     }
-
-    select, button {
-      border: none;
-      border-radius: 10px;
-      padding: 8px 14px;
-      font-size: 0.9rem;
-      font-family: inherit;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.8);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: background 0.3s ease, transform 0.3s ease;
+    .toolbar select, .toolbar button {
+      border:none; border-radius:12px; padding:8px 12px;
+      background:var(--surface); color:var(--text);
+      box-shadow:0 2px 6px rgba(0,0,0,.08);
+      font:600 0.9rem/1 'Inter',sans-serif;
+      cursor:pointer; transition: transform .25s ease, background .25s ease;
+      backdrop-filter: blur(6px);
     }
+    .toolbar select:hover, .toolbar button:hover { transform: translateY(-2px); }
 
-    body.dark select, body.dark button {
-      background: rgba(255,255,255,0.1);
-      color: #f1f1f1;
-    }
-
-    button:hover, select:hover {
-      transform: translateY(-2px);
-      background: rgba(255, 255, 255, 0.9);
-    }
-
-    .destination-grid {
-      display: grid;
+    .grid {
+      width:100%; max-width:1200px;
+      display:grid; gap:18px;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
-      width: 100%;
-      max-width: 1100px;
-      animation: fadeIn 0.8s ease;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
+    .card {
+      height:290px; border-radius:var(--radius);
+      overflow:hidden; position:relative; cursor:pointer;
+      perspective:1000px; opacity:0; transform: translateY(14px) scale(.98);
+      animation: cardIn .6s forwards;
+      box-shadow:0 6px 18px rgba(0,0,0,.08);
+      transition: transform .55s cubic-bezier(.17,.67,.83,.67), box-shadow .4s ease;
+      background: var(--card-surface);
+    }
+    @keyframes cardIn {
+      to { opacity:1; transform: translateY(0) scale(1); }
+    }
+    .card:hover { transform: translateY(-6px) scale(1.02); box-shadow:0 12px 28px rgba(0,0,0,.12); }
+
+    .card-content { width:100%; height:100%; transform-style:preserve-3d; transition: transform .85s cubic-bezier(.4,.2,.2,1); }
+    .card.flipped .card-content { transform: rotateY(180deg); }
+
+    .front, .back {
+      position:absolute; inset:0; border-radius:var(--radius);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      padding:18px; backface-visibility:hidden; box-sizing:border-box;
     }
 
-    .travel-card {
-      background: white;
-      border-radius: var(--border-radius);
-      height: 280px;
-      cursor: pointer;
-      perspective: 1000px;
-      position: relative;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-      transition: transform 0.6s cubic-bezier(.17,.67,.83,.67), box-shadow 0.4s ease;
-      transform-origin: center;
-      overflow: hidden;
-      opacity: 0;
-      animation: cardEnter 0.6s forwards;
-    }
+    /* Front: gradient + title */
+    .front { color:#fff; text-align:center; font-weight:600; }
+    .front h3 { margin:0; font-size:1.4rem; display:flex; gap:.35em; align-items:center; justify-content:center; }
 
-    @keyframes cardEnter {
-      from { transform: translateY(15px) scale(0.98); opacity: 0; }
-      to { transform: translateY(0) scale(1); opacity: 1; }
-    }
+    /* apply rotating variants so cards don’t look the same */
+    .variant-1 .front { background: linear-gradient(135deg,var(--v1a),var(--v1b)); }
+    .variant-2 .front { background: linear-gradient(135deg,var(--v2a),var(--v2b)); }
+    .variant-3 .front { background: linear-gradient(135deg,var(--v3a),var(--v3b)); }
+    .variant-4 .front { background: linear-gradient(135deg,var(--v4a),var(--v4b)); }
+    .variant-5 .front { background: linear-gradient(135deg,var(--v5a),var(--v5b)); }
 
-    .travel-card:hover {
-      transform: translateY(-5px) scale(1.02);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    /* Japan special with sakura */
+    .card.japan .front {
+      background: linear-gradient(135deg, #ffb3c1, #ffe0e9);
+      color:#fff;
+      position:relative;
     }
-
-    body.dark .travel-card {
-      background: #2f3146;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    }
-
-    /* Japan card with sakura background */
-    .travel-card.japan {
-      background: linear-gradient(135deg, #ffb3c1 0%, #ffe0e9 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .travel-card.japan::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><text y="20" font-size="20">🌸</text></svg>');
-      background-repeat: repeat;
-      background-size: 40px 40px;
-      opacity: 0;
-      transform: translateY(-20px);
+    .card.japan .front::before{
+      content:"";
+      position:absolute; inset:0;
+      background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><text y="20" font-size="20">🌸</text></svg>');
+      background-size:40px 40px; background-repeat:repeat;
+      opacity:0; transform: translateY(-20px);
       animation: petals 12s linear infinite;
-      transition: opacity 2s ease, transform 1.5s ease;
-      pointer-events: none;
+      transition: opacity 1.3s ease, transform 1s ease;
+      pointer-events:none;
+    }
+    .card.japan:hover .front::before,
+    .card.japan.flipped .front::before { opacity:.5; transform: translateY(0); }
+    @keyframes petals { from{ background-position-y:0 } to{ background-position-y:600px } }
+
+    /* subtle “shine” on hover */
+    .front::after{
+      content:""; position:absolute; inset:-40%;
+      background: radial-gradient( circle at 30% 0%, rgba(255,255,255,.25), transparent 40% );
+      transform: translateX(-60%) rotate(15deg);
+      transition: transform .8s ease, opacity .8s ease; opacity:.0;
+    }
+    .card:hover .front::after { transform: translateX(15%) rotate(15deg); opacity:.9; }
+
+    /* Back */
+    .back { background: var(--card-surface); color:var(--text); transform: rotateY(180deg); text-align:center; }
+    .back img {
+      width:100%; height:150px; object-fit:cover; border-radius:12px;
+      border:1px solid rgba(0,0,0,.06); margin-bottom:10px;
+    }
+    .back p { margin:0 0 10px; font-size:.95rem; }
+
+    .checkmark { position:absolute; top:10px; right:10px; font-size:1.35rem; color:var(--success); opacity:0; transition:opacity .3s ease; filter: drop-shadow(0 1px 2px rgba(0,0,0,.2)); }
+    .card.checked .checkmark { opacity:1; }
+
+    .chips { position:absolute; left:10px; top:10px; display:flex; gap6px; }
+    .chip {
+      font-size:.72rem; font-weight:700; letter-spacing:.02em;
+      padding:4px 8px; border-radius:999px;
+      background:rgba(255,255,255,.25); color:#fff; backdrop-filter: blur(4px);
+      box-shadow: 0 1px 2px rgba(0,0,0,.12);
     }
 
-    .travel-card.japan:hover::before,
-    .travel-card.japan.flipped::before {
-      opacity: 0.5;
-      transform: translateY(0);
-    }
-
-    @keyframes petals {
-      from { background-position-y: 0; }
-      to { background-position-y: 600px; }
-    }
-
-    .card-content {
-      width: 100%;
-      height: 100%;
-      transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
-      transform-style: preserve-3d;
-    }
-
-    .travel-card.flipped .card-content {
-      transform: rotateY(180deg);
-    }
-
-    .card-front, .card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: var(--border-radius);
-      backface-visibility: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
-    .card-front {
-      background: var(--accent);
-      color: white;
-      font-weight: 600;
-      text-align: center;
-    }
-
-    .card-front h3 {
-      font-size: 1.5rem;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.3em;
-    }
-
-    .card-back {
-      background: #fff;
-      transform: rotateY(180deg);
-      text-align: center;
-      color: var(--text-light);
-    }
-
-    body.dark .card-back {
-      background: #20212f;
-      color: #f1f1f1;
-    }
-
-    .card-back img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 10px;
-      border: 1px solid #eee;
-    }
-
-    .checkmark {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      font-size: 1.5rem;
-      color: var(--success);
-      opacity: 0;
-      transition: opacity var(--transition);
-    }
-
-    .travel-card.checked .checkmark {
-      opacity: 1;
-    }
-
-    .progress-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 8px;
-      background: rgba(0,0,0,0.1);
-    }
-
-    .progress-fill {
-      height: 8px;
-      background: var(--accent);
-      width: 0%;
-      transition: width 0.4s ease;
-    }
-
+    /* Progress */
+    .progress { position:fixed; left:0; right:0; bottom:0; height:8px; background:rgba(0,0,0,.08); }
+    .progress .fill { height:100%; width:0%; background:var(--accent); transition:width .4s ease; }
     .progress-text {
-      position: fixed;
-      bottom: 15px;
-      font-size: 0.9rem;
-      color: #555;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,0.9);
-      padding: 4px 10px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      position:fixed; bottom:14px; left:50%; transform:translateX(-50%);
+      background:var(--surface); padding:4px 10px; border-radius:10px; font-size:.9rem;
+      box-shadow:0 2px 6px rgba(0,0,0,.08);
+      backdrop-filter: blur(6px);
     }
 
-    body.dark .progress-text {
-      background: rgba(0,0,0,0.5);
-      color: #ddd;
-    }
+    /* Dark tweaks (keeps it simple by reusing theme vars) */
+    body.dark .toolbar select, body.dark .toolbar button { background: rgba(0,0,0,.25); color:#fff; }
+    body.dark .back { background: rgba(20,22,30,.85); color:#f1f1f1; }
+    body.dark .progress-text { background: rgba(0,0,0,.35); color:#eee; }
 
-    @media (max-width: 600px) {
-      h1 { font-size: 2rem; }
-      .card-front h3 { font-size: 1.3rem; }
-      .travel-card { height: 260px; }
+    @media (max-width: 620px){
+      .card{ height:270px; }
+      .front h3{ font-size:1.25rem; }
     }
   </style>
 </head>
-<body>
+<body data-theme="candy">
   <h1>Οι Ταξιδιωτικοί Μας Στόχοι</h1>
 
-  <div class="controls">
+  <div class="toolbar">
+    <select id="theme">
+      <option value="candy">🎨 Candy</option>
+      <option value="ocean">🌊 Ocean</option>
+      <option value="sunset">🌅 Sunset</option>
+      <option value="forest">🌲 Forest</option>
+      <option value="mono">⚫ Mono</option>
+    </select>
+
     <select id="filter">
       <option value="all">Όλοι</option>
       <option value="visited">Επισκέφτηκα</option>
       <option value="notVisited">Δεν έχω πάει</option>
     </select>
-    <button id="toggleDark">🌙 Dark Mode</button>
+
+    <button id="darkToggle">🌙 Dark Mode</button>
   </div>
 
-  <div class="destination-grid" id="grid"></div>
+  <div class="grid" id="grid"></div>
 
-  <div class="progress-bar"><div class="progress-fill"></div></div>
-  <div class="progress-text">0% Ολοκληρώθηκε</div>
+  <div class="progress"><div class="fill"></div></div>
+  <div class="progress-text" id="ptext">0% Ολοκληρώθηκε</div>
 
   <script>
+    // --- Data (restored full list; replace 'brazil' with 'meteora' at top) ---
     const destinations = [
-      { name: "🇬🇷 Μετέωρα", image: "./meteora.jpg", description: "Τα Μαγευτικά Μετέωρα της Ελλάδας" },
-      { name: "🇪🇸 Βαρκελώνη", image: "./barcelona.jpg", description: "Βαρκελώνη, Ισπανία" },
-      { name: "🇫🇷 Παρίσι", image: "./paris.jpg", description: "Παρίσι, Γαλλία" },
-      { name: "🇮🇹 Βενετία", image: "./venice.jpg", description: "Βενετία, Ιταλία" },
-      { name: "🇨🇭 Ελβετία", image: "./switzerland.jpg", description: "Ελβετία" },
-      { name: "🇯🇵 Ιαπωνία", image: "./japan.jpg", description: "🌸 Ιαπωνική Μαγεία 🌸", special: true },
+      { name: "🇬🇷 Μετέωρα", image:"./meteora.jpg", description:"Τα Μαγευτικά Μετέωρα της Ελλάδας", region:"Ελλάδα" },
+      { name: "🇪🇸 Βαρκελώνη", image:"./barcelona.jpg", description:"Βαρκελώνη, Ισπανία", region:"Ευρώπη" },
+      { name: "🇫🇷 Παρίσι", image:"./paris.jpg", description:"Παρίσι, Γαλλία", region:"Ευρώπη" },
+      { name: "🇳🇱 Άμστερνταμ", image:"./amsterdam.jpg", description:"Άμστερνταμ, Ολλανδία", region:"Ευρώπη" },
+      { name: "🇮🇹 Μιλάνο", image:"./milan.jpg", description:"Μιλάνο, Ιταλία", region:"Ευρώπη" },
+      { name: "🇮🇹 Βενετία", image:"./venice.jpg", description:"Βενετία, Ιταλία", region:"Ευρώπη" },
+      { name: "🇦🇹 Βιέννη", image:"./vienna.jpg", description:"Βιέννη, Αυστρία", region:"Ευρώπη" },
+      { name: "🇭🇺 Βουδαπέστη", image:"./budapest.jpg", description:"Βουδαπέστη, Ουγγαρία", region:"Ευρώπη" },
+      { name: "🇸🇪 Σουηδία", image:"./sweden.jpg", description:"Σουηδία", region:"Ευρώπη" },
+      { name: "🇨🇭 Ελβετία", image:"./switzerland.jpg", description:"Ελβετία", region:"Ευρώπη" },
+      { name: "🇫🇮 Φινλανδία", image:"./finland.jpg", description:"Φινλανδία", region:"Ευρώπη" },
+      { name: "🇳🇴 Νορβηγία", image:"./norway.jpg", description:"Νορβηγία", region:"Ευρώπη" },
+      { name: "🇮🇸 Ισλανδία", image:"./iceland.jpg", description:"Ισλανδία", region:"Ευρώπη" },
+      { name: "🇵🇹 Πορτογαλία", image:"./portugal.jpg", description:"Πορτογαλία", region:"Ευρώπη" },
+      { name: "🇦🇪 Ντουμπάι", image:"./dubai.jpg", description:"Ντουμπάι, ΗΑΕ", region:"Μέση Ανατολή" },
+      { name: "🇲🇻 Μαλδίβες", image:"./maldives.jpg", description:"Μαλδίβες", region:"Ασία" },
+      { name: "🇪🇬 Αίγυπτος", image:"./egypt.jpg", description:"Αίγυπτος", region:"Αφρική" },
+      { name: "🇯🇵 Ιαπωνία", image:"./japan.jpg", description:"🌸 Ιαπωνική Μαγεία 🌸", region:"Ασία", special:true }
     ];
 
     const grid = document.getElementById('grid');
-    const filterSelect = document.getElementById('filter');
-    const toggleDark = document.getElementById('toggleDark');
-    let checkedItems = JSON.parse(localStorage.getItem('checkedItems')) || [];
+    const filterSel = document.getElementById('filter');
+    const themeSel = document.getElementById('theme');
+    const darkToggle = document.getElementById('darkToggle');
+    const ptext = document.getElementById('ptext');
+    let checked = JSON.parse(localStorage.getItem('checkedItems')||'[]');
 
-    function createCard(destination, index) {
+    // Restore saved theme/dark
+    const savedTheme = localStorage.getItem('theme') || 'candy';
+    document.body.setAttribute('data-theme', savedTheme);
+    themeSel.value = savedTheme;
+    if(localStorage.getItem('darkMode')==='true'){
+      document.body.classList.add('dark'); darkToggle.textContent='☀️ Light Mode';
+    }
+
+    function createCard(dest, index){
       const card = document.createElement('div');
-      card.className = `travel-card ${destination.special ? 'japan' : ''} ${checkedItems.includes(index) ? 'checked' : ''}`;
+      const variant = (index % 5) + 1;
+      card.className = `card variant-${variant} ${dest.special?'japan':''} ${checked.includes(index)?'checked':''}`;
+
       card.innerHTML = `
         <div class="card-content">
-          <div class="card-front">
+          <div class="front">
+            <div class="chips"><span class="chip">${dest.region||'—'}</span></div>
             <div class="checkmark">✅</div>
-            <h3>${destination.name}</h3>
+            <h3>${dest.name}${dest.special?' ⛩️':''}</h3>
           </div>
-          <div class="card-back">
-            <img src="${destination.image}" alt="${destination.description}" onerror="this.src='https://via.placeholder.com/300x150?text=No+Image';">
-            <p>${destination.description}</p>
-            <label>
-              <input type="checkbox" ${checkedItems.includes(index) ? 'checked' : ''}>
-              Επισκέφτηκα
+          <div class="back">
+            <img src="${dest.image}" alt="${dest.description}" onerror="this.src='https://via.placeholder.com/600x350?text=No+Image'">
+            <p>${dest.description}</p>
+            <label style="display:inline-flex;gap:.45em;align-items:center;">
+              <input type="checkbox" ${checked.includes(index)?'checked':''}> Επισκέφτηκα
             </label>
           </div>
         </div>
       `;
 
       const checkbox = card.querySelector('input');
-      checkbox.addEventListener('change', () => {
-        checkedItems = checkbox.checked
-          ? [...new Set([...checkedItems, index])]
-          : checkedItems.filter(i => i !== index);
-        localStorage.setItem('checkedItems', JSON.stringify(checkedItems));
-        card.classList.toggle('checked', checkbox.checked);
+      checkbox.addEventListener('change', (e)=>{
+        if(e.target.checked){
+          checked = [...new Set([...checked, index])];
+        } else {
+          checked = checked.filter(i=>i!==index);
+        }
+        localStorage.setItem('checkedItems', JSON.stringify(checked));
+        card.classList.toggle('checked', e.target.checked);
         updateProgress();
-        renderCards();
+        render(); // so filtering updates immediately
       });
 
-      card.addEventListener('click', e => {
-        if (!e.target.matches('input')) card.classList.toggle('flipped');
+      card.addEventListener('click', (e)=>{
+        if(e.target.tagName.toLowerCase()==='input') return;
+        card.classList.toggle('flipped');
       });
 
       return card;
     }
 
-    function renderCards() {
-      grid.innerHTML = '';
-      const filter = filterSelect.value;
-      destinations.forEach((dest, index) => {
-        const visited = checkedItems.includes(index);
-        if (
-          filter === 'visited' && !visited ||
-          filter === 'notVisited' && visited
-        ) return;
-        grid.appendChild(createCard(dest, index));
+    function render(){
+      grid.innerHTML='';
+      const f = filterSel.value;
+      destinations.forEach((d, idx)=>{
+        const visited = checked.includes(idx);
+        if((f==='visited' && !visited) || (f==='notVisited' && visited)) return;
+        grid.appendChild(createCard(d, idx));
       });
       updateProgress();
     }
 
-    function updateProgress() {
-      const progress = (checkedItems.length / destinations.length) * 100;
-      document.querySelector('.progress-fill').style.width = `${progress}%`;
-      document.querySelector('.progress-text').textContent = `${Math.round(progress)}% Ολοκληρώθηκε ${progress === 100 ? '🎉' : ''}`;
+    function updateProgress(){
+      const fill = document.querySelector('.progress .fill');
+      const pct = (checked.length / destinations.length)*100;
+      fill.style.width = `${pct}%`;
+      ptext.textContent = `${Math.round(pct)}% Ολοκληρώθηκε ${pct===100 ? '🎉' : ''}`;
     }
 
-    filterSelect.addEventListener('change', renderCards);
-
-    toggleDark.addEventListener('click', () => {
-      document.body.classList.toggle('dark');
-      const dark = document.body.classList.contains('dark');
-      toggleDark.textContent = dark ? '☀️ Light Mode' : '🌙 Dark Mode';
-      localStorage.setItem('darkMode', dark);
+    // Theme & dark mode
+    themeSel.addEventListener('change', ()=>{
+      document.body.setAttribute('data-theme', themeSel.value);
+      localStorage.setItem('theme', themeSel.value);
     });
 
-    if (localStorage.getItem('darkMode') === 'true') {
-      document.body.classList.add('dark');
-      toggleDark.textContent = '☀️ Light Mode';
-    }
+    darkToggle.addEventListener('click', ()=>{
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      darkToggle.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+      localStorage.setItem('darkMode', isDark);
+    });
 
-    renderCards();
+    filterSel.addEventListener('change', render);
+
+    render();
   </script>
 </body>
 </html>
