@@ -7,118 +7,69 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      /* Base (overridden by themes) */
-      --bg1: #e3f2fd;
-      --bg2: #fce4ec;
-      --text: #222;
-      --accent: #6c63ff;
-
-      /* Card gradient (front side) */
-      --card1: #8ec5fc;
-      --card2: #e0c3fc;
-
-      /* Variant gradients to avoid monotony */
+      --bg1:#e3f2fd; --bg2:#fce4ec; --text:#222; --accent:#6c63ff;
       --v1a:#8ec5fc; --v1b:#e0c3fc;
       --v2a:#f6d365; --v2b:#fda085;
       --v3a:#a1c4fd; --v3b:#c2e9fb;
       --v4a:#f093fb; --v4b:#f5576c;
       --v5a:#84fab0; --v5b:#8fd3f4;
+      --success:#4caf50; --surface: rgba(255,255,255,0.85);
+      --card-surface:#fff; --radius:18px; --t:.35s ease;
+    }
+    [data-theme="candy"] { --bg1:#e3f2fd; --bg2:#fce4ec; --accent:#6c63ff; }
+    [data-theme="ocean"] { --bg1:#e0f7fa; --bg2:#e3f2fd; --accent:#0277bd; --text:#0f1b2d; }
+    [data-theme="sunset"] { --bg1:#fff1eb; --bg2:#ace0f9; --accent:#ff6f61; --text:#2b1d1d; }
+    [data-theme="forest"] { --bg1:#e8f5e9; --bg2:#e3f2fd; --accent:#2e7d32; --text:#102114; }
+    [data-theme="mono"] { --bg1:#f3f4f6; --bg2:#e5e7eb; --accent:#111827; --text:#111827; --card-surface:#f9fafb; }
 
-      --success:#4caf50;
-      --surface: rgba(255,255,255,0.85);
-      --card-surface: #fff;
-
-      --radius: 18px;
-      --t: .35s ease;
-    }
-
-    /* Themes */
-    [data-theme="candy"] {
-      --bg1:#e3f2fd; --bg2:#fce4ec; --accent:#6c63ff; --text:#222;
-      --card1:#8ec5fc; --card2:#e0c3fc;
-    }
-    [data-theme="ocean"] {
-      --bg1:#e0f7fa; --bg2:#e3f2fd; --accent:#0277bd; --text:#0f1b2d;
-      --card1:#89f7fe; --card2:#66a6ff;
-    }
-    [data-theme="sunset"] {
-      --bg1:#fff1eb; --bg2:#ace0f9; --accent:#ff6f61; --text:#2b1d1d;
-      --card1:#f6d365; --card2:#fda085;
-    }
-    [data-theme="forest"] {
-      --bg1:#e8f5e9; --bg2:#e3f2fd; --accent:#2e7d32; --text:#102114;
-      --card1:#84fab0; --card2:#8fd3f4;
-    }
-    [data-theme="mono"] {
-      --bg1:#f3f4f6; --bg2:#e5e7eb; --accent:#111827; --text:#111827;
-      --card1:#d1d5db; --card2:#9ca3af;
-      --surface: rgba(255,255,255,0.7);
-      --card-surface:#f9fafb;
-    }
-
-    /* Background animation so it’s not boring */
     body {
-      margin:0; min-height:100vh;
-      font-family:'Inter',sans-serif;
+      margin:0; min-height:100vh; font-family:'Inter',sans-serif;
       color:var(--text);
       background: linear-gradient(135deg, var(--bg1), var(--bg2));
-      background-size: 200% 200%;
-      animation: bgshift 18s ease-in-out infinite;
+      background-size:200% 200%;
+      animation:bgshift 18s ease-in-out infinite;
       display:flex; flex-direction:column; align-items:center;
-      padding:40px 15px 96px;
-      transition: color .4s ease, background .6s ease;
-      overflow-x:hidden;
+      padding:40px 15px 96px; overflow-x:hidden; transition: color .4s ease;
     }
-    @keyframes bgshift {
-      0%,100%{ background-position: 0% 0%; }
-      50%{ background-position: 100% 100%; }
-    }
+    @keyframes bgshift { 0%,100%{background-position:0 0} 50%{background-position:100% 100%} }
+    body.dark { filter:saturate(.95); }
 
-    body.dark {
-      filter: saturate(0.95);
-    }
+    h1 { font-family:'Playfair Display',serif; font-size:2.4rem; margin:0 0 20px; color:var(--accent); text-align:center; }
 
-    h1 {
-      font-family:'Playfair Display',serif;
-      font-size:2.4rem; margin:0 0 20px; color:var(--accent);
-      text-align:center;
-    }
-
-    .toolbar {
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin-bottom:22px; justify-content:center;
-    }
+    .toolbar { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:22px; justify-content:center; }
     .toolbar select, .toolbar button {
-      border:none; border-radius:12px; padding:8px 12px;
-      background:var(--surface); color:var(--text);
-      box-shadow:0 2px 6px rgba(0,0,0,.08);
-      font:600 0.9rem/1 'Inter',sans-serif;
-      cursor:pointer; transition: transform .25s ease, background .25s ease;
-      backdrop-filter: blur(6px);
+      border:none; border-radius:12px; padding:8px 12px; background:var(--surface); color:var(--text);
+      box-shadow:0 2px 6px rgba(0,0,0,.08); font:600 .9rem/1 'Inter',sans-serif;
+      cursor:pointer; transition: transform .25s ease, background .25s ease; backdrop-filter: blur(6px);
     }
     .toolbar select:hover, .toolbar button:hover { transform: translateY(-2px); }
 
-    .grid {
-      width:100%; max-width:1200px;
-      display:grid; gap:18px;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    }
+    .grid { width:100%; max-width:1200px; display:grid; gap:18px; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); }
 
     .card {
-      height:290px; border-radius:var(--radius);
-      overflow:hidden; position:relative; cursor:pointer;
+      position:relative; height:290px; border-radius:var(--radius); overflow:hidden; cursor:pointer;
       perspective:1000px; opacity:0; transform: translateY(14px) scale(.98);
-      animation: cardIn .6s forwards;
+      animation:cardIn .6s forwards;
       box-shadow:0 6px 18px rgba(0,0,0,.08);
       transition: transform .55s cubic-bezier(.17,.67,.83,.67), box-shadow .4s ease;
       background: var(--card-surface);
     }
-    @keyframes cardIn {
-      to { opacity:1; transform: translateY(0) scale(1); }
-    }
+    @keyframes cardIn { to{opacity:1; transform:translateY(0) scale(1)} }
     .card:hover { transform: translateY(-6px) scale(1.02); box-shadow:0 12px 28px rgba(0,0,0,.12); }
 
-    .card-content { width:100%; height:100%; transform-style:preserve-3d; transition: transform .85s cubic-bezier(.4,.2,.2,1); }
+    /* Japan sakura overlay moved to the CARD (behind content) */
+    .card.japan::before{
+      content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+      background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><text y="20" font-size="20">🌸</text></svg>');
+      background-size:40px 40px; background-repeat:repeat;
+      opacity:0; transform: translateY(-20px);
+      animation:petals 12s linear infinite;
+      transition: opacity 1.2s ease, transform 1s ease;
+    }
+    .card.japan:hover::before, .card.japan.flipped::before { opacity:.45; transform: translateY(0); }
+    @keyframes petals { from{ background-position-y:0 } to{ background-position-y:600px } }
+
+    .card-content { position:relative; z-index:1; width:100%; height:100%; transform-style:preserve-3d; transition: transform .85s cubic-bezier(.4,.2,.2,1); }
     .card.flipped .card-content { transform: rotateY(180deg); }
 
     .front, .back {
@@ -126,85 +77,42 @@
       display:flex; flex-direction:column; align-items:center; justify-content:center;
       padding:18px; backface-visibility:hidden; box-sizing:border-box;
     }
-
-    /* Front: gradient + title */
     .front { color:#fff; text-align:center; font-weight:600; }
     .front h3 { margin:0; font-size:1.4rem; display:flex; gap:.35em; align-items:center; justify-content:center; }
-
-    /* apply rotating variants so cards don’t look the same */
     .variant-1 .front { background: linear-gradient(135deg,var(--v1a),var(--v1b)); }
     .variant-2 .front { background: linear-gradient(135deg,var(--v2a),var(--v2b)); }
     .variant-3 .front { background: linear-gradient(135deg,var(--v3a),var(--v3b)); }
     .variant-4 .front { background: linear-gradient(135deg,var(--v4a),var(--v4b)); }
     .variant-5 .front { background: linear-gradient(135deg,var(--v5a),var(--v5b)); }
+    .card.japan .front { background: linear-gradient(135deg, #ffb3c1, #ffe0e9); color:#fff; }
 
-    /* Japan special with sakura */
-    .card.japan .front {
-      background: linear-gradient(135deg, #ffb3c1, #ffe0e9);
-      color:#fff;
-      position:relative;
-    }
-    .card.japan .front::before{
-      content:"";
-      position:absolute; inset:0;
-      background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><text y="20" font-size="20">🌸</text></svg>');
-      background-size:40px 40px; background-repeat:repeat;
-      opacity:0; transform: translateY(-20px);
-      animation: petals 12s linear infinite;
-      transition: opacity 1.3s ease, transform 1s ease;
-      pointer-events:none;
-    }
-    .card.japan:hover .front::before,
-    .card.japan.flipped .front::before { opacity:.5; transform: translateY(0); }
-    @keyframes petals { from{ background-position-y:0 } to{ background-position-y:600px } }
-
-    /* subtle “shine” on hover */
-    .front::after{
+    .front::after {
       content:""; position:absolute; inset:-40%;
       background: radial-gradient( circle at 30% 0%, rgba(255,255,255,.25), transparent 40% );
       transform: translateX(-60%) rotate(15deg);
-      transition: transform .8s ease, opacity .8s ease; opacity:.0;
+      transition: transform .8s ease, opacity .8s ease; opacity:0;
     }
     .card:hover .front::after { transform: translateX(15%) rotate(15deg); opacity:.9; }
 
-    /* Back */
     .back { background: var(--card-surface); color:var(--text); transform: rotateY(180deg); text-align:center; }
-    .back img {
-      width:100%; height:150px; object-fit:cover; border-radius:12px;
-      border:1px solid rgba(0,0,0,.06); margin-bottom:10px;
-    }
+    .back img { width:100%; height:150px; object-fit:cover; border-radius:12px; border:1px solid rgba(0,0,0,.06); margin-bottom:10px; }
     .back p { margin:0 0 10px; font-size:.95rem; }
 
     .checkmark { position:absolute; top:10px; right:10px; font-size:1.35rem; color:var(--success); opacity:0; transition:opacity .3s ease; filter: drop-shadow(0 1px 2px rgba(0,0,0,.2)); }
     .card.checked .checkmark { opacity:1; }
 
-    .chips { position:absolute; left:10px; top:10px; display:flex; gap6px; }
-    .chip {
-      font-size:.72rem; font-weight:700; letter-spacing:.02em;
-      padding:4px 8px; border-radius:999px;
-      background:rgba(255,255,255,.25); color:#fff; backdrop-filter: blur(4px);
-      box-shadow: 0 1px 2px rgba(0,0,0,.12);
-    }
+    .chips { position:absolute; left:10px; top:10px; display:flex; gap:6px; }
+    .chip { font-size:.72rem; font-weight:700; letter-spacing:.02em; padding:4px 8px; border-radius:999px; background:rgba(255,255,255,.25); color:#fff; backdrop-filter: blur(4px); box-shadow:0 1px 2px rgba(0,0,0,.12); }
 
-    /* Progress */
     .progress { position:fixed; left:0; right:0; bottom:0; height:8px; background:rgba(0,0,0,.08); }
     .progress .fill { height:100%; width:0%; background:var(--accent); transition:width .4s ease; }
-    .progress-text {
-      position:fixed; bottom:14px; left:50%; transform:translateX(-50%);
-      background:var(--surface); padding:4px 10px; border-radius:10px; font-size:.9rem;
-      box-shadow:0 2px 6px rgba(0,0,0,.08);
-      backdrop-filter: blur(6px);
-    }
+    .progress-text { position:fixed; bottom:14px; left:50%; transform:translateX(-50%); background:var(--surface); padding:4px 10px; border-radius:10px; font-size:.9rem; box-shadow:0 2px 6px rgba(0,0,0,.08); backdrop-filter: blur(6px); }
 
-    /* Dark tweaks (keeps it simple by reusing theme vars) */
     body.dark .toolbar select, body.dark .toolbar button { background: rgba(0,0,0,.25); color:#fff; }
     body.dark .back { background: rgba(20,22,30,.85); color:#f1f1f1; }
     body.dark .progress-text { background: rgba(0,0,0,.35); color:#eee; }
 
-    @media (max-width: 620px){
-      .card{ height:270px; }
-      .front h3{ font-size:1.25rem; }
-    }
+    @media (max-width: 620px){ .card{ height:270px; } .front h3{ font-size:1.25rem; } }
   </style>
 </head>
 <body data-theme="candy">
@@ -212,19 +120,13 @@
 
   <div class="toolbar">
     <select id="theme">
-      <option value="candy">🎨 Candy</option>
-      <option value="ocean">🌊 Ocean</option>
-      <option value="sunset">🌅 Sunset</option>
-      <option value="forest">🌲 Forest</option>
+      <option value="candy">🎨 Candy</option><option value="ocean">🌊 Ocean</option>
+      <option value="sunset">🌅 Sunset</option><option value="forest">🌲 Forest</option>
       <option value="mono">⚫ Mono</option>
     </select>
-
     <select id="filter">
-      <option value="all">Όλοι</option>
-      <option value="visited">Επισκέφτηκα</option>
-      <option value="notVisited">Δεν έχω πάει</option>
+      <option value="all">Όλοι</option><option value="visited">Επισκέφτηκα</option><option value="notVisited">Δεν έχω πάει</option>
     </select>
-
     <button id="darkToggle">🌙 Dark Mode</button>
   </div>
 
@@ -234,7 +136,6 @@
   <div class="progress-text" id="ptext">0% Ολοκληρώθηκε</div>
 
   <script>
-    // --- Data (restored full list; replace 'brazil' with 'meteora' at top) ---
     const destinations = [
       { name: "🇬🇷 Μετέωρα", image:"./meteora.jpg", description:"Τα Μαγευτικά Μετέωρα της Ελλάδας", region:"Ελλάδα" },
       { name: "🇪🇸 Βαρκελώνη", image:"./barcelona.jpg", description:"Βαρκελώνη, Ισπανία", region:"Ευρώπη" },
@@ -261,9 +162,10 @@
     const themeSel = document.getElementById('theme');
     const darkToggle = document.getElementById('darkToggle');
     const ptext = document.getElementById('ptext');
+
     let checked = JSON.parse(localStorage.getItem('checkedItems')||'[]');
 
-    // Restore saved theme/dark
+    // theme + dark restore
     const savedTheme = localStorage.getItem('theme') || 'candy';
     document.body.setAttribute('data-theme', savedTheme);
     themeSel.value = savedTheme;
@@ -271,58 +173,69 @@
       document.body.classList.add('dark'); darkToggle.textContent='☀️ Light Mode';
     }
 
-    function createCard(dest, index){
-      const card = document.createElement('div');
-      const variant = (index % 5) + 1;
-      card.className = `card variant-${variant} ${dest.special?'japan':''} ${checked.includes(index)?'checked':''}`;
+    // Build once (no re-render flash)
+    function build(){
+      grid.innerHTML='';
+      destinations.forEach((d, idx)=>{
+        const variant = (idx % 5) + 1;
+        const card = document.createElement('div');
+        card.className = `card variant-${variant} ${d.special?'japan':''} ${checked.includes(idx)?'checked':''}`;
+        card.dataset.index = idx;
 
-      card.innerHTML = `
-        <div class="card-content">
-          <div class="front">
-            <div class="chips"><span class="chip">${dest.region||'—'}</span></div>
-            <div class="checkmark">✅</div>
-            <h3>${dest.name}${dest.special?' ⛩️':''}</h3>
+        card.innerHTML = `
+          <div class="card-content">
+            <div class="front">
+              <div class="chips"><span class="chip">${d.region||'—'}</span></div>
+              <div class="checkmark">✅</div>
+              <h3>${d.name}${d.special?' ⛩️':''}</h3>
+            </div>
+            <div class="back">
+              <img src="${d.image}" alt="${d.description}" onerror="this.src='https://via.placeholder.com/600x350?text=No+Image'">
+              <p>${d.description}</p>
+              <label style="display:inline-flex;gap:.45em;align-items:center;">
+                <input type="checkbox" ${checked.includes(idx)?'checked':''}> Επισκέφτηκα
+              </label>
+            </div>
           </div>
-          <div class="back">
-            <img src="${dest.image}" alt="${dest.description}" onerror="this.src='https://via.placeholder.com/600x350?text=No+Image'">
-            <p>${dest.description}</p>
-            <label style="display:inline-flex;gap:.45em;align-items:center;">
-              <input type="checkbox" ${checked.includes(index)?'checked':''}> Επισκέφτηκα
-            </label>
-          </div>
-        </div>
-      `;
+        `;
 
-      const checkbox = card.querySelector('input');
-      checkbox.addEventListener('change', (e)=>{
-        if(e.target.checked){
-          checked = [...new Set([...checked, index])];
-        } else {
-          checked = checked.filter(i=>i!==index);
-        }
-        localStorage.setItem('checkedItems', JSON.stringify(checked));
-        card.classList.toggle('checked', e.target.checked);
-        updateProgress();
-        render(); // so filtering updates immediately
+        // Prevent flip when clicking the checkbox; update state only (no rebuild)
+        const checkbox = card.querySelector('input');
+        checkbox.addEventListener('click', e => e.stopPropagation());
+        checkbox.addEventListener('change', e=>{
+          const isChecked = e.target.checked;
+          if(isChecked) checked = [...new Set([...checked, idx])];
+          else checked = checked.filter(i=>i!==idx);
+          localStorage.setItem('checkedItems', JSON.stringify(checked));
+          card.classList.toggle('checked', isChecked);
+          updateProgress();
+          applyFilterToCard(card); // update visibility under current filter, no full refresh
+        });
+
+        // Flip only when clicking outside inputs
+        card.addEventListener('click', e=>{
+          if(e.target.tagName.toLowerCase()==='input') return;
+          card.classList.toggle('flipped');
+        });
+
+        grid.appendChild(card);
       });
 
-      card.addEventListener('click', (e)=>{
-        if(e.target.tagName.toLowerCase()==='input') return;
-        card.classList.toggle('flipped');
-      });
-
-      return card;
+      applyFilterAll();
+      updateProgress();
     }
 
-    function render(){
-      grid.innerHTML='';
+    function applyFilterToCard(card){
+      const idx = Number(card.dataset.index);
+      const visited = checked.includes(idx);
       const f = filterSel.value;
-      destinations.forEach((d, idx)=>{
-        const visited = checked.includes(idx);
-        if((f==='visited' && !visited) || (f==='notVisited' && visited)) return;
-        grid.appendChild(createCard(d, idx));
-      });
-      updateProgress();
+      const show = (f==='all') || (f==='visited' && visited) || (f==='notVisited' && !visited);
+      card.style.display = show ? '' : 'none';
+    }
+
+    function applyFilterAll(){
+      const f = filterSel.value;
+      [...grid.children].forEach(card => applyFilterToCard(card));
     }
 
     function updateProgress(){
@@ -332,7 +245,7 @@
       ptext.textContent = `${Math.round(pct)}% Ολοκληρώθηκε ${pct===100 ? '🎉' : ''}`;
     }
 
-    // Theme & dark mode
+    // Controls
     themeSel.addEventListener('change', ()=>{
       document.body.setAttribute('data-theme', themeSel.value);
       localStorage.setItem('theme', themeSel.value);
@@ -345,9 +258,9 @@
       localStorage.setItem('darkMode', isDark);
     });
 
-    filterSel.addEventListener('change', render);
+    filterSel.addEventListener('change', applyFilterAll);
 
-    render();
+    build();
   </script>
 </body>
 </html>
