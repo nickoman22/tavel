@@ -7,16 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
 <style>
 :root{
-  --text:#222;--accent:#6c63ff;--bg1:#e3f2fd;--bg2:#fce4ec;
+  --text:#222;--accent:#6c63ff;
+  --bg1:#e3f2fd;--bg2:#fce4ec;
   --card-bg:#fff;--shadow:0 6px 18px rgba(0,0,0,.08);
   --success:#47b568;--radius:18px;
-  --front-grad-1:#8ec5fc; --front-grad-2:#e0c3fc;
+  --front-grad-1:#8ec5fc;--front-grad-2:#e0c3fc;
 }
 body[data-mode="dark"]{
   --text:#f3f3f7;--accent:#a9a4ff;
   --bg1:#1a1b25;--bg2:#2b2d42;--card-bg:#242639;
   --shadow:0 8px 20px rgba(0,0,0,.5);
-  --front-grad-1:#6b8afc; --front-grad-2:#a48bff;
+  --front-grad-1:#6b8afc;--front-grad-2:#a48bff;
 }
 *{box-sizing:border-box}
 body{
@@ -60,36 +61,32 @@ h1{font-family:'Playfair Display',serif;font-size:2.4rem;margin:0 0 18px;color:v
 .back{background:var(--card-bg);color:var(--text);transform:rotateY(180deg);text-align:center}
 .back img{width:100%;height:150px;object-fit:cover;border-radius:12px;border:1px solid rgba(0,0,0,.06);margin-bottom:10px}
 .back p{margin:0 0 10px;font-size:.95rem}
-.controls-row{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
+.details{margin-top:6px;font-size:.86rem;color:var(--text)}
 .checkmark{position:absolute;top:10px;right:10px;font-size:1.35rem;color:var(--success);opacity:0;transition:opacity .3s ease}
 .card.checked .checkmark{opacity:1}
-.details{margin-top:6px;font-size:.86rem;color:var(--text)}
-.note-box{display:none;flex-direction:column;gap:6px;margin-top:8px;width:100%}
-.note-box textarea{
-  width:100%;min-height:60px;resize:vertical;border-radius:8px;padding:6px;
-  border:1px solid rgba(0,0,0,.2);font-family:'Inter',sans-serif
-}
-.note-toggle{margin-top:6px}
 
-/* Japan: extra special */
+/* Japan special card */
 .card.japan{
   border:2px solid #ff80ab;
-  box-shadow:0 0 18px rgba(255,128,171,.45);
-  animation:japanGlow 3s ease-in-out infinite;
+  box-shadow:0 0 25px rgba(255,128,171,.5);
+  animation:japanPulse 3s ease-in-out infinite;
+  overflow:hidden;
+  position:relative;
 }
-@keyframes japanGlow{0%,100%{box-shadow:0 0 18px rgba(255,128,171,.45)}50%{box-shadow:0 0 28px rgba(255,128,171,.9)}}
+@keyframes japanPulse{
+  0%,100%{box-shadow:0 0 25px rgba(255,128,171,.4)}
+  50%{box-shadow:0 0 40px rgba(255,128,171,.9)}
+}
 .card.japan::before{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><text y="20" font-size="20">🌸</text></svg>');
-  background-size:40px 40px;background-repeat:repeat;opacity:.25;animation:japanPetals 18s linear infinite;
+  background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"><text y="20" font-size="20">🌸</text></svg>');
+  background-size:42px 42px;background-repeat:repeat;opacity:.3;animation:japanPetals 22s linear infinite;
 }
-@keyframes japanPetals{from{background-position-y:0}to{background-position-y:900px}}
+@keyframes japanPetals{from{background-position-y:0}to{background-position-y:1200px}}
 .card.japan .front{background:linear-gradient(135deg,#ffb3c1,#ffe0e9);color:#fff}
 .card.japan .front::after{
-  content:"";position:absolute;inset:-40%;
-  background:radial-gradient(circle at 30% 0%,rgba(255,255,255,.25),transparent 40%);
-  transform:translateX(-60%) rotate(15deg);
-  transition:transform .8s ease,opacity .8s ease;opacity:0;
+  content:"";position:absolute;inset:-50%;background:radial-gradient(circle at 30% 0%,rgba(255,255,255,.25),transparent 40%);
+  transform:translateX(-60%) rotate(15deg);opacity:0;transition:transform .8s ease,opacity .8s ease;
 }
 .card.japan:hover .front::after{transform:translateX(15%) rotate(15deg);opacity:.9}
 
@@ -122,39 +119,36 @@ h1{font-family:'Playfair Display',serif;font-size:2.4rem;margin:0 0 18px;color:v
 <div class="progress-text" id="ptext">0% Ολοκληρώθηκε</div>
 
 <script>
-/* ---------- DATA (all 18) ---------- */
 const destinations = [
-  { name:"🇬🇷 Μετέωρα", image:"./meteora.jpg", description:"Τα Μαγευτικά Μετέωρα της Ελλάδας", region:"Ελλάδα", visited:true, visitedDate:"2025-10-25", note:"Απέραντη ηρεμία — μαγική θέα από τους βράχους!" },
-  { name:"🇪🇸 Βαρκελώνη", image:"./barcelona.jpg", description:"Βαρκελώνη, Ισπανία", region:"Ευρώπη" },
-  { name:"🇫🇷 Παρίσι", image:"./paris.jpg", description:"Παρίσι, Γαλλία", region:"Ευρώπη" },
-  { name:"🇳🇱 Άμστερνταμ", image:"./amsterdam.jpg", description:"Άμστερνταμ, Ολλανδία", region:"Ευρώπη" },
-  { name:"🇮🇹 Μιλάνο", image:"./milan.jpg", description:"Μιλάνο, Ιταλία", region:"Ευρώπη" },
-  { name:"🇮🇹 Βενετία", image:"./venice.jpg", description:"Βενετία, Ιταλία", region:"Ευρώπη" },
-  { name:"🇦🇹 Βιέννη", image:"./vienna.jpg", description:"Βιέννη, Αυστρία", region:"Ευρώπη" },
-  { name:"🇭🇺 Βουδαπέστη", image:"./budapest.jpg", description:"Βουδαπέστη, Ουγγαρία", region:"Ευρώπη" },
-  { name:"🇸🇪 Σουηδία", image:"./sweden.jpg", description:"Σουηδία", region:"Ευρώπη" },
-  { name:"🇨🇭 Ελβετία", image:"./switzerland.jpg", description:"Ελβετία", region:"Ευρώπη" },
-  { name:"🇫🇮 Φινλανδία", image:"./finland.jpg", description:"Φινλανδία", region:"Ευρώπη" },
-  { name:"🇳🇴 Νορβηγία", image:"./norway.jpg", description:"Νορβηγία", region:"Ευρώπη" },
-  { name:"🇮🇸 Ισλανδία", image:"./iceland.jpg", description:"Ισλανδία", region:"Ευρώπη" },
-  { name:"🇵🇹 Πορτογαλία", image:"./portugal.jpg", description:"Πορτογαλία", region:"Ευρώπη" },
-  { name:"🇦🇪 Ντουμπάι", image:"./dubai.jpg", description:"Ντουμπάι, ΗΑΕ", region:"Μέση Ανατολή" },
-  { name:"🇲🇻 Μαλδίβες", image:"./maldives.jpg", description:"Μαλδίβες", region:"Ασία" },
-  { name:"🇪🇬 Αίγυπτος", image:"./egypt.jpg", description:"Αίγυπτος", region:"Αφρική" },
-  { name:"🇯🇵 Ιαπωνία", image:"./japan.jpg", description:"🌸 Ιαπωνική Μαγεία 🌸", region:"Ασία", special:true }
+  { name:"🇬🇷 Μετέωρα", image:"./meteora.jpg", description:"Τα Μαγευτικά Μετέωρα της Ελλάδας", visited:true, visitedDate:"2025-10-25" },
+  { name:"🇪🇸 Βαρκελώνη", image:"./barcelona.jpg", description:"Βαρκελώνη, Ισπανία" },
+  { name:"🇫🇷 Παρίσι", image:"./paris.jpg", description:"Παρίσι, Γαλλία" },
+  { name:"🇳🇱 Άμστερνταμ", image:"./amsterdam.jpg", description:"Άμστερνταμ, Ολλανδία" },
+  { name:"🇮🇹 Μιλάνο", image:"./milan.jpg", description:"Μιλάνο, Ιταλία" },
+  { name:"🇮🇹 Βενετία", image:"./venice.jpg", description:"Βενετία, Ιταλία" },
+  { name:"🇦🇹 Βιέννη", image:"./vienna.jpg", description:"Βιέννη, Αυστρία" },
+  { name:"🇭🇺 Βουδαπέστη", image:"./budapest.jpg", description:"Βουδαπέστη, Ουγγαρία" },
+  { name:"🇸🇪 Σουηδία", image:"./sweden.jpg", description:"Σουηδία" },
+  { name:"🇨🇭 Ελβετία", image:"./switzerland.jpg", description:"Ελβετία" },
+  { name:"🇫🇮 Φινλανδία", image:"./finland.jpg", description:"Φινλανδία" },
+  { name:"🇳🇴 Νορβηγία", image:"./norway.jpg", description:"Νορβηγία" },
+  { name:"🇮🇸 Ισλανδία", image:"./iceland.jpg", description:"Ισλανδία" },
+  { name:"🇵🇹 Πορτογαλία", image:"./portugal.jpg", description:"Πορτογαλία" },
+  { name:"🇦🇪 Ντουμπάι", image:"./dubai.jpg", description:"Ντουμπάι, ΗΑΕ" },
+  { name:"🇲🇻 Μαλδίβες", image:"./maldives.jpg", description:"Μαλδίβες" },
+  { name:"🇪🇬 Αίγυπτος", image:"./egypt.jpg", description:"Αίγυπτος" },
+  { name:"🇯🇵 Ιαπωνία", image:"./japan.jpg", description:"🌸 Ιαπωνική Μαγεία 🌸", special:true }
 ];
 
-/* ---------- UI BUILD (no storage; no re-render flash) ---------- */
-const grid = document.getElementById('grid');
-const filterSel = document.getElementById('filter');
-const ptext = document.getElementById('ptext');
+const grid=document.getElementById('grid');
+const filterSel=document.getElementById('filter');
+const ptext=document.getElementById('ptext');
 
-function createCard(dest, idx){
-  const card = document.createElement('div');
-  card.className = `card ${dest.special?'japan':''} ${dest.visited?'checked':''}`;
-  card.dataset.index = idx;
-
-  card.innerHTML = `
+function createCard(dest,i){
+  const card=document.createElement('div');
+  card.className=`card ${dest.special?'japan':''} ${dest.visited?'checked':''}`;
+  card.dataset.index=i;
+  card.innerHTML=`
     <div class="card-content">
       <div class="front">
         <div class="checkmark">✅</div>
@@ -163,134 +157,88 @@ function createCard(dest, idx){
       <div class="back">
         <img src="${dest.image}" alt="${dest.description}" onerror="this.src='https://via.placeholder.com/600x350?text=No+Image'">
         <p>${dest.description}</p>
-
-        <div class="controls-row">
-          <label style="display:inline-flex;gap:.45em;align-items:center;">
-            <input type="checkbox" ${dest.visited?'checked':''}> Επισκέφτηκα
-          </label>
-
-          <input type="date" class="visit-date" style="display:${dest.visited?'inline-block':'none'}"
-                 value="${dest.visited && dest.visitedDate ? dest.visitedDate : ''}">
-        </div>
-
+        <label style="display:inline-flex;gap:.45em;align-items:center;">
+          <input type="checkbox" ${dest.visited?'checked':''}> Επισκέφτηκα
+        </label>
+        <input type="date" class="visit-date" style="margin-top:8px;display:${dest.visited?'inline-block':'none'}"
+               value="${dest.visited && dest.visitedDate ? dest.visitedDate : ''}">
         <div class="details" ${dest.visited?'':'style="display:none"'}></div>
-
-        <button class="note-toggle" style="display:${dest.visited?'inline-block':'none'};margin-top:6px;">📝 Προσθήκη σημείωσης</button>
-        <div class="note-box"><textarea placeholder="Πρόσθεσε σημείωση...">${dest.note||''}</textarea></div>
       </div>
-    </div>
-  `;
+    </div>`;
+  const checkbox=card.querySelector('input[type="checkbox"]');
+  const dateInput=card.querySelector('.visit-date');
+  const details=card.querySelector('.details');
 
-  const checkbox = card.querySelector('input[type="checkbox"]');
-  const dateInput = card.querySelector('.visit-date');
-  const details = card.querySelector('.details');
-  const noteToggle = card.querySelector('.note-toggle');
-  const noteBox = card.querySelector('.note-box');
-  const textarea = noteBox.querySelector('textarea');
-
-  // init details
   if(dest.visited){
-    const dStr = (dest.visitedDate ? new Date(dest.visitedDate) : new Date())
-      .toLocaleDateString('el-GR',{year:'numeric',month:'short',day:'numeric'});
-    details.textContent = `Ημερομηνία επίσκεψης: ${dStr}`;
+    details.textContent=`Ημερομηνία επίσκεψης: ${new Date(dest.visitedDate).toLocaleDateString('el-GR',{year:'numeric',month:'short',day:'numeric'})}`;
   }
 
-  // prevent flip on inputs
-  [checkbox, dateInput, textarea, noteToggle].forEach(el=>{
-    if(!el) return;
-    el.addEventListener('click', ev => ev.stopPropagation());
-  });
+  [checkbox,dateInput].forEach(el=>el.addEventListener('click',e=>e.stopPropagation()));
 
-  // toggle visited
-  checkbox.addEventListener('change', ()=>{
-    dest.visited = checkbox.checked;
-    card.classList.toggle('checked', dest.visited);
+  checkbox.addEventListener('change',()=>{
+    dest.visited=checkbox.checked;
+    card.classList.toggle('checked',dest.visited);
     if(dest.visited){
-      dateInput.style.display = 'inline-block';
+      dateInput.style.display='inline-block';
       if(!dateInput.value){
-        const today = new Date();
-        const y = today.getFullYear();
-        const m = String(today.getMonth()+1).padStart(2,'0');
-        const d = String(today.getDate()).padStart(2,'0');
-        dateInput.value = `${y}-${m}-${d}`;
+        const t=new Date();
+        const y=t.getFullYear();const m=String(t.getMonth()+1).padStart(2,'0');const d=String(t.getDate()).padStart(2,'0');
+        dateInput.value=`${y}-${m}-${d}`;
       }
-      dest.visitedDate = dateInput.value;
-      details.style.display = 'block';
-      details.textContent = `Ημερομηνία επίσκεψης: ${new Date(dest.visitedDate).toLocaleDateString('el-GR',{year:'numeric',month:'short',day:'numeric'})}`;
-      noteToggle.style.display = 'inline-block';
-    } else {
-      dateInput.style.display = 'none';
-      details.style.display = 'none';
-      noteToggle.style.display = 'none';
-      noteBox.style.display = 'none';
+      dest.visitedDate=dateInput.value;
+      details.style.display='block';
+      details.textContent=`Ημερομηνία επίσκεψης: ${new Date(dest.visitedDate).toLocaleDateString('el-GR',{year:'numeric',month:'short',day:'numeric'})}`;
+    }else{
+      dateInput.style.display='none';
+      details.style.display='none';
     }
     applyFilterToCard(card);
     updateProgress();
   });
 
-  // change date
-  dateInput.addEventListener('change', ()=>{
-    dest.visitedDate = dateInput.value || null;
+  dateInput.addEventListener('change',()=>{
+    dest.visitedDate=dateInput.value||null;
     if(dest.visitedDate){
-      details.style.display = 'block';
-      details.textContent = `Ημερομηνία επίσκεψης: ${new Date(dest.visitedDate).toLocaleDateString('el-GR',{year:'numeric',month:'short',day:'numeric'})}`;
-    } else {
-      details.style.display = 'none';
-    }
+      details.style.display='block';
+      details.textContent=`Ημερομηνία επίσκεψης: ${new Date(dest.visitedDate).toLocaleDateString('el-GR',{year:'numeric',month:'short',day:'numeric'})}`;
+    }else details.style.display='none';
   });
 
-  // notes toggle + edit
-  noteToggle.addEventListener('click', ()=>{
-    noteBox.style.display = (noteBox.style.display==='flex'?'none':'flex');
-  });
-  textarea.addEventListener('input', ()=>{ dest.note = textarea.value; });
-
-  // flip on card click (not on inputs)
-  card.addEventListener('click', (e)=>{
-    if(e.target.closest('input, textarea, button')) return;
+  card.addEventListener('click',e=>{
+    if(e.target.closest('input'))return;
     card.classList.toggle('flipped');
   });
-
   return card;
 }
 
 function build(){
-  grid.innerHTML = '';
-  destinations.forEach((d,i)=> grid.appendChild(createCard(d,i)));
-  applyFilterAll();
-  updateProgress();
+  grid.innerHTML='';
+  destinations.forEach((d,i)=>grid.appendChild(createCard(d,i)));
+  applyFilterAll();updateProgress();
 }
 
 function applyFilterToCard(card){
-  const idx = Number(card.dataset.index);
-  const visited = !!destinations[idx].visited;
-  const f = filterSel.value;
-  const show = (f==='all') || (f==='visited' && visited) || (f==='notVisited' && !visited);
-  card.style.display = show ? '' : 'none';
+  const idx=Number(card.dataset.index);
+  const visited=!!destinations[idx].visited;
+  const f=filterSel.value;
+  const show=(f==='all')||(f==='visited'&&visited)||(f==='notVisited'&&!visited);
+  card.style.display=show?'':'none';
 }
-
-function applyFilterAll(){
-  [...grid.children].forEach(applyFilterToCard);
-}
-
+function applyFilterAll(){[...grid.children].forEach(applyFilterToCard)}
 function updateProgress(){
-  const fill = document.querySelector('.fill');
-  const v = destinations.filter(d=>d.visited).length;
-  const pct = (v / destinations.length) * 100;
-  fill.style.width = `${pct}%`;
-  ptext.textContent = `${Math.round(pct)}% Ολοκληρώθηκε ${pct===100?'🎉':''}`;
+  const fill=document.querySelector('.fill');
+  const v=destinations.filter(d=>d.visited).length;
+  const pct=(v/destinations.length)*100;
+  fill.style.width=`${pct}%`;
+  ptext.textContent=`${Math.round(pct)}% Ολοκληρώθηκε ${pct===100?'🎉':''}`;
 }
 
-/* ---------- Controls ---------- */
-document.getElementById('toggleDark').addEventListener('click', ()=>{
-  const mode = document.body.getAttribute('data-mode')==='light' ? 'dark' : 'light';
-  document.body.setAttribute('data-mode', mode);
-  document.getElementById('toggleDark').textContent = (mode==='light' ? '🌙 Dark' : '☀️ Light');
+document.getElementById('toggleDark').addEventListener('click',()=>{
+  const mode=document.body.getAttribute('data-mode')==='light'?'dark':'light';
+  document.body.setAttribute('data-mode',mode);
+  document.getElementById('toggleDark').textContent=mode==='light'?'🌙 Dark':'☀️ Light';
 });
-
-filterSel.addEventListener('change', applyFilterAll);
-
-/* ---------- Init ---------- */
+filterSel.addEventListener('change',applyFilterAll);
 build();
 </script>
 </body>
