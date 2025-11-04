@@ -40,7 +40,7 @@
     [data-theme="candy"][data-mode="dark"]{
       --text:#f3f3f7; --accent:#a9a4ff;
       --bg1:#2b2d42; --bg2:#1a1b25;
-      --surface: rgba(255,255,255,0.12); --card-surface:#242639; --shadow:0 8px 20px rgba(0,0,0,.5);
+      --surface: rgba(30,32,45,0.65); --card-surface:#242639; --shadow:0 8px 20px rgba(0,0,0,.5);
       --v1a:#6b8afc; --v1b:#a48bff; --v2a:#d8a85d; --v2b:#e27d67; --v3a:#6aa1fd; --v3b:#86c2fb; --v4a:#cc7ff0; --v4b:#d44a62; --v5a:#66d6a1; --v5b:#6bbfda;
     }
 
@@ -54,7 +54,7 @@
     [data-theme="ocean"][data-mode="dark"]{
       --text:#eaf7ff; --accent:#5fb3ff;
       --bg1:#0f172a; --bg2:#0b1020;
-      --surface: rgba(255,255,255,0.10); --card-surface:#0f1b2d;
+      --surface: rgba(10,14,30,0.6); --card-surface:#0f1b2d;
       --v1a:#2a5fa3; --v1b:#3b88ff; --v2a:#1b5c72; --v2b:#0f3d52; --v3a:#287a6b; --v3b:#143b61; --v4a:#1f7aa1; --v4b:#6a7c4f; --v5a:#2f7e75; --v5b:#485c89;
     }
 
@@ -68,7 +68,7 @@
     [data-theme="sunset"][data-mode="dark"]{
       --text:#fff3ef; --accent:#ffa295;
       --bg1:#2b1b1f; --bg2:#1c1524;
-      --surface: rgba(255,255,255,0.10); --card-surface:#261a1d;
+      --surface: rgba(40,28,32,0.6); --card-surface:#261a1d;
       --v1a:#b87e4c; --v1b:#b75447; --v2a:#a34c2b; --v2b:#7d2a2d; --v3a:#9c4d50; --v3b:#7a6530; --v4a:#a25d61; --v4b:#7c5869; --v5a:#9d6c5b; --v5b:#6f4b35;
     }
 
@@ -82,7 +82,7 @@
     [data-theme="forest"][data-mode="dark"]{
       --text:#e8fff0; --accent:#7fe387;
       --bg1:#0e1a12; --bg2:#0a151f;
-      --surface: rgba(255,255,255,0.10); --card-surface:#0f1a14;
+      --surface: rgba(12,26,20,0.6); --card-surface:#0f1a14;
       --v1a:#2d7d5f; --v1b:#2f6b7d; --v2a:#466e25; --v2b:#2c5e1a; --v3a:#0f5b54; --v3b:#1f7e53; --v4a:#3b5f41; --v4b:#2f4334; --v5a:#2d6a75; --v5b:#755a2d;
     }
 
@@ -96,7 +96,7 @@
     [data-theme="mono"][data-mode="dark"]{
       --text:#e5e7eb; --accent:#e5e7eb;
       --bg1:#0b0c10; --bg2:#111217;
-      --surface: rgba(255,255,255,0.08); --card-surface:#121318;
+      --surface: rgba(18,19,24,0.7); --card-surface:#121318;
       --v1a:#3f3f46; --v1b:#27272a; --v2a:#334155; --v2b:#1f2937; --v3a:#404040; --v3b:#262626; --v4a:#3a3a3a; --v4b:#1f1f1f; --v5a:#343a40; --v5b:#151a1e;
     }
 
@@ -110,7 +110,7 @@
     [data-theme="flowers"][data-mode="dark"]{
       --text:#ffeef4; --accent:#ffa6c5;
       --bg1:#2a0f1b; --bg2:#0e1b2a;
-      --surface: rgba(255,255,255,0.08); --card-surface:#20131b;
+      --surface: rgba(32,19,27,0.7); --card-surface:#20131b;
       --v1a:#a96a78; --v1b:#9a6d54; --v2a:#8a6ea6; --v2b:#55649b; --v3a:#8d3d58; --v3b:#6a5a1e; --v4a:#7e6736; --v4b:#486a6d; --v5a:#6e5b8a; --v5b:#8a6e83;
     }
 
@@ -131,13 +131,18 @@
 
     h1{ font-family:'Playfair Display',serif; font-size:2.4rem; margin:0 0 18px; color:var(--accent); text-align:center; }
 
-    .toolbar{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; justify-content:center; }
+    .toolbar{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; justify-content:center; z-index:5; }
     .toolbar select,.toolbar button{
       border:none;border-radius:12px;padding:8px 12px;background:var(--surface);color:var(--text);
       box-shadow:0 2px 6px rgba(0,0,0,.08);font:600 .9rem/1 'Inter',sans-serif;
       cursor:pointer;transition:transform .25s ease,background .25s ease;backdrop-filter:blur(6px);
     }
     .toolbar select:hover,.toolbar button:hover{ transform:translateY(-2px); }
+
+    /* High-contrast dropdown text in dark mode */
+    select{ color:var(--text); background:var(--surface); }
+    option{ color:#111; background:#fff; }
+    [data-mode="dark"] option{ color:#fff; background:#11131a; }
 
     .grid{ width:100%; max-width:1200px; display:grid; gap:18px; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); }
 
@@ -155,6 +160,7 @@
       background-repeat: repeat; background-size: 44px 44px, 36px 36px, 40px 40px;
       animation: petalsFall 18s linear infinite;
       mask-image: linear-gradient(90deg, rgba(0,0,0,1), rgba(0,0,0,.5), rgba(0,0,0,0));
+      z-index:1;
     }
     .side-petals .left{ left:0; }
     .side-petals .right{ right:0; transform: scaleX(-1); }
@@ -171,33 +177,36 @@
       animation:cardIn .6s forwards; box-shadow:var(--shadow);
       transition:transform .55s cubic-bezier(.17,.67,.83,.67), box-shadow .4s ease;
       background: var(--card-surface);
+      z-index:2;
     }
     @keyframes cardIn{ to{opacity:1; transform:translateY(0) scale(1)} }
     .card:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 12px 28px rgba(0,0,0,.12); }
 
-    /* Japan overlay behind content (made visible & distinct) */
+    /* Japan — same size, ALWAYS VISIBLE & LAST, SOFT PULSE on hover/flip */
     .card.japan{
-      border:2px solid #ffffff;
-      box-shadow:0 0 28px rgba(255,75,145,.55);
       position:relative;
-      animation:japanPulse 3s ease-in-out infinite;
-    }
-    @keyframes japanPulse{
-      0%,100%{ box-shadow:0 0 28px rgba(255,75,145,.45) }
-      50%{ box-shadow:0 0 44px rgba(255,75,145,.9) }
+      border:2px solid #fff;
     }
     .card.japan .front{
-      background: linear-gradient(135deg, #ff4b91, #ffb6c1); /* brighter, always visible */
+      background: linear-gradient(135deg, #ff4b91, #ffb6c1);
       color:#fff;
     }
     .card.japan::before{
-      content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+      content:""; position:absolute; inset:0; pointer-events:none; z-index:0;
       background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><text y="20" font-size="20">🌸</text></svg>');
       background-size:40px 40px; background-repeat:repeat;
-      opacity:.35; /* always visible now */
-      animation:japanPetals 14s linear infinite;
+      opacity:0; transition:opacity .5s ease;
+      animation: petalsInside 14s linear infinite;
     }
-    @keyframes japanPetals{ from{ background-position-y:0 } to{ background-position-y:700px } }
+    @keyframes petalsInside{ from{ background-position-y:0 } to{ background-position-y:700px } }
+    .card.japan:hover::before, .card.japan.flipped::before{ opacity:.35; }
+    .card.japan:hover .front, .card.japan.flipped .front{
+      animation: pinkPulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pinkPulse{
+      0%,100%{ box-shadow:0 0 12px rgba(255,102,178,.4), 0 0 0 rgba(255,102,178,0); }
+      50%{ box-shadow:0 0 26px rgba(255,102,178,.85), 0 0 60px rgba(255,102,178,.25); }
+    }
 
     .card-content{ position:relative; z-index:1; width:100%; height:100%; transform-style:preserve-3d; transition: transform .85s cubic-bezier(.4,.2,.2,1); }
     .card.flipped .card-content{ transform: rotateY(180deg); }
@@ -229,7 +238,7 @@
     .back img{ width:100%; height:150px; object-fit:cover; border-radius:12px; border:1px solid rgba(0,0,0,.06); margin-bottom:10px; }
     .back p{ margin:0 0 10px; font-size:.95rem; }
     .visit-row{ display:flex; gap:.5rem; align-items:center; justify-content:center; flex-wrap:wrap; }
-    .visit-date{ font-size:.9rem; margin-top:6px; opacity:.9; }
+    .visit-date{ font-size:.9rem; margin-top:6px; opacity:.95; }
 
     .checkmark{ position:absolute; top:10px; right:10px; font-size:1.35rem; color:var(--success); opacity:0; transition:opacity .3s ease; filter: drop-shadow(0 1px 2px rgba(0,0,0,.2)); }
     .card.checked .checkmark{ opacity:1; }
@@ -268,7 +277,7 @@
       <option value="flowers">🌸 Flowers</option>
     </select>
 
-    <!-- Replaced mode dropdown with a one-click toggle -->
+    <!-- One-click dark mode -->
     <button id="modeBtn">🌙 Dark</button>
 
     <select id="filter">
@@ -290,7 +299,8 @@
   <div class="progress-text" id="ptext">0% Ολοκληρώθηκε</div>
 
   <script>
-    const destinations = [
+    // Core list WITHOUT Japan; we'll append Japan as the last card to guarantee visibility and position.
+    const baseDestinations = [
       { name:"🇬🇷 Μετέωρα", image:"./meteora.jpg", description:"Σ' αγαπώ", region:"Ελλάδα" },
       { name:"🇪🇸 Βαρκελώνη", image:"./barcelona.jpg", description:"Te amo", region:"Ευρώπη" },
       { name:"🇫🇷 Παρίσι", image:"./paris.jpg", description:"Je t’aime", region:"Ευρώπη" },
@@ -307,9 +317,10 @@
       { name:"🇵🇹 Πορτογαλία", image:"./portugal.jpg", description:"Eu te amo", region:"Ευρώπη" },
       { name:"🇦🇪 Ντουμπάι", image:"./dubai.jpg", description:"أحبك", region:"Μέση Ανατολή" },
       { name:"🇲🇻 Μαλδίβες", image:"./maldives.jpg", description:"މިހާރުގެ ހަތަރު", region:"Ασία" },
-      { name:"🇪🇬 Αίγυπτος", image:"./egypt.jpg", description:"بحبك", region:"Αφρική" },
-      { name:"🇯🇵 Ιαπωνία", image:"./japan.jpg", description:"愛してる", region:"Ασία", special:true }
+      { name:"🇪🇬 Αίγυπτος", image:"./egypt.jpg", description:"بحبك", region:"Αφρική" }
     ];
+
+    const japanDestination = { name:"🇯🇵 Ιαπωνία", image:"./japan.jpg", description:"愛してる", region:"Ασία", special:true };
 
     const grid = document.getElementById('grid');
     const filterSel = document.getElementById('filter');
@@ -329,7 +340,7 @@
     let checked = JSON.parse(localStorage.getItem('checkedItems')||'[]');
     let visitDates = JSON.parse(localStorage.getItem('visitDates')||'{}');
 
-    // Ensure Meteora is visited with the fixed date (index 0 in our array)
+    // Ensure Meteora (index 0 of base list) is visited with the fixed date
     const METEORA_IDX = 0;
     if(!checked.includes(METEORA_IDX)) checked.push(METEORA_IDX);
     if(!visitDates[METEORA_IDX]) visitDates[METEORA_IDX] = "2025-10-25";
@@ -338,21 +349,17 @@
 
     toggleFlowersOverlay();
 
-    function build(){
-      grid.innerHTML='';
-      destinations.forEach((d, idx)=>{
-        const variant = (idx % 5) + 1;
-        const isChecked = checked.includes(idx);
-        const card = document.createElement('div');
-        card.className = `card variant-${variant} ${d.special?'japan':''} ${isChecked?'checked':''}`;
-        card.dataset.index = idx;
-
-        card.innerHTML = `
+    function cardHTML(d, idx, isSpecial=false){
+      const variant = ((idx) % 5) + 1; // keep variant cycle consistent
+      const isChecked = checked.includes(idx);
+      const specialClass = isSpecial ? 'japan' : '';
+      return `
+        <div class="card variant-${variant} ${specialClass} ${isChecked?'checked':''}" data-index="${idx}" data-special="${isSpecial}">
           <div class="card-content">
             <div class="front">
               <div class="chips"><span class="chip">${d.region||'—'}</span></div>
               <div class="checkmark">✅</div>
-              <h3>${d.name}${d.special?' ⛩️':''}</h3>
+              <h3>${d.name}${isSpecial?' ⛩️':''}</h3>
             </div>
             <div class="back">
               <img src="${d.image}" alt="${d.name}" onerror="this.src='https://via.placeholder.com/600x350?text=No+Image'">
@@ -365,49 +372,65 @@
               <div class="visit-date" ${isChecked?'':'style="display:none"'}></div>
             </div>
           </div>
-        `;
+        </div>
+      `;
+    }
 
-        const checkbox = card.querySelector('input[type="checkbox"]');
-        const dateEl = card.querySelector('.visit-date');
+    function bindCardBehavior(card){
+      const idx = Number(card.dataset.index);
+      const checkbox = card.querySelector('input[type="checkbox"]');
+      const dateEl = card.querySelector('.visit-date');
 
-        // init date text if visited
-        if(isChecked){
+      // init date text if visited
+      if(checked.includes(idx)){
+        const iso = visitDates[idx] || todayISO();
+        dateEl.style.display = 'block';
+        dateEl.textContent = 'Ημερομηνία επίσκεψης: ' + formatDate(iso);
+      }
+
+      checkbox.addEventListener('click', e=> e.stopPropagation());
+
+      checkbox.addEventListener('change', e=>{
+        const isNowChecked = e.target.checked;
+        if(isNowChecked){
+          if(!checked.includes(idx)) checked.push(idx);
           const iso = visitDates[idx] || todayISO();
+          visitDates[idx] = iso;
           dateEl.style.display = 'block';
           dateEl.textContent = 'Ημερομηνία επίσκεψης: ' + formatDate(iso);
+        }else{
+          checked = checked.filter(i=>i!==idx);
+          delete visitDates[idx];
+          dateEl.style.display = 'none';
         }
-
-        // prevent flip when interacting with input
-        checkbox.addEventListener('click', e=> e.stopPropagation());
-
-        checkbox.addEventListener('change', e=>{
-          const isNowChecked = e.target.checked;
-          if(isNowChecked){
-            if(!checked.includes(idx)) checked.push(idx);
-            const iso = visitDates[idx] || todayISO();
-            visitDates[idx] = iso;
-            dateEl.style.display = 'block';
-            dateEl.textContent = 'Ημερομηνία επίσκεψης: ' + formatDate(iso);
-          }else{
-            checked = checked.filter(i=>i!==idx);
-            delete visitDates[idx];
-            dateEl.style.display = 'none';
-          }
-          localStorage.setItem('checkedItems', JSON.stringify(checked));
-          localStorage.setItem('visitDates', JSON.stringify(visitDates));
-          card.classList.toggle('checked', isNowChecked);
-          updateProgress();
-          applyFilterToCard(card);
-        });
-
-        // flip card (ignore inputs)
-        card.addEventListener('click', e=>{
-          if(e.target.tagName.toLowerCase()==='input') return;
-          card.classList.toggle('flipped');
-        });
-
-        grid.appendChild(card);
+        localStorage.setItem('checkedItems', JSON.stringify(checked));
+        localStorage.setItem('visitDates', JSON.stringify(visitDates));
+        card.classList.toggle('checked', isNowChecked);
+        updateProgress();
+        applyFilterToCard(card); // Japan will be forced visible below
       });
+
+      // flip card (ignore inputs)
+      card.addEventListener('click', e=>{
+        if(e.target.tagName.toLowerCase()==='input') return;
+        card.classList.toggle('flipped');
+      });
+    }
+
+    function build(){
+      grid.innerHTML='';
+      // Render base destinations first (indices 0..baseDestinations.length-1)
+      baseDestinations.forEach((d, idx)=>{
+        const html = cardHTML(d, idx, false);
+        grid.insertAdjacentHTML('beforeend', html);
+      });
+      // Append Japan as LAST with a stable index equal to baseDestinations.length
+      const japanIndex = baseDestinations.length; // e.g., 17 (kept separate)
+      const japanHTML = cardHTML(japanDestination, japanIndex, true);
+      grid.insertAdjacentHTML('beforeend', japanHTML);
+
+      // Bind all cards
+      [...grid.children].forEach(bindCardBehavior);
 
       applyFilterAll();
       updateProgress();
@@ -424,6 +447,12 @@
     }
 
     function applyFilterToCard(card){
+      const isSpecial = card.dataset.special === 'true';
+      if(isSpecial){
+        // Japan: ALWAYS visible
+        card.style.display = '';
+        return;
+      }
       const idx = Number(card.dataset.index);
       const visited = checked.includes(idx);
       const f = filterSel.value;
@@ -434,7 +463,9 @@
 
     function updateProgress(){
       const fill = document.querySelector('.progress .fill');
-      const pct = (checked.length / destinations.length)*100;
+      const total = baseDestinations.length + 1; // include Japan in total
+      const v = checked.length;
+      const pct = (v/total)*100;
       fill.style.width = `${pct}%`;
       ptext.textContent = `${Math.round(pct)}% Ολοκληρώθηκε ${pct===100 ? '🎉' : ''}`;
     }
