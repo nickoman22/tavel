@@ -253,13 +253,36 @@
     }
 
     /* Progress */
-    .progress{ position:fixed; left:0; right:0; bottom:0; height:8px; background:rgba(0,0,0,.08); }
-    .progress .fill{ height:100%; width:0%; background:var(--accent); transition:width .4s ease; }
-    .progress-text{
-      position:fixed; bottom:14px; left:50%; transform:translateX(-50%);
-      background:var(--surface); padding:4px 10px; border-radius:10px; font-size:.9rem;
-      box-shadow:0 2px 6px rgba(0,0,0,.08); backdrop-filter: blur(6px);
-    }
+   /* --- Progress Bar Fix --- */
+    .progress {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.08);
+      z-index: 1000;
+  }
+    .progress .fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: width 0.4s ease;
+  }
+    .progress-text {
+      position: fixed;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface);
+      padding: 4px 10px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(6px);
+      z-index: 1001;
+  }
+
 
     @media (max-width: 620px){ .card{ height:270px; } .front h3{ font-size:1.25rem; } }
   </style>
@@ -497,3 +520,4 @@
   </script>
 </body>
 </html>
+
