@@ -1,99 +1,142 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>🌍 Οι Ταξιδιωτικοί Μας Στόχοι</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌏 Οι Ταξιδιωτικοί Στόχοι Μας ✈️</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --text:#222;--accent:#6c63ff;
-  --bg1:#e3f2fd;--bg2:#fce4ec;
-  --card-bg:#fff;--shadow:0 6px 18px rgba(0,0,0,.08);
-  --success:#47b568;--radius:18px;
-  --front-grad-1:#8ec5fc;--front-grad-2:#e0c3fc;
+:root {
+  --text:#222; --accent:#6c63ff; --bg1:#e3f2fd; --bg2:#fce4ec;
+  --card-bg:#fff; --shadow:0 6px 18px rgba(0,0,0,.08);
+  --success:#47b568; --radius:18px;
+  --front-grad-1:#8ec5fc; --front-grad-2:#e0c3fc;
 }
-body[data-mode="dark"]{
-  --text:#f3f3f7;--accent:#a9a4ff;
-  --bg1:#1a1b25;--bg2:#2b2d42;--card-bg:#242639;
+body[data-mode="dark"] {
+  --text:#f3f3f7; --accent:#a9a4ff;
+  --bg1:#1a1b25; --bg2:#2b2d42; --card-bg:#242639;
   --shadow:0 8px 20px rgba(0,0,0,.5);
-  --front-grad-1:#6b8afc;--front-grad-2:#a48bff;
+  --front-grad-1:#6b8afc; --front-grad-2:#a48bff;
 }
-*{box-sizing:border-box}
-body{
-  margin:0;min-height:100vh;font-family:'Inter',sans-serif;
-  color:var(--text);
+
+/* THEME COLORS */
+body[data-theme="default"] { --bg1:#e3f2fd; --bg2:#fce4ec; --accent:#6c63ff; }
+body[data-theme="sunset"] { --bg1:#ffb347; --bg2:#ffcc33; --accent:#ff7043; }
+body[data-theme="forest"] { --bg1:#2e8b57; --bg2:#6ab04c; --accent:#16a085; }
+body[data-theme="sakura"] { --bg1:#ffd1dc; --bg2:#ffe6f0; --accent:#ff8fab; }
+
+/* Dark theme overrides per theme */
+body[data-mode="dark"][data-theme="sunset"] { --bg1:#3c1a1a; --bg2:#6e2e2e; --accent:#ffb47d; }
+body[data-mode="dark"][data-theme="forest"] { --bg1:#0b3d2e; --bg2:#144d33; --accent:#2ecc71; }
+body[data-mode="dark"][data-theme="sakura"] { --bg1:#4a2f3d; --bg2:#69334f; --accent:#ffb6c1; }
+
+*{box-sizing:border-box;margin:0;padding:0}
+body {
+  font-family:'Inter',sans-serif;
   background:linear-gradient(135deg,var(--bg1),var(--bg2));
   background-size:200% 200%;
   animation:bgshift 18s ease-in-out infinite;
-  display:flex;flex-direction:column;align-items:center;padding:40px 15px 96px;
-  transition:background .6s ease,color .35s ease;
+  color:var(--text);
+  min-height:100vh;
+  padding:40px 15px 96px;
+  display:flex;flex-direction:column;align-items:center;
+  overflow-x:hidden;
+  transition:background .6s ease,color .4s ease;
 }
-@keyframes bgshift{0%,100%{background-position:0 0}50%{background-position:100% 100%}}
-h1{font-family:'Playfair Display',serif;font-size:2.4rem;margin:0 0 18px;color:var(--accent);text-align:center}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;justify-content:center}
-.toolbar button,.toolbar select{
-  border:none;border-radius:12px;padding:8px 12px;
-  background:var(--card-bg);color:var(--text);
-  box-shadow:0 2px 6px rgba(0,0,0,.08);
-  font:600 .9rem/1 'Inter',sans-serif;cursor:pointer;
+@keyframes bgshift {
+  0%,100%{background-position:0 0}50%{background-position:100% 100%}
+}
+h1 {
+  font-family:'Playfair Display',serif;
+  font-size:2.4rem;
+  color:var(--accent);
+  margin-bottom:20px;
+  text-align:center;
+}
+.toolbar {
+  display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;justify-content:center;
+}
+.toolbar select,.toolbar button {
+  border:none;border-radius:10px;
+  padding:8px 12px;
+  font-weight:600;
+  background:var(--card-bg);
+  color:var(--text);
+  box-shadow:0 2px 6px rgba(0,0,0,.1);
+  cursor:pointer;
   transition:transform .25s ease,background .25s ease;
 }
-.toolbar button:hover,.toolbar select:hover{transform:translateY(-2px)}
-.grid{width:100%;max-width:1200px;display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-.card{
+.toolbar button:hover,.toolbar select:hover { transform:translateY(-2px) }
+
+/* Grid and cards */
+.grid { width:100%;max-width:1200px;display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr)) }
+.card {
   position:relative;height:290px;border-radius:var(--radius);overflow:hidden;cursor:pointer;
   perspective:1000px;opacity:0;transform:translateY(14px) scale(.98);
   animation:cardIn .6s forwards;box-shadow:var(--shadow);
   transition:transform .55s cubic-bezier(.17,.67,.83,.67),box-shadow .4s ease;
   background:var(--card-bg);
 }
-@keyframes cardIn{to{opacity:1;transform:translateY(0) scale(1)}}
-.card:hover{transform:translateY(-6px) scale(1.02)}
-.card-content{position:relative;z-index:1;width:100%;height:100%;transform-style:preserve-3d;transition:transform .85s cubic-bezier(.4,.2,.2,1)}
-.card.flipped .card-content{transform:rotateY(180deg)}
-.front,.back{position:absolute;inset:0;border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;backface-visibility:hidden;box-sizing:border-box}
-.front{
+@keyframes cardIn { to{opacity:1;transform:translateY(0) scale(1)} }
+.card:hover { transform:translateY(-6px) scale(1.02) }
+.card-content { width:100%;height:100%;transform-style:preserve-3d;transition:transform .85s cubic-bezier(.4,.2,.2,1) }
+.card.flipped .card-content { transform:rotateY(180deg) }
+.front,.back {
+  position:absolute;inset:0;border-radius:var(--radius);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:18px;backface-visibility:hidden;box-sizing:border-box;
+}
+.front {
   color:#fff;text-align:center;font-weight:600;
   background:linear-gradient(135deg,var(--front-grad-1),var(--front-grad-2));
 }
-.front h3{margin:0;font-size:1.35rem;display:flex;gap:.35em;align-items:center;justify-content:center;text-align:center}
-.back{background:var(--card-bg);color:var(--text);transform:rotateY(180deg);text-align:center}
-.back img{width:100%;height:150px;object-fit:cover;border-radius:12px;border:1px solid rgba(0,0,0,.06);margin-bottom:10px}
-.back p{margin:0 0 10px;font-size:.95rem}
-.details{margin-top:6px;font-size:.86rem;color:var(--text)}
-.checkmark{position:absolute;top:10px;right:10px;font-size:1.35rem;color:var(--success);opacity:0;transition:opacity .3s ease}
-.card.checked .checkmark{opacity:1}
+.front h3 { margin:0;font-size:1.35rem;text-align:center;display:flex;align-items:center;gap:.4em;justify-content:center }
+.back { background:var(--card-bg);color:var(--text);transform:rotateY(180deg);text-align:center }
+.back img {
+  width:100%;height:150px;object-fit:cover;border-radius:12px;
+  border:1px solid rgba(0,0,0,.1);margin-bottom:10px;
+}
+.back p { font-size:.95rem;margin-bottom:8px }
+.details { font-size:.9rem;color:var(--text);margin-top:8px }
+.checkmark { position:absolute;top:10px;right:10px;font-size:1.35rem;color:var(--success);opacity:0;transition:opacity .3s ease }
+.card.checked .checkmark { opacity:1 }
 
-/* Japan special card */
-.card.japan{
+/* Japan special */
+.card.japan {
   border:2px solid #ff80ab;
-  box-shadow:0 0 25px rgba(255,128,171,.5);
+  box-shadow:0 0 30px rgba(255,128,171,.5);
   animation:japanPulse 3s ease-in-out infinite;
-  overflow:hidden;
-  position:relative;
 }
-@keyframes japanPulse{
-  0%,100%{box-shadow:0 0 25px rgba(255,128,171,.4)}
-  50%{box-shadow:0 0 40px rgba(255,128,171,.9)}
+@keyframes japanPulse {
+  0%,100%{box-shadow:0 0 30px rgba(255,128,171,.4)}
+  50%{box-shadow:0 0 45px rgba(255,128,171,.9)}
 }
-.card.japan::before{
+.card.japan::before {
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"><text y="20" font-size="20">🌸</text></svg>');
-  background-size:42px 42px;background-repeat:repeat;opacity:.3;animation:japanPetals 22s linear infinite;
+  background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><text y="20" font-size="20">🌸</text></svg>');
+  background-size:45px 45px;background-repeat:repeat;opacity:.25;
+  animation:japanPetals 25s linear infinite;
 }
-@keyframes japanPetals{from{background-position-y:0}to{background-position-y:1200px}}
-.card.japan .front{background:linear-gradient(135deg,#ffb3c1,#ffe0e9);color:#fff}
-.card.japan .front::after{
-  content:"";position:absolute;inset:-50%;background:radial-gradient(circle at 30% 0%,rgba(255,255,255,.25),transparent 40%);
-  transform:translateX(-60%) rotate(15deg);opacity:0;transition:transform .8s ease,opacity .8s ease;
-}
-.card.japan:hover .front::after{transform:translateX(15%) rotate(15deg);opacity:.9}
+@keyframes japanPetals { from{background-position-y:0} to{background-position-y:1200px} }
+.card.japan .front { background:linear-gradient(135deg,#ffb3c1,#ffe0e9);color:#fff; }
+.card.japan .front h3::after { content:'⛩️'; }
 
-/* progress */
-.progress{position:fixed;left:0;right:0;bottom:0;height:8px;background:rgba(0,0,0,.08)}
-.progress .fill{height:100%;width:0%;background:var(--accent);transition:width .4s ease}
-.progress-text{
+/* Animated petals/leaves edges */
+.bg-particles::before, .bg-particles::after {
+  content:"🌸";position:fixed;font-size:1.6rem;opacity:0.3;
+  animation:floatSide 12s linear infinite;z-index:0;pointer-events:none;
+}
+.bg-particles::after { content:"🍃";left:auto;right:10px;animation-delay:5s; }
+@keyframes floatSide {
+  0%{transform:translateY(100vh) translateX(0) rotate(0deg)}
+  50%{transform:translateY(50vh) translateX(15px) rotate(45deg)}
+  100%{transform:translateY(-10vh) translateX(-10px) rotate(90deg)}
+}
+
+/* Progress */
+.progress { position:fixed;left:0;right:0;bottom:0;height:8px;background:rgba(0,0,0,.08) }
+.progress .fill { height:100%;width:0%;background:var(--accent);transition:width .4s ease }
+.progress-text {
   position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
   background:var(--card-bg);padding:4px 10px;border-radius:10px;font-size:.9rem;
   box-shadow:0 2px 6px rgba(0,0,0,.08)
@@ -101,10 +144,16 @@ h1{font-family:'Playfair Display',serif;font-size:2.4rem;margin:0 0 18px;color:v
 @media(max-width:620px){.card{height:270px}.front h3{font-size:1.2rem}}
 </style>
 </head>
-<body data-mode="light">
+<body data-mode="light" data-theme="default" class="bg-particles">
 <h1>Οι Ταξιδιωτικοί Μας Στόχοι</h1>
 
 <div class="toolbar">
+  <select id="theme">
+    <option value="default">🎨 Default</option>
+    <option value="sunset">🌅 Sunset</option>
+    <option value="forest">🌲 Forest</option>
+    <option value="sakura">🌸 Sakura</option>
+  </select>
   <button id="toggleDark">🌙 Dark</button>
   <select id="filter">
     <option value="all">Όλοι</option>
@@ -143,6 +192,7 @@ const destinations = [
 const grid=document.getElementById('grid');
 const filterSel=document.getElementById('filter');
 const ptext=document.getElementById('ptext');
+const themeSel=document.getElementById('theme');
 
 function createCard(dest,i){
   const card=document.createElement('div');
@@ -152,7 +202,7 @@ function createCard(dest,i){
     <div class="card-content">
       <div class="front">
         <div class="checkmark">✅</div>
-        <h3>${dest.name}${dest.special?' ⛩️':''}</h3>
+        <h3>${dest.name}${dest.special?'':''}</h3>
       </div>
       <div class="back">
         <img src="${dest.image}" alt="${dest.description}" onerror="this.src='https://via.placeholder.com/600x350?text=No+Image'">
@@ -189,11 +239,9 @@ function createCard(dest,i){
       details.style.display='block';
       details.textContent=`Ημερομηνία επίσκεψης: ${new Date(dest.visitedDate).toLocaleDateString('el-GR',{year:'numeric',month:'short',day:'numeric'})}`;
     }else{
-      dateInput.style.display='none';
-      details.style.display='none';
+      dateInput.style.display='none';details.style.display='none';
     }
-    applyFilterToCard(card);
-    updateProgress();
+    applyFilterToCard(card);updateProgress();
   });
 
   dateInput.addEventListener('change',()=>{
@@ -216,7 +264,6 @@ function build(){
   destinations.forEach((d,i)=>grid.appendChild(createCard(d,i)));
   applyFilterAll();updateProgress();
 }
-
 function applyFilterToCard(card){
   const idx=Number(card.dataset.index);
   const visited=!!destinations[idx].visited;
@@ -233,13 +280,18 @@ function updateProgress(){
   ptext.textContent=`${Math.round(pct)}% Ολοκληρώθηκε ${pct===100?'🎉':''}`;
 }
 
+/* Theme + dark mode controls */
 document.getElementById('toggleDark').addEventListener('click',()=>{
   const mode=document.body.getAttribute('data-mode')==='light'?'dark':'light';
   document.body.setAttribute('data-mode',mode);
   document.getElementById('toggleDark').textContent=mode==='light'?'🌙 Dark':'☀️ Light';
+});
+themeSel.addEventListener('change',()=>{
+  document.body.setAttribute('data-theme',themeSel.value);
 });
 filterSel.addEventListener('change',applyFilterAll);
 build();
 </script>
 </body>
 </html>
+``
