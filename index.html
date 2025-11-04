@@ -1,413 +1,297 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🌍 Οι Ταξιδιωτικοί Μας Στόχοι</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
-  <style>
-    /* -----------------------------
-       VARIABLE DEFAULTS
-    ------------------------------*/
-    :root{
-      --text:#222; --accent:#6c63ff;
-      --bg1:#e3f2fd; --bg2:#fce4ec;
-      --surface: rgba(255,255,255,0.85);
-      --card-surface:#ffffff;
-      --shadow: 0 6px 18px rgba(0,0,0,.08);
-      /* variant gradients (per-theme overrides below) */
-      --v1a:#8ec5fc; --v1b:#e0c3fc;
-      --v2a:#f6d365; --v2b:#fda085;
-      --v3a:#a1c4fd; --v3b:#c2e9fb;
-      --v4a:#f093fb; --v4b:#f5576c;
-      --v5a:#84fab0; --v5b:#8fd3f4;
-      --success:#49b568;
-      --radius:18px;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🌍 Οι Ταξιδιωτικοί Μας Στόχοι</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --text:#222;--accent:#6c63ff;--bg1:#e3f2fd;--bg2:#fce4ec;
+  --card-bg:#fff;--shadow:0 6px 18px rgba(0,0,0,.08);
+  --success:#47b568;--radius:18px;
+  --front-grad-1:#8ec5fc; --front-grad-2:#e0c3fc;
+}
+body[data-mode="dark"]{
+  --text:#f3f3f7;--accent:#a9a4ff;
+  --bg1:#1a1b25;--bg2:#2b2d42;--card-bg:#242639;
+  --shadow:0 8px 20px rgba(0,0,0,.5);
+  --front-grad-1:#6b8afc; --front-grad-2:#a48bff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;font-family:'Inter',sans-serif;
+  color:var(--text);
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
+  background-size:200% 200%;
+  animation:bgshift 18s ease-in-out infinite;
+  display:flex;flex-direction:column;align-items:center;padding:40px 15px 96px;
+  transition:background .6s ease,color .35s ease;
+}
+@keyframes bgshift{0%,100%{background-position:0 0}50%{background-position:100% 100%}}
+h1{font-family:'Playfair Display',serif;font-size:2.4rem;margin:0 0 18px;color:var(--accent);text-align:center}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;justify-content:center}
+.toolbar button,.toolbar select{
+  border:none;border-radius:12px;padding:8px 12px;
+  background:var(--card-bg);color:var(--text);
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+  font:600 .9rem/1 'Inter',sans-serif;cursor:pointer;
+  transition:transform .25s ease,background .25s ease;
+}
+.toolbar button:hover,.toolbar select:hover{transform:translateY(-2px)}
+.grid{width:100%;max-width:1200px;display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{
+  position:relative;height:290px;border-radius:var(--radius);overflow:hidden;cursor:pointer;
+  perspective:1000px;opacity:0;transform:translateY(14px) scale(.98);
+  animation:cardIn .6s forwards;box-shadow:var(--shadow);
+  transition:transform .55s cubic-bezier(.17,.67,.83,.67),box-shadow .4s ease;
+  background:var(--card-bg);
+}
+@keyframes cardIn{to{opacity:1;transform:translateY(0) scale(1)}}
+.card:hover{transform:translateY(-6px) scale(1.02)}
+.card-content{position:relative;z-index:1;width:100%;height:100%;transform-style:preserve-3d;transition:transform .85s cubic-bezier(.4,.2,.2,1)}
+.card.flipped .card-content{transform:rotateY(180deg)}
+.front,.back{position:absolute;inset:0;border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;backface-visibility:hidden;box-sizing:border-box}
+.front{
+  color:#fff;text-align:center;font-weight:600;
+  background:linear-gradient(135deg,var(--front-grad-1),var(--front-grad-2));
+}
+.front h3{margin:0;font-size:1.35rem;display:flex;gap:.35em;align-items:center;justify-content:center;text-align:center}
+.back{background:var(--card-bg);color:var(--text);transform:rotateY(180deg);text-align:center}
+.back img{width:100%;height:150px;object-fit:cover;border-radius:12px;border:1px solid rgba(0,0,0,.06);margin-bottom:10px}
+.back p{margin:0 0 10px;font-size:.95rem}
+.controls-row{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
+.checkmark{position:absolute;top:10px;right:10px;font-size:1.35rem;color:var(--success);opacity:0;transition:opacity .3s ease}
+.card.checked .checkmark{opacity:1}
+.details{margin-top:6px;font-size:.86rem;color:var(--text)}
+.note-box{display:none;flex-direction:column;gap:6px;margin-top:8px;width:100%}
+.note-box textarea{
+  width:100%;min-height:60px;resize:vertical;border-radius:8px;padding:6px;
+  border:1px solid rgba(0,0,0,.2);font-family:'Inter',sans-serif
+}
+.note-toggle{margin-top:6px}
 
-    /* -----------------------------
-       THEMES (LIGHT + DARK VARIANTS)
-    ------------------------------*/
+/* Japan: extra special */
+.card.japan{
+  border:2px solid #ff80ab;
+  box-shadow:0 0 18px rgba(255,128,171,.45);
+  animation:japanGlow 3s ease-in-out infinite;
+}
+@keyframes japanGlow{0%,100%{box-shadow:0 0 18px rgba(255,128,171,.45)}50%{box-shadow:0 0 28px rgba(255,128,171,.9)}}
+.card.japan::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><text y="20" font-size="20">🌸</text></svg>');
+  background-size:40px 40px;background-repeat:repeat;opacity:.25;animation:japanPetals 18s linear infinite;
+}
+@keyframes japanPetals{from{background-position-y:0}to{background-position-y:900px}}
+.card.japan .front{background:linear-gradient(135deg,#ffb3c1,#ffe0e9);color:#fff}
+.card.japan .front::after{
+  content:"";position:absolute;inset:-40%;
+  background:radial-gradient(circle at 30% 0%,rgba(255,255,255,.25),transparent 40%);
+  transform:translateX(-60%) rotate(15deg);
+  transition:transform .8s ease,opacity .8s ease;opacity:0;
+}
+.card.japan:hover .front::after{transform:translateX(15%) rotate(15deg);opacity:.9}
 
-    /* CANDY */
-    [data-theme="candy"][data-mode="light"]{
-      --text:#222; --accent:#6c63ff;
-      --bg1:#e3f2fd; --bg2:#fce4ec;
-      --surface: rgba(255,255,255,0.85); --card-surface:#fff; --shadow:0 6px 18px rgba(0,0,0,.08);
-      --v1a:#8ec5fc; --v1b:#e0c3fc; --v2a:#f6d365; --v2b:#fda085; --v3a:#a1c4fd; --v3b:#c2e9fb; --v4a:#f093fb; --v4b:#f5576c; --v5a:#84fab0; --v5b:#8fd3f4;
-    }
-    [data-theme="candy"][data-mode="dark"]{
-      --text:#f3f3f7; --accent:#a9a4ff;
-      --bg1:#2b2d42; --bg2:#1a1b25;
-      --surface: rgba(255,255,255,0.12); --card-surface:#242639; --shadow:0 8px 20px rgba(0,0,0,.5);
-      --v1a:#6b8afc; --v1b:#a48bff; --v2a:#d8a85d; --v2b:#e27d67; --v3a:#6aa1fd; --v3b:#86c2fb; --v4a:#cc7ff0; --v4b:#d44a62; --v5a:#66d6a1; --v5b:#6bbfda;
-    }
-
-    /* OCEAN */
-    [data-theme="ocean"][data-mode="light"]{
-      --text:#0f1b2d; --accent:#0277bd;
-      --bg1:#e0f7fa; --bg2:#e3f2fd;
-      --surface: rgba(255,255,255,0.8); --card-surface:#ffffff;
-      --v1a:#89f7fe; --v1b:#66a6ff; --v2a:#6dd5ed; --v2b:#2193b0; --v3a:#43cea2; --v3b:#185a9d; --v4a:#2BC0E4; --v4b:#EAECC6; --v5a:#74ebd5; --v5b:#ACB6E5;
-    }
-    [data-theme="ocean"][data-mode="dark"]{
-      --text:#eaf7ff; --accent:#5fb3ff;
-      --bg1:#0f172a; --bg2:#0b1020;
-      --surface: rgba(255,255,255,0.10); --card-surface:#0f1b2d;
-      --v1a:#2a5fa3; --v1b:#3b88ff; --v2a:#1b5c72; --v2b:#0f3d52; --v3a:#287a6b; --v3b:#143b61; --v4a:#1f7aa1; --v4b:#6a7c4f; --v5a:#2f7e75; --v5b:#485c89;
-    }
-
-    /* SUNSET */
-    [data-theme="sunset"][data-mode="light"]{
-      --text:#2b1d1d; --accent:#ff6f61;
-      --bg1:#fff1eb; --bg2:#ace0f9;
-      --surface: rgba(255,255,255,0.85); --card-surface:#ffffff;
-      --v1a:#f6d365; --v1b:#fda085; --v2a:#ff9966; --v2b:#ff5e62; --v3a:#f7797d; --v3b:#FBD786; --v4a:#ff9a9e; --v4b:#fecfef; --v5a:#fcb69f; --v5b:#ffecd2;
-    }
-    [data-theme="sunset"][data-mode="dark"]{
-      --text:#fff3ef; --accent:#ffa295;
-      --bg1:#2b1b1f; --bg2:#1c1524;
-      --surface: rgba(255,255,255,0.10); --card-surface:#261a1d;
-      --v1a:#b87e4c; --v1b:#b75447; --v2a:#a34c2b; --v2b:#7d2a2d; --v3a:#9c4d50; --v3b:#7a6530; --v4a:#a25d61; --v4b:#7c5869; --v5a:#9d6c5b; --v5b:#6f4b35;
-    }
-
-    /* FOREST */
-    [data-theme="forest"][data-mode="light"]{
-      --text:#102114; --accent:#2e7d32;
-      --bg1:#e8f5e9; --bg2:#e3f2fd;
-      --surface: rgba(255,255,255,0.85); --card-surface:#ffffff;
-      --v1a:#84fab0; --v1b:#8fd3f4; --v2a:#a8e063; --v2b:#56ab2f; --v3a:#11998e; --v3b:#38ef7d; --v4a:#c1dfc4; --v4b:#deecdd; --v5a:#70e1f5; --v5b:#ffd194;
-    }
-    [data-theme="forest"][data-mode="dark"]{
-      --text:#e8fff0; --accent:#7fe387;
-      --bg1:#0e1a12; --bg2:#0a151f;
-      --surface: rgba(255,255,255,0.10); --card-surface:#0f1a14;
-      --v1a:#2d7d5f; --v1b:#2f6b7d; --v2a:#466e25; --v2b:#2c5e1a; --v3a:#0f5b54; --v3b:#1f7e53; --v4a:#3b5f41; --v4b:#2f4334; --v5a:#2d6a75; --v5b:#755a2d;
-    }
-
-    /* MONO */
-    [data-theme="mono"][data-mode="light"]{
-      --text:#111827; --accent:#111827;
-      --bg1:#f3f4f6; --bg2:#e5e7eb;
-      --surface: rgba(255,255,255,0.75); --card-surface:#f9fafb;
-      --v1a:#d1d5db; --v1b:#9ca3af; --v2a:#cbd5e1; --v2b:#94a3b8; --v3a:#e5e7eb; --v3b:#9ca3af; --v4a:#d4d4d4; --v4b:#a3a3a3; --v5a:#c7c7c7; --v5b:#9b9b9b;
-    }
-    [data-theme="mono"][data-mode="dark"]{
-      --text:#e5e7eb; --accent:#e5e7eb;
-      --bg1:#0b0c10; --bg2:#111217;
-      --surface: rgba(255,255,255,0.08); --card-surface:#121318;
-      --v1a:#3f3f46; --v1b:#27272a; --v2a:#334155; --v2b:#1f2937; --v3a:#404040; --v3b:#262626; --v4a:#3a3a3a; --v4b:#1f1f1f; --v5a:#343a40; --v5b:#151a1e;
-    }
-
-    /* FLOWERS (adds side petals overlay) */
-    [data-theme="flowers"][data-mode="light"]{
-      --text:#2b1d1d; --accent:#c2185b;
-      --bg1:#fff0f5; --bg2:#e6f3ff;
-      --surface: rgba(255,255,255,0.82); --card-surface:#ffffff;
-      --v1a:#ffafbd; --v1b:#ffc3a0; --v2a:#fbc2eb; --v2b:#a6c1ee; --v3a:#fa709a; --v3b:#fee140; --v4a:#fddb92; --v4b:#d1fdff; --v5a:#a18cd1; --v5b:#fbc2eb;
-    }
-    [data-theme="flowers"][data-mode="dark"]{
-      --text:#ffeef4; --accent:#ffa6c5;
-      --bg1:#2a0f1b; --bg2:#0e1b2a;
-      --surface: rgba(255,255,255,0.08); --card-surface:#20131b;
-      --v1a:#a96a78; --v1b:#9a6d54; --v2a:#8a6ea6; --v2b:#55649b; --v3a:#8d3d58; --v3b:#6a5a1e; --v4a:#7e6736; --v4b:#486a6d; --v5a:#6e5b8a; --v5b:#8a6e83;
-    }
-
-    /* -----------------------------
-       GLOBAL LAYOUT + BASE STYLES
-    ------------------------------*/
-    body{
-      margin:0; min-height:100vh; font-family:'Inter',sans-serif;
-      color:var(--text);
-      background: linear-gradient(135deg, var(--bg1), var(--bg2));
-      background-size:200% 200%;
-      animation:bgshift 18s ease-in-out infinite;
-      display:flex; flex-direction:column; align-items:center;
-      padding:40px 15px 96px; overflow-x:hidden;
-      transition: background .6s ease, color .35s ease;
-    }
-    @keyframes bgshift { 0%,100%{background-position:0 0} 50%{background-position:100% 100%} }
-
-    h1{ font-family:'Playfair Display',serif; font-size:2.4rem; margin:0 0 18px; color:var(--accent); text-align:center; }
-
-    .toolbar{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; justify-content:center; }
-    .toolbar select,.toolbar button{
-      border:none;border-radius:12px;padding:8px 12px;background:var(--surface);color:var(--text);
-      box-shadow:0 2px 6px rgba(0,0,0,.08);font:600 .9rem/1 'Inter',sans-serif;
-      cursor:pointer;transition:transform .25s ease,background .25s ease;backdrop-filter:blur(6px);
-    }
-    .toolbar select:hover,.toolbar button:hover{ transform:translateY(-2px); }
-
-    .grid{ width:100%; max-width:1200px; display:grid; gap:18px; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); }
-
-    /* Side petals overlay only for Flowers theme */
-    .side-petals{
-      position: fixed; inset: 0;
-      pointer-events:none; display:none; /* enabled by JS for theme=flowers */
-    }
-    .side-petals .left,.side-petals .right{
-      position:absolute; top:-20%; bottom:-20%; width:12%;
-      opacity:.22; filter:saturate(.9);
-      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"><text y="22" font-size="22">🌸</text></svg>'),
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"><text y="22" font-size="22">🌼</text></svg>'),
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"><text y="22" font-size="22">🌺</text></svg>');
-      background-repeat: repeat; background-size: 44px 44px, 36px 36px, 40px 40px;
-      animation: petalsFall 18s linear infinite;
-      mask-image: linear-gradient(90deg, rgba(0,0,0,1), rgba(0,0,0,.5), rgba(0,0,0,0));
-    }
-    .side-petals .left{ left:0; }
-    .side-petals .right{ right:0; transform: scaleX(-1); }
-    @keyframes petalsFall{
-      0%{ background-position: 0 0, 0 0, 0 0; opacity:.05; }
-      40%{ opacity:.28; }
-      100%{ background-position: 0 900px, 0 1200px, 0 1000px; opacity:.05; }
-    }
-
-    /* Cards */
-    .card{
-      position:relative;height:290px;border-radius:var(--radius);overflow:hidden;cursor:pointer;
-      perspective:1000px;opacity:0;transform:translateY(14px) scale(.98);
-      animation:cardIn .6s forwards; box-shadow:var(--shadow);
-      transition:transform .55s cubic-bezier(.17,.67,.83,.67), box-shadow .4s ease;
-      background: var(--card-surface);
-    }
-    @keyframes cardIn{ to{opacity:1; transform:translateY(0) scale(1)} }
-    .card:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 12px 28px rgba(0,0,0,.12); }
-
-    /* Japan overlay behind content (stable) */
-    .card.japan::before{
-      content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
-      background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><text y="20" font-size="20">🌸</text></svg>');
-      background-size:40px 40px; background-repeat:repeat;
-      opacity:0; transform: translateY(-20px);
-      animation:japanPetals 12s linear infinite;
-      transition: opacity 1.2s ease, transform 1s ease;
-    }
-    .card.japan:hover::before,.card.japan.flipped::before{ opacity:.4; transform: translateY(0); }
-    @keyframes japanPetals{ from{ background-position-y:0 } to{ background-position-y:600px } }
-
-    .card-content{ position:relative; z-index:1; width:100%; height:100%; transform-style:preserve-3d; transition: transform .85s cubic-bezier(.4,.2,.2,1); }
-    .card.flipped .card-content{ transform: rotateY(180deg); }
-
-    .front,.back{
-      position:absolute; inset:0; border-radius:var(--radius);
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      padding:18px; backface-visibility:hidden; box-sizing:border-box;
-    }
-    .front{ color:#fff; text-align:center; font-weight:600; }
-    .front h3{ margin:0; font-size:1.4rem; display:flex; gap:.35em; align-items:center; justify-content:center; }
-
-    /* Per-card variants (theme-driven vars) */
-    .variant-1 .front{ background: linear-gradient(135deg,var(--v1a),var(--v1b)); }
-    .variant-2 .front{ background: linear-gradient(135deg,var(--v2a),var(--v2b)); }
-    .variant-3 .front{ background: linear-gradient(135deg,var(--v3a),var(--v3b)); }
-    .variant-4 .front{ background: linear-gradient(135deg,var(--v4a),var(--v4b)); }
-    .variant-5 .front{ background: linear-gradient(135deg,var(--v5a),var(--v5b)); }
-
-    .card.japan .front{ background: linear-gradient(135deg, #ffb3c1, #ffe0e9); color:#fff; }
-
-    .front::after{
-      content:""; position:absolute; inset:-40%;
-      background: radial-gradient( circle at 30% 0%, rgba(255,255,255,.25), transparent 40% );
-      transform: translateX(-60%) rotate(15deg);
-      transition: transform .8s ease, opacity .8s ease; opacity:0;
-    }
-    .card:hover .front::after{ transform: translateX(15%) rotate(15deg); opacity:.9; }
-
-    .back{ background: var(--card-surface); color:var(--text); transform: rotateY(180deg); text-align:center; }
-    .back img{ width:100%; height:150px; object-fit:cover; border-radius:12px; border:1px solid rgba(0,0,0,.06); margin-bottom:10px; }
-    .back p{ margin:0 0 10px; font-size:.95rem; }
-
-    .checkmark{ position:absolute; top:10px; right:10px; font-size:1.35rem; color:var(--success); opacity:0; transition:opacity .3s ease; filter: drop-shadow(0 1px 2px rgba(0,0,0,.2)); }
-    .card.checked .checkmark{ opacity:1; }
-
-    .chips{ position:absolute; left:10px; top:10px; display:flex; gap:6px; }
-    .chip{
-      font-size:.72rem; font-weight:700; letter-spacing:.02em;
-      padding:4px 8px; border-radius:999px;
-      background:rgba(255,255,255,.25); color:#fff;
-      backdrop-filter: blur(4px);
-      box-shadow: 0 1px 2px rgba(0,0,0,.12);
-    }
-
-    /* Progress */
-    .progress{ position:fixed; left:0; right:0; bottom:0; height:8px; background:rgba(0,0,0,.08); }
-    .progress .fill{ height:100%; width:0%; background:var(--accent); transition:width .4s ease; }
-    .progress-text{
-      position:fixed; bottom:14px; left:50%; transform:translateX(-50%);
-      background:var(--surface); padding:4px 10px; border-radius:10px; font-size:.9rem;
-      box-shadow:0 2px 6px rgba(0,0,0,.08); backdrop-filter: blur(6px);
-    }
-
-    @media (max-width: 620px){ .card{ height:270px; } .front h3{ font-size:1.25rem; } }
-  </style>
+/* progress */
+.progress{position:fixed;left:0;right:0;bottom:0;height:8px;background:rgba(0,0,0,.08)}
+.progress .fill{height:100%;width:0%;background:var(--accent);transition:width .4s ease}
+.progress-text{
+  position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
+  background:var(--card-bg);padding:4px 10px;border-radius:10px;font-size:.9rem;
+  box-shadow:0 2px 6px rgba(0,0,0,.08)
+}
+@media(max-width:620px){.card{height:270px}.front h3{font-size:1.2rem}}
+</style>
 </head>
-<body data-theme="candy" data-mode="light">
-  <h1>Οι Ταξιδιωτικοί Μας Στόχοι</h1>
+<body data-mode="light">
+<h1>Οι Ταξιδιωτικοί Μας Στόχοι</h1>
 
-  <div class="toolbar">
-    <select id="theme">
-      <option value="candy">🎨 Candy</option>
-      <option value="ocean">🌊 Ocean</option>
-      <option value="sunset">🌅 Sunset</option>
-      <option value="forest">🌲 Forest</option>
-      <option value="mono">⚫ Mono</option>
-      <option value="flowers">🌸 Flowers</option>
-    </select>
+<div class="toolbar">
+  <button id="toggleDark">🌙 Dark</button>
+  <select id="filter">
+    <option value="all">Όλοι</option>
+    <option value="visited">Επισκέφτηκα</option>
+    <option value="notVisited">Δεν έχω πάει</option>
+  </select>
+</div>
 
-    <select id="mode">
-      <option value="light">☀️ Light</option>
-      <option value="dark">🌙 Dark</option>
-    </select>
+<div class="grid" id="grid"></div>
 
-    <select id="filter">
-      <option value="all">Όλοι</option>
-      <option value="visited">Επισκέφτηκα</option>
-      <option value="notVisited">Δεν έχω πάει</option>
-    </select>
-  </div>
+<div class="progress"><div class="fill"></div></div>
+<div class="progress-text" id="ptext">0% Ολοκληρώθηκε</div>
 
-  <!-- Side petals (enabled only on Flowers theme) -->
-  <div class="side-petals" id="sidePetals">
-    <div class="left"></div>
-    <div class="right"></div>
-  </div>
+<script>
+/* ---------- DATA (all 18) ---------- */
+const destinations = [
+  { name:"🇬🇷 Μετέωρα", image:"./meteora.jpg", description:"Τα Μαγευτικά Μετέωρα της Ελλάδας", region:"Ελλάδα", visited:true, visitedDate:"2025-10-25", note:"Απέραντη ηρεμία — μαγική θέα από τους βράχους!" },
+  { name:"🇪🇸 Βαρκελώνη", image:"./barcelona.jpg", description:"Βαρκελώνη, Ισπανία", region:"Ευρώπη" },
+  { name:"🇫🇷 Παρίσι", image:"./paris.jpg", description:"Παρίσι, Γαλλία", region:"Ευρώπη" },
+  { name:"🇳🇱 Άμστερνταμ", image:"./amsterdam.jpg", description:"Άμστερνταμ, Ολλανδία", region:"Ευρώπη" },
+  { name:"🇮🇹 Μιλάνο", image:"./milan.jpg", description:"Μιλάνο, Ιταλία", region:"Ευρώπη" },
+  { name:"🇮🇹 Βενετία", image:"./venice.jpg", description:"Βενετία, Ιταλία", region:"Ευρώπη" },
+  { name:"🇦🇹 Βιέννη", image:"./vienna.jpg", description:"Βιέννη, Αυστρία", region:"Ευρώπη" },
+  { name:"🇭🇺 Βουδαπέστη", image:"./budapest.jpg", description:"Βουδαπέστη, Ουγγαρία", region:"Ευρώπη" },
+  { name:"🇸🇪 Σουηδία", image:"./sweden.jpg", description:"Σουηδία", region:"Ευρώπη" },
+  { name:"🇨🇭 Ελβετία", image:"./switzerland.jpg", description:"Ελβετία", region:"Ευρώπη" },
+  { name:"🇫🇮 Φινλανδία", image:"./finland.jpg", description:"Φινλανδία", region:"Ευρώπη" },
+  { name:"🇳🇴 Νορβηγία", image:"./norway.jpg", description:"Νορβηγία", region:"Ευρώπη" },
+  { name:"🇮🇸 Ισλανδία", image:"./iceland.jpg", description:"Ισλανδία", region:"Ευρώπη" },
+  { name:"🇵🇹 Πορτογαλία", image:"./portugal.jpg", description:"Πορτογαλία", region:"Ευρώπη" },
+  { name:"🇦🇪 Ντουμπάι", image:"./dubai.jpg", description:"Ντουμπάι, ΗΑΕ", region:"Μέση Ανατολή" },
+  { name:"🇲🇻 Μαλδίβες", image:"./maldives.jpg", description:"Μαλδίβες", region:"Ασία" },
+  { name:"🇪🇬 Αίγυπτος", image:"./egypt.jpg", description:"Αίγυπτος", region:"Αφρική" },
+  { name:"🇯🇵 Ιαπωνία", image:"./japan.jpg", description:"🌸 Ιαπωνική Μαγεία 🌸", region:"Ασία", special:true }
+];
 
-  <div class="grid" id="grid"></div>
+/* ---------- UI BUILD (no storage; no re-render flash) ---------- */
+const grid = document.getElementById('grid');
+const filterSel = document.getElementById('filter');
+const ptext = document.getElementById('ptext');
 
-  <div class="progress"><div class="fill"></div></div>
-  <div class="progress-text" id="ptext">0% Ολοκληρώθηκε</div>
+function createCard(dest, idx){
+  const card = document.createElement('div');
+  card.className = `card ${dest.special?'japan':''} ${dest.visited?'checked':''}`;
+  card.dataset.index = idx;
 
-  <script>
-    const destinations = [
-      { name: "🇬🇷 Μετέωρα", image:"./meteora.jpg", description:"Τα Μαγευτικά Μετέωρα της Ελλάδας", region:"Ελλάδα" },
-      { name: "🇪🇸 Βαρκελώνη", image:"./barcelona.jpg", description:"Βαρκελώνη, Ισπανία", region:"Ευρώπη" },
-      { name: "🇫🇷 Παρίσι", image:"./paris.jpg", description:"Παρίσι, Γαλλία", region:"Ευρώπη" },
-      { name: "🇳🇱 Άμστερνταμ", image:"./amsterdam.jpg", description:"Άμστερνταμ, Ολλανδία", region:"Ευρώπη" },
-      { name: "🇮🇹 Μιλάνο", image:"./milan.jpg", description:"Μιλάνο, Ιταλία", region:"Ευρώπη" },
-      { name: "🇮🇹 Βενετία", image:"./venice.jpg", description:"Βενετία, Ιταλία", region:"Ευρώπη" },
-      { name: "🇦🇹 Βιέννη", image:"./vienna.jpg", description:"Βιέννη, Αυστρία", region:"Ευρώπη" },
-      { name: "🇭🇺 Βουδαπέστη", image:"./budapest.jpg", description:"Βουδαπέστη, Ουγγαρία", region:"Ευρώπη" },
-      { name: "🇸🇪 Σουηδία", image:"./sweden.jpg", description:"Σουηδία", region:"Ευρώπη" },
-      { name: "🇨🇭 Ελβετία", image:"./switzerland.jpg", description:"Ελβετία", region:"Ευρώπη" },
-      { name: "🇫🇮 Φινλανδία", image:"./finland.jpg", description:"Φινλανδία", region:"Ευρώπη" },
-      { name: "🇳🇴 Νορβηγία", image:"./norway.jpg", description:"Νορβηγία", region:"Ευρώπη" },
-      { name: "🇮🇸 Ισλανδία", image:"./iceland.jpg", description:"Ισλανδία", region:"Ευρώπη" },
-      { name: "🇵🇹 Πορτογαλία", image:"./portugal.jpg", description:"Πορτογαλία", region:"Ευρώπη" },
-      { name: "🇦🇪 Ντουμπάι", image:"./dubai.jpg", description:"Ντουμπάι, ΗΑΕ", region:"Μέση Ανατολή" },
-      { name: "🇲🇻 Μαλδίβες", image:"./maldives.jpg", description:"Μαλδίβες", region:"Ασία" },
-      { name: "🇪🇬 Αίγυπτος", image:"./egypt.jpg", description:"Αίγυπτος", region:"Αφρική" },
-      { name: "🇯🇵 Ιαπωνία", image:"./japan.jpg", description:"🌸 Ιαπωνική Μαγεία 🌸", region:"Ασία", special:true }
-    ];
+  card.innerHTML = `
+    <div class="card-content">
+      <div class="front">
+        <div class="checkmark">✅</div>
+        <h3>${dest.name}${dest.special?' ⛩️':''}</h3>
+      </div>
+      <div class="back">
+        <img src="${dest.image}" alt="${dest.description}" onerror="this.src='https://via.placeholder.com/600x350?text=No+Image'">
+        <p>${dest.description}</p>
 
-    const grid = document.getElementById('grid');
-    const filterSel = document.getElementById('filter');
-    const themeSel = document.getElementById('theme');
-    const modeSel = document.getElementById('mode');
-    const sidePetals = document.getElementById('sidePetals');
-    const ptext = document.getElementById('ptext');
+        <div class="controls-row">
+          <label style="display:inline-flex;gap:.45em;align-items:center;">
+            <input type="checkbox" ${dest.visited?'checked':''}> Επισκέφτηκα
+          </label>
 
-    let checked = JSON.parse(localStorage.getItem('checkedItems')||'[]');
+          <input type="date" class="visit-date" style="display:${dest.visited?'inline-block':'none'}"
+                 value="${dest.visited && dest.visitedDate ? dest.visitedDate : ''}">
+        </div>
 
-    /* Restore theme + mode */
-    const savedTheme = localStorage.getItem('theme') || 'candy';
-    const savedMode = localStorage.getItem('mode') || 'light';
-    document.body.setAttribute('data-theme', savedTheme);
-    document.body.setAttribute('data-mode', savedMode);
-    themeSel.value = savedTheme;
-    modeSel.value = savedMode;
-    toggleFlowersOverlay();
+        <div class="details" ${dest.visited?'':'style="display:none"'}></div>
 
-    /* Build once: no flash on checkbox */
-    function build(){
-      grid.innerHTML='';
-      destinations.forEach((d, idx)=>{
-        const variant = (idx % 5) + 1;
-        const card = document.createElement('div');
-        card.className = `card variant-${variant} ${d.special?'japan':''} ${checked.includes(idx)?'checked':''}`;
-        card.dataset.index = idx;
+        <button class="note-toggle" style="display:${dest.visited?'inline-block':'none'};margin-top:6px;">📝 Προσθήκη σημείωσης</button>
+        <div class="note-box"><textarea placeholder="Πρόσθεσε σημείωση...">${dest.note||''}</textarea></div>
+      </div>
+    </div>
+  `;
 
-        card.innerHTML = `
-          <div class="card-content">
-            <div class="front">
-              <div class="chips"><span class="chip">${d.region||'—'}</span></div>
-              <div class="checkmark">✅</div>
-              <h3>${d.name}${d.special?' ⛩️':''}</h3>
-            </div>
-            <div class="back">
-              <img src="${d.image}" alt="${d.description}" onerror="this.src='https://via.placeholder.com/600x350?text=No+Image'">
-              <p>${d.description}</p>
-              <label style="display:inline-flex;gap:.45em;align-items:center;">
-                <input type="checkbox" ${checked.includes(idx)?'checked':''}> Επισκέφτηκα
-              </label>
-            </div>
-          </div>
-        `;
+  const checkbox = card.querySelector('input[type="checkbox"]');
+  const dateInput = card.querySelector('.visit-date');
+  const details = card.querySelector('.details');
+  const noteToggle = card.querySelector('.note-toggle');
+  const noteBox = card.querySelector('.note-box');
+  const textarea = noteBox.querySelector('textarea');
 
-        // Checkbox: update in place (no flip, no re-render)
-        const checkbox = card.querySelector('input');
-        checkbox.addEventListener('click', e=> e.stopPropagation());
-        checkbox.addEventListener('change', e=>{
-          const isChecked = e.target.checked;
-          if(isChecked) checked = [...new Set([...checked, idx])];
-          else checked = checked.filter(i=>i!==idx);
-          localStorage.setItem('checkedItems', JSON.stringify(checked));
-          card.classList.toggle('checked', isChecked);
-          updateProgress();
-          applyFilterToCard(card);
-        });
+  // init details
+  if(dest.visited){
+    const dStr = (dest.visitedDate ? new Date(dest.visitedDate) : new Date())
+      .toLocaleDateString('el-GR',{year:'numeric',month:'short',day:'numeric'});
+    details.textContent = `Ημερομηνία επίσκεψης: ${dStr}`;
+  }
 
-        // Flip only if not clicking the input
-        card.addEventListener('click', e=>{
-          if(e.target.tagName.toLowerCase()==='input') return;
-          card.classList.toggle('flipped');
-        });
+  // prevent flip on inputs
+  [checkbox, dateInput, textarea, noteToggle].forEach(el=>{
+    if(!el) return;
+    el.addEventListener('click', ev => ev.stopPropagation());
+  });
 
-        grid.appendChild(card);
-      });
-
-      applyFilterAll();
-      updateProgress();
+  // toggle visited
+  checkbox.addEventListener('change', ()=>{
+    dest.visited = checkbox.checked;
+    card.classList.toggle('checked', dest.visited);
+    if(dest.visited){
+      dateInput.style.display = 'inline-block';
+      if(!dateInput.value){
+        const today = new Date();
+        const y = today.getFullYear();
+        const m = String(today.getMonth()+1).padStart(2,'0');
+        const d = String(today.getDate()).padStart(2,'0');
+        dateInput.value = `${y}-${m}-${d}`;
+      }
+      dest.visitedDate = dateInput.value;
+      details.style.display = 'block';
+      details.textContent = `Ημερομηνία επίσκεψης: ${new Date(dest.visitedDate).toLocaleDateString('el-GR',{year:'numeric',month:'short',day:'numeric'})}`;
+      noteToggle.style.display = 'inline-block';
+    } else {
+      dateInput.style.display = 'none';
+      details.style.display = 'none';
+      noteToggle.style.display = 'none';
+      noteBox.style.display = 'none';
     }
+    applyFilterToCard(card);
+    updateProgress();
+  });
 
-    function applyFilterToCard(card){
-      const idx = Number(card.dataset.index);
-      const visited = checked.includes(idx);
-      const f = filterSel.value;
-      const show = (f==='all') || (f==='visited' && visited) || (f==='notVisited' && !visited);
-      card.style.display = show ? '' : 'none';
+  // change date
+  dateInput.addEventListener('change', ()=>{
+    dest.visitedDate = dateInput.value || null;
+    if(dest.visitedDate){
+      details.style.display = 'block';
+      details.textContent = `Ημερομηνία επίσκεψης: ${new Date(dest.visitedDate).toLocaleDateString('el-GR',{year:'numeric',month:'short',day:'numeric'})}`;
+    } else {
+      details.style.display = 'none';
     }
+  });
 
-    function applyFilterAll(){
-      [...grid.children].forEach(applyFilterToCard);
-    }
+  // notes toggle + edit
+  noteToggle.addEventListener('click', ()=>{
+    noteBox.style.display = (noteBox.style.display==='flex'?'none':'flex');
+  });
+  textarea.addEventListener('input', ()=>{ dest.note = textarea.value; });
 
-    function updateProgress(){
-      const fill = document.querySelector('.progress .fill');
-      const pct = (checked.length / destinations.length)*100;
-      fill.style.width = `${pct}%`;
-      ptext.textContent = `${Math.round(pct)}% Ολοκληρώθηκε ${pct===100 ? '🎉' : ''}`;
-    }
+  // flip on card click (not on inputs)
+  card.addEventListener('click', (e)=>{
+    if(e.target.closest('input, textarea, button')) return;
+    card.classList.toggle('flipped');
+  });
 
-    function toggleFlowersOverlay(){
-      sidePetals.style.display = (themeSel.value === 'flowers') ? 'block' : 'none';
-    }
+  return card;
+}
 
-    /* Controls */
-    themeSel.addEventListener('change', ()=>{
-      document.body.setAttribute('data-theme', themeSel.value);
-      localStorage.setItem('theme', themeSel.value);
-      toggleFlowersOverlay();
-    });
+function build(){
+  grid.innerHTML = '';
+  destinations.forEach((d,i)=> grid.appendChild(createCard(d,i)));
+  applyFilterAll();
+  updateProgress();
+}
 
-    modeSel.addEventListener('change', ()=>{
-      document.body.setAttribute('data-mode', modeSel.value);
-      localStorage.setItem('mode', modeSel.value);
-    });
+function applyFilterToCard(card){
+  const idx = Number(card.dataset.index);
+  const visited = !!destinations[idx].visited;
+  const f = filterSel.value;
+  const show = (f==='all') || (f==='visited' && visited) || (f==='notVisited' && !visited);
+  card.style.display = show ? '' : 'none';
+}
 
-    filterSel.addEventListener('change', applyFilterAll);
+function applyFilterAll(){
+  [...grid.children].forEach(applyFilterToCard);
+}
 
-    build();
-  </script>
+function updateProgress(){
+  const fill = document.querySelector('.fill');
+  const v = destinations.filter(d=>d.visited).length;
+  const pct = (v / destinations.length) * 100;
+  fill.style.width = `${pct}%`;
+  ptext.textContent = `${Math.round(pct)}% Ολοκληρώθηκε ${pct===100?'🎉':''}`;
+}
+
+/* ---------- Controls ---------- */
+document.getElementById('toggleDark').addEventListener('click', ()=>{
+  const mode = document.body.getAttribute('data-mode')==='light' ? 'dark' : 'light';
+  document.body.setAttribute('data-mode', mode);
+  document.getElementById('toggleDark').textContent = (mode==='light' ? '🌙 Dark' : '☀️ Light');
+});
+
+filterSel.addEventListener('change', applyFilterAll);
+
+/* ---------- Init ---------- */
+build();
+</script>
 </body>
 </html>
